@@ -26,6 +26,11 @@ Changelog for package noid_typef_moveit_config
 * typef moveit_config added
 * Contributors: hi-kondo
 
+Forthcoming
+-----------
+* updated
+* Contributors: hi-kondo
+
 0.0.4 (2019-06-26)
 ------------------
 * update

@@ -29,6 +29,9 @@ Changelog for package noid_typef_bringup
 * ver 0.0.1
 * Contributors: hi-kondo
 
+Forthcoming
+-----------
+
 0.0.4 (2019-06-26)
 ------------------
 * update

@@ -26,6 +26,9 @@ Changelog for package noid_typef_description
 * directory name changed
 * Contributors: hi-kondo
 
+Forthcoming
+-----------
+
 0.0.4 (2019-06-26)
 ------------------
 * update
