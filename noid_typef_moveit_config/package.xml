@@ -25,8 +25,7 @@
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>xacro</exec_depend>
-  <build_depend>noid_description</build_depend>
-  <exec_depend>noid_description</exec_depend>
+  
 
 
   <buildtool_depend>catkin</buildtool_depend>
