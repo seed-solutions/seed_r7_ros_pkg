@@ -28,6 +28,23 @@ Changelog for package noid_typef_moveit_config
 
 Forthcoming
 -----------
+* update
+* Merge pull request `#5 <https://github.com/seed-solutions/noid_ros_pkg/issues/5>`_ from hi-kondo/master
+  0.0.3
+* 0.0.3
+* 0.0.2
+* renew CHANGELOG
+* fixes
+* updated
+* Merge branch 'development' of https://github.com/hi-kondo/noid-ros-pkg into development
+* Merge pull request `#4 <https://github.com/seed-solutions/noid_ros_pkg/issues/4>`_ from hi-kondo/master
+  0.0.2
+* Merge pull request `#3 <https://github.com/seed-solutions/noid_ros_pkg/issues/3>`_ from hi-kondo/development
+  update package.xml ver0.0.2
+* Merge branch 'master' into development
+* update package.xml
+* Contributors: hi-kondo
+
 * Merge pull request `#5 <https://github.com/seed-solutions/noid_ros_pkg/issues/5>`_ from hi-kondo/master
   0.0.3
 * 0.0.3
