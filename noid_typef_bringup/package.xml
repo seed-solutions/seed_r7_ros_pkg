@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>noid_typef_bringup</name>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 
   <description>The noid_typef_bringup package</description>
 

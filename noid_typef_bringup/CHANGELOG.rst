@@ -29,8 +29,8 @@ Changelog for package noid_typef_bringup
 * ver 0.0.1
 * Contributors: hi-kondo
 
-Forthcoming
------------
+0.0.4 (2019-06-26)
+------------------
 * update
 * Merge pull request `#5 <https://github.com/seed-solutions/noid_ros_pkg/issues/5>`_ from hi-kondo/master
   0.0.3
