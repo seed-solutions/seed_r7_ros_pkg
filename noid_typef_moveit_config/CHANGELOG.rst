@@ -2,8 +2,8 @@
 Changelog for package noid_typef_moveit_config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2019-06-26)
+------------------
 * fixes
 * updated
 * Merge branch 'development' of https://github.com/hi-kondo/noid-ros-pkg into development

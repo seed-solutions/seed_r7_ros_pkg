@@ -2,8 +2,8 @@
 Changelog for package noid_typef_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2019-06-26)
+------------------
 * fixes
 * Merge pull request `#4 <https://github.com/hi-kondo/noid-ros-pkg/issues/4>`_ from hi-kondo/development
   package.xml tag changed

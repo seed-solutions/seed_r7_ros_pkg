@@ -2,8 +2,8 @@
 Changelog for package noid_typef_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2019-06-26)
+------------------
 * fixes
 * Merge branch 'development' of https://github.com/hi-kondo/noid-ros-pkg into development
 * Merge pull request `#3 <https://github.com/hi-kondo/noid-ros-pkg/issues/3>`_ from hi-kondo/development

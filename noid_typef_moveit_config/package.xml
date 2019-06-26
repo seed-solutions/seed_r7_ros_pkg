@@ -1,7 +1,7 @@
 <package format="2">
   <name>noid_typef_moveit_config</name>
   
-  <version>0.0.2</version>
+  <version>0.0.3</version>
 
   <description>The noid_typef_moveit_config package</description>
 
