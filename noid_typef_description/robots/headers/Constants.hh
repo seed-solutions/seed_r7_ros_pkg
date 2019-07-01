@@ -1,7 +1,7 @@
 #ifndef AERO_CONTROLLER_CONSTANTS_H_
 #define AERO_CONTROLLER_CONSTANTS_H_
 
-namespace aero
+namespace noid
 {
   namespace controller
   {
