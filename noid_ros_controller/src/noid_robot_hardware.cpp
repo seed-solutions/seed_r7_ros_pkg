@@ -358,7 +358,7 @@ void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
   std::vector<int16_t> ref_strokes(AERO_DOF);
   StrokeConverter::convert_Angle2Stroke(ref_strokes, ref_positions);
   std::vector<int16_t> snt_strokes(ref_strokes);
-  common::UnusedAngle2Stroke(snt_strokes, mask_positions);
+  common::MaskRobotCommand(snt_strokes, mask_positions);
 
   // split strokes into upper and lower
   std::vector<int16_t> upper_strokes(snt_strokes.begin(), snt_strokes.begin() + AERO_DOF_UPPER);
@@ -387,7 +387,7 @@ void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
   mutex_upper_.unlock();
   mutex_lower_.unlock();
 
-  // read
+  //  resd ? →　updatePOS
   readPos(time, period, false);
 }
 
@@ -421,7 +421,7 @@ void NoidRobotHW::startWheelServo() {
   ROS_DEBUG("servo on");
 
   mutex_lower_.lock();
-  controller_lower_->wheel_on();
+  controller_lower_->servo_command(0x7fff, 1);
   mutex_lower_.unlock();
 }
 
@@ -429,7 +429,7 @@ void NoidRobotHW::stopWheelServo() {
   ROS_DEBUG("servo off");
 
   mutex_lower_.lock();
-  noid::controller::
+  controller_lower_->servo_command(0x7fff, 0);
   mutex_lower_.unlock();
 }
 

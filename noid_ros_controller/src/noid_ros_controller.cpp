@@ -39,11 +39,11 @@
 
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-#include "aero_robot_hardware.h"
-#include "AeroMoveBaseRH.hh"
-#include "AeroGrasp.hh"
+#include "noid_robot_hardware.hh"
+#include "NoidMoveBaseRH.hh"
+#include "NoidGrasp.hh"
 
-using namespace aero_robot_hardware;
+using namespace noid_robot_hardware;
 
 
 #define MAIN_THREAD_PERIOD_MS    50000 //50ms (20Hz)
@@ -51,9 +51,9 @@ using namespace aero_robot_hardware;
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "aero_ros_controller");
+  ros::init(argc, argv, "noid_ros_controller");
 
-  AeroRobotHW hw;
+  NoidRobotHW hw;
 
   ros::NodeHandle nh;
   ros::NodeHandle robot_nh("~");
@@ -64,11 +64,11 @@ int main(int argc, char** argv)
   }
 
 #if 1 /// add base
-  aero::navigation::AeroMoveBase base_node(nh, &hw);
+  noid::navigation::NoidMoveBase base_node(nh, &hw);
 #endif
 
 #if 1 /// add grasp
-  aero::grasp::AeroGrasp grasp_node(robot_nh, &hw);
+  noid::grasp::NoidGrasp grasp_node(robot_nh, &hw);
 #endif
 
   ros::AsyncSpinner spinner(1);
@@ -76,7 +76,7 @@ int main(int argc, char** argv)
 
   hw.getVersion();
 
-  ros::Timer timer = robot_nh.createTimer(ros::Duration(10), &AeroRobotHW::readVoltage,&hw);
+  ros::Timer timer = robot_nh.createTimer(ros::Duration(10), &NoidRobotHW::readVoltage,&hw);
 
   double period = hw.getPeriod();
   controller_manager::ControllerManager cm(&hw, nh);

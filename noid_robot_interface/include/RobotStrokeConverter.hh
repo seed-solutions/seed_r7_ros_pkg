@@ -14,7 +14,7 @@
 #endif
 
 //not depend on robot type
-#include "UnusedAngle2Stroke.hh"
+#include "CommonAngle2Stroke.hh"
 
 
 class StrokeConverter

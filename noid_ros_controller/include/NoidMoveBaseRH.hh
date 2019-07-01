@@ -1,7 +1,7 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 
-#ifndef AERO_NAVIGATION_AERO_MOVE_BASE_H_
-#define AERO_NAVIGATION_AERO_MOVE_BASE_H_
+#ifndef NOID_NAVIGATION_NOID_MOVE_BASE_H_
+#define NOID_NAVIGATION_NOID_MOVE_BASE_H_
 
 #include <vector>
 #include <string>
@@ -20,9 +20,6 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
-
-#include "aero_move_base/AeroBaseController.hh" // class AeroBaseConfig
-#include "aero_robot_hardware.h"
 
 namespace aero
 {

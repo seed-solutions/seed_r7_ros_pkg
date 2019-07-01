@@ -34,6 +34,8 @@ namespace noid
 
         void get_command(uint8_t _cmd, uint8_t _sub, std::vector<int16_t>& _stroke_vector);
         
+        bool get_status();
+
         std::vector<int16_t> get_actual_stroke_vector();
         int get_number_of_angle_joints();
         std::string get_stroke_joint_name(size_t _idx);

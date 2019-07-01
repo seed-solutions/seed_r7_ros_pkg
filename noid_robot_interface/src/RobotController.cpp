@@ -89,6 +89,11 @@ std::vector<int16_t> NoidControllerProto::get_actual_stroke_vector()
     return stroke_cur_vector_;
 }
 
+bool NoidControllerProto::get_status()
+{
+  return bad_status_;
+}
+
 int NoidControllerProto::get_number_of_angle_joints()
 {
     return angle_joint_indices_.size();

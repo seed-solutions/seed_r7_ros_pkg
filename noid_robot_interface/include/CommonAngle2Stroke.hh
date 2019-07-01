@@ -3,8 +3,8 @@
  * Original : aero_startup/.templates/aero_hardware_interface/UnusedAngle2Stroke.hh
  * Original : aero_description/{my_robot}/headers/Angle2Stroke.hh
 */
-#ifndef AERO_COMMON_UNUSED_ANGLE_TO_STROKE_H_
-#define AERO_COMMON_UNUSED_ANGLE_TO_STROKE_H_
+#ifndef MASK_ROBOT_COMMAND_H_
+#define MASK_ROBOT_COMMAND_H_
 
 #include <vector>
 #include <stdint.h>
@@ -14,7 +14,7 @@ namespace noid
   namespace common
   {
 
-    inline void UnusedAngle2Stroke
+    inline void MaskRobotCommand
     (std::vector<int16_t>& _strokes, const std::vector<bool> _angles)
     {
       if (!_angles[28]) _strokes[23] = 0x7fff;
