@@ -62,16 +62,23 @@ else()
   message(FATAL "c++11 required but not supported")
 endif()
 
+## Generate services in the 'srv' folder
+add_service_files(
+   FILES
+   GraspControl.srv
+   HandControl.srv
+)
+
 ## Library
 add_library(robot_interface src/RobotInterface.cc )
 target_link_libraries(robot_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 ## Executable
-add_executable(${PROJECT_NAME} src/aero_ros_controller.cpp src/aero_robot_hardware.cpp src/AeroMoveBaseRH.cc)
-target_link_libraries(${PROJECT_NAME} aero_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(${PROJECT_NAME} src/noid_ros_controller.cpp src/noid_robot_hardware.cpp src/AeroMoveBaseRH.cc)
+target_link_libraries(${PROJECT_NAME} noid_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
-add_executable(aero_hand_controller_node src/AeroHandController.cc)
-target_link_libraries(aero_hand_controller_node robot_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(noid_hand_controller_node src/AeroHandController.cc)
+target_link_libraries(noid_hand_controller_node robot_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 ## Install
 install(TARGETS ${PROJECT_NAME}
@@ -87,10 +94,3 @@ install(TARGETS ${PROJECT_NAME}
 #  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 #)
 
-if (CATKIN_ENABLE_TESTING)
-  find_package(roslaunch REQUIRED)
-  find_package(rostest REQUIRED)
-  add_rostest_gtest(test_robot_interface test/test_robot_interface.test test/test_robot_interface.cpp)
-  target_link_libraries(test_robot_interface ${catkin_LIBRARIES} ${GTEST_LIBRARIES} robot_interface )
-
-endif() ## CATKIN_ENABLE_TESTING

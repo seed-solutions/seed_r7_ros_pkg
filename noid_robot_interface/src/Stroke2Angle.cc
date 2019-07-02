@@ -8,11 +8,11 @@
 #include <algorithm>
 #include <stdint.h>
 #include <math.h> // for M_PI
-#include "typef_Stroke2Angle.hh"
+#include "Stroke2Angle.hh"
 
 namespace noid
 {
-  namespace typef
+  namespace common
   {
 
  
@@ -696,83 +696,7 @@ namespace noid
         }
       }
     }
-    //////////////////////////////////////////////////
-    void Stroke2Angle
-    (std::vector<double>& _angles, const std::vector<int16_t> _strokes)
-    {
-      float scale = 0.01;
-      float left_wrist_roll_stroke =
-        (scale * _strokes[16] + scale * _strokes[17]) * 0.5;
-      float right_wrist_roll_stroke =
-        (scale * _strokes[8] + scale * _strokes[9]) * 0.5;
-      float waist_pitch_stroke =
-        (scale * _strokes[19] + scale * _strokes[20]) * 0.5;
-      float neck_pitch_stroke =
-        (scale * _strokes[1] + scale * _strokes[2]) * 0.5;
-      float deg2Rad = M_PI / 180.0;
-      float knee_angle  = - deg2Rad * LegInvTable(scale * _strokes[23]);
-      float ankle_angle =   deg2Rad * LegInvTable(scale * _strokes[22]);
-
-      // can_order -> ros_order
-      _angles[0] =
-        deg2Rad * scale * _strokes[21];
-      _angles[1] =
-        deg2Rad * WaistPitchInvTable(waist_pitch_stroke);
-      _angles[2] =
-        deg2Rad * WaistRollInvTable(scale * _strokes[19] - waist_pitch_stroke);
-
-      _angles[3] =
-        -deg2Rad * ShoulderPitchInvTable(scale * _strokes[11]);
-      _angles[4] =
-        deg2Rad * ShoulderRollInvTable(scale * _strokes[12]);
-      _angles[5] =
-        -deg2Rad * scale * _strokes[13];
-      _angles[6] =
-        -deg2Rad * ElbowPitchInvTable(scale * _strokes[14]);
-      _angles[7] =
-        -deg2Rad * scale * _strokes[15];
-      _angles[8] =
-        deg2Rad * WristPitchInvTable(scale * _strokes[16] - left_wrist_roll_stroke);
-      _angles[9] =
-        -deg2Rad * WristRollInvTable(left_wrist_roll_stroke);
-      _angles[10] =
-        -deg2Rad * (scale * _strokes[18] * 5.556 - 50.0);
-      _angles[11] = 0;
-      _angles[12] = 0;
-      _angles[13] =
-        deg2Rad * (scale * _strokes[18] * 5.556 - 50.0);
-
-      _angles[14] =
-        deg2Rad * scale * _strokes[0];
-      _angles[15] =
-        deg2Rad * NeckPitchInvTable(neck_pitch_stroke);
-      _angles[16] =
-        -deg2Rad * NeckRollInvTable(scale * _strokes[1] - neck_pitch_stroke);
-
-      _angles[17] =
-        -deg2Rad * ShoulderPitchInvTable(scale * _strokes[3]);
-      _angles[18] =
-        -deg2Rad * ShoulderRollInvTable(scale * _strokes[4]);
-      _angles[19] =
-        -deg2Rad * scale * _strokes[5];
-      _angles[20] =
-        -deg2Rad * ElbowPitchInvTable(scale * _strokes[6]);
-      _angles[21] =
-        -deg2Rad * scale * _strokes[7];
-      _angles[22] =
-        deg2Rad * WristPitchInvTable(scale * _strokes[8] - right_wrist_roll_stroke);
-      _angles[23] =
-        deg2Rad * WristRollInvTable(right_wrist_roll_stroke);
-      _angles[24] =
-        deg2Rad * (scale * _strokes[10] * 5.556 - 50.0);
-      _angles[25] = 0;
-      _angles[26] = 0;
-      _angles[27] =
-        -deg2Rad * (scale * _strokes[10] * 5.556 - 50.0);
-
-      _angles[28] = knee_angle;
-      _angles[29] = ankle_angle;
-    }
+   
 
   }
 }

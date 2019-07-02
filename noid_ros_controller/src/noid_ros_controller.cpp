@@ -40,10 +40,11 @@
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
 #include "noid_robot_hardware.hh"
-#include "NoidMoveBaseRH.hh"
+#include "mover_robot_hardware.hh"
 #include "NoidGrasp.hh"
 
 using namespace noid_robot_hardware;
+using namespace mover_robot_hardware;
 
 
 #define MAIN_THREAD_PERIOD_MS    50000 //50ms (20Hz)
@@ -64,7 +65,7 @@ int main(int argc, char** argv)
   }
 
 #if 1 /// add base
-  noid::navigation::NoidMoveBase base_node(nh, &hw);
+  MoverRobotHW base_node(nh, &hw);
 #endif
 
 #if 1 /// add grasp

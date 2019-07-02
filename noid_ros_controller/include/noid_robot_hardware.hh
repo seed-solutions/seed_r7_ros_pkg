@@ -195,6 +195,9 @@ protected:
 
   std::mutex mutex_lower_;
   std::mutex mutex_upper_;
+
+  std::string robot_model;
+
 };
 
 typedef boost::shared_ptr<NoidRobotHW> NoidRobotHWPtr;

@@ -51,12 +51,16 @@ bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)//
   std::string port_upper("/dev/noid_upper");
   std::string port_lower("/dev/noid_lower");
 
+
   // reading paramerters
   if (robot_hw_nh.hasParam("port_upper")) {
     robot_hw_nh.getParam("port_upper", port_upper);
   }
   if (robot_hw_nh.hasParam("port_lower")) {
     robot_hw_nh.getParam("port_lower", port_lower);
+  }
+  if (robot_hw_nh.hasParam("robot_model")) {
+    robot_hw_nh.getParam("robot_model", robot_model);
   }
   if (robot_hw_nh.hasParam("controller_rate")) {
     double rate;
@@ -256,9 +260,8 @@ void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bo
   // whole body positions from strokes
   std::vector<double> act_positions;
   act_positions.resize(number_of_angles_);
-  
-  StrokeConverter::convert_Stroke2Angle(act_positions, act_strokes);
-
+  if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
+  else ROS_ERROR("Not defined robot model, please check robot_model_name");
   // DEBUG
   // act_strokes
   // act_positions
@@ -356,7 +359,7 @@ void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
   }
 
   std::vector<int16_t> ref_strokes(AERO_DOF);
-  StrokeConverter::convert_Angle2Stroke(ref_strokes, ref_positions);
+  if(robot_model == "typef") typef::Angle2Stroke(ref_strokes, ref_positions);
   std::vector<int16_t> snt_strokes(ref_strokes);
   common::MaskRobotCommand(snt_strokes, mask_positions);
 
@@ -400,7 +403,7 @@ void NoidRobotHW::writeWheel(const std::vector< std::string> &_names, const std:
   for (size_t i = 0; i < _names.size(); ++i) {
     std::string joint_name = _names[i];
     joint_to_wheel_indices[i] =
-      controller_lower_->get_wheel_id(joint_name);
+    controller_lower_->get_wheel_id(joint_name);
   }
   std::vector<int16_t> wheel_vector;
   std::vector<int16_t>& ref_vector =
@@ -414,22 +417,6 @@ void NoidRobotHW::writeWheel(const std::vector< std::string> &_names, const std:
   uint16_t time_csec = static_cast<uint16_t>(_tm_sec * 100.0);
   controller_lower_->set_wheel_velocity(wheel_vector, time_csec);
 
-  mutex_lower_.unlock();
-}
-
-void NoidRobotHW::startWheelServo() {
-  ROS_DEBUG("servo on");
-
-  mutex_lower_.lock();
-  controller_lower_->servo_command(0x7fff, 1);
-  mutex_lower_.unlock();
-}
-
-void NoidRobotHW::stopWheelServo() {
-  ROS_DEBUG("servo off");
-
-  mutex_lower_.lock();
-  controller_lower_->servo_command(0x7fff, 0);
   mutex_lower_.unlock();
 }
 

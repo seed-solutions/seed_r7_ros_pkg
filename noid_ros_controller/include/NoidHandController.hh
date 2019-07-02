@@ -1,8 +1,5 @@
-/*
- * This file auto-generated from script. Do not Edit!
- * Original : aero_description/typeF/controllers/AeroHandController.hh
-*/
-/// robot dependant constant // for fcsc hand
+
+// robot dependant constant // for fcsc hand
 #define POSITION_Right 12
 #define POSITION_Left  27
 

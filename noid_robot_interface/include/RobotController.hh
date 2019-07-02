@@ -86,6 +86,14 @@ namespace noid
         std::string get_wheel_name(size_t _idx);
         std::vector<int16_t>& get_reference_wheel_vector();
         int32_t get_wheel_id(std::string& _name);
+        void startWheelServo();
+        void stopWheelServo();
+
+        //BaseController library
+        void VelocityToWheel(double _linear_x, double _linear_y, double _angular_z,
+                           std::vector<int16_t>& _wheel_vel);
+        
+        void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
 
         protected:
         std::vector<int16_t> wheel_vector_;

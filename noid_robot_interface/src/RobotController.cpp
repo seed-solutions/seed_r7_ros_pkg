@@ -245,6 +245,43 @@ void NoidLowerController::set_wheel_velocity(
   //seed_.read(dummy);
 }
 
+void NoidLowerController::VelocityToWheel(double _linear_x, double _linear_y, double _angular_z,std::vector<int16_t>& _wheel_vel) 
+{
+  float dx, dy, dtheta, theta;
+  float v1, v2, v3, v4;
+  int16_t FR_wheel, RR_wheel, FL_wheel, RL_wheel;
+  heta = 0.0;  // this means angle in local coords, so always 0
+
+  float cos_theta = cos(theta);
+  float sin_theta = sin(theta);
+
+  // change dy and dx, because of between ROS and vehicle direction
+  dy = (_linear_x * cos_theta - _linear_y * sin_theta);
+  dx = (_linear_x * sin_theta + _linear_y * cos_theta);
+  dtheta = _angular_z;  // desirede angular velocity
+
+  // calculate wheel velocity
+  v1 = ktheta * dtheta +
+    kv * ((-cos_theta + sin_theta) * dx + (-cos_theta - sin_theta) * dy);
+  v2 = ktheta * dtheta +
+    kv * ((-cos_theta - sin_theta) * dx + ( cos_theta - sin_theta) * dy);
+  v3 = ktheta * dtheta +
+    kv * (( cos_theta - sin_theta) * dx + ( cos_theta + sin_theta) * dy);
+  v4 = ktheta * dtheta +
+    kv * (( cos_theta + sin_theta) * dx + (-cos_theta + sin_theta) * dy);
+
+  //[rad/sec] -> [deg/sec]
+  FR_wheel = static_cast<int16_t>(v1 * (180 / M_PI));
+  RR_wheel = static_cast<int16_t>(v4 * (180 / M_PI));
+  FL_wheel = static_cast<int16_t>(v2 * (180 / M_PI));
+  RL_wheel = static_cast<int16_t>(v3 * (180 / M_PI));
+
+  _wheel_vel[0] = FL_wheel;
+  _wheel_vel[1] = FR_wheel;
+  _wheel_vel[2] = RL_wheel;
+  _wheel_vel[3] = RR_wheel;
+  }
+
 
 
 
@@ -258,7 +295,7 @@ std::vector<int16_t>& NoidLowerController::get_reference_wheel_vector()
   return wheel_ref_vector_;
 }
 
-int32_t NoidsLowerController::get_wheel_id(std::string& _name)
+int32_t NoidLowerController::get_wheel_id(std::string& _name)
 {
   for (size_t i = 0; i < wheel_indices_.size(); ++i) {
     if (wheel_indices_[i].joint_name == _name)
@@ -266,6 +303,24 @@ int32_t NoidsLowerController::get_wheel_id(std::string& _name)
   }
   return -1;
 }
+
+void NoidLowerController::startWheelServo() {
+  ROS_DEBUG("servo on");
+
+  mutex_lower_.lock();
+  servo_command(0x7fff, 1);
+  mutex_lower_.unlock();
+}
+
+void NoidlowerController::stopWheelServo() {
+  ROS_DEBUG("servo off");
+
+  mutex_lower_.lock();
+  servo_command(0x7fff, 0);
+  mutex_lower_.unlock();
+}
+
+
 
 
 

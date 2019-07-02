@@ -13,7 +13,7 @@
 
 namespace noid
 {
-  namespace typef
+  namespace common
   {
 
     struct dualJoint
@@ -50,8 +50,7 @@ namespace noid
     dualJoint WaistRollPitchTable (float _angle1, float _angle2);
     dualJoint NeckRollPitchTable (float _angle1, float _angle2);
     float LegTable (float _angle);
-    void Angle2Stroke
-    (std::vector<int16_t>& _strokes, const std::vector<double> _angles);
+    
 
   }
 }
