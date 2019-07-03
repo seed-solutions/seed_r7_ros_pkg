@@ -15,9 +15,9 @@
        xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find aero_description)/urdf/common.xacro" />
-  <xacro:include filename="$(find aero_description)/urdf/typeF_upperbody/aero_upper_typef.urdf.xacro" />
-  <xacro:include filename="$(find aero_description)/urdf/trx_s/trx_s.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
+  <xacro:include filename="$(find noid_description)/urdf/typeF_upperbody/aero_upper_typef.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/urdf/trx_s/trx_s.urdf.xacro" />
 
 
   <xacro:macro name="aero-upper" params="disable_mesh:=false">

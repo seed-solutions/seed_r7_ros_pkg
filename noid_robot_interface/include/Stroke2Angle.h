@@ -13,7 +13,7 @@
 
 namespace noid
 {
-  namespace typef
+  namespace common
   {
 
     struct S2AData
@@ -54,8 +54,7 @@ namespace noid
     float NeckPitchInvTable (float _stroke);
     float NeckRollInvTable (float _stroke);
     float LegInvTable (float _stroke);
-    void Stroke2Angle
-    (std::vector<double>& _angles, const std::vector<int16_t> _strokes);
+   
 
   }
 }

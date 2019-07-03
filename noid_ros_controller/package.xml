@@ -9,51 +9,45 @@
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
   <maintainer email="seed@todo.todo">seed</maintainer>
 
+  <license>BSD</license>
 
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <url type="website">http://ros.org/wiki/</url>
+  <url type="bugtracker">https://github.com/seed-solutions/noid-ros-pkg/issues </url>
+  <url type="repository">https://github.com/noid_moveit_config </url>
 
+  <author>Yohei Kakiuchi</author>
 
-  <!-- Url tags are optional, but multiple are allowed, one per tag -->
-  <!-- Optional attribute type can be: website, bugtracker, or repository -->
-  <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/noid_ros_controller</url> -->
-
-
-  <!-- Author tags are optional, multiple are allowed, one per tag -->
-  <!-- Authors do not have to be maintainers, but could be -->
-  <!-- Example: -->
-  <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
-
-
-  <!-- The *depend tags are used to specify dependencies -->
-  <!-- Dependencies can be catkin packages or system dependencies -->
-  <!-- Examples: -->
-  <!-- Use depend as a shortcut for packages that are both build and exec dependencies -->
-  <!--   <depend>roscpp</depend> -->
-  <!--   Note that this is equivalent to the following: -->
-  <!--   <build_depend>roscpp</build_depend> -->
-  <!--   <exec_depend>roscpp</exec_depend> -->
-  <!-- Use build_depend for packages you need at compile time: -->
-  <!--   <build_depend>message_generation</build_depend> -->
-  <!-- Use build_export_depend for packages you need in order to build against this package: -->
-  <!--   <build_export_depend>message_generation</build_export_depend> -->
-  <!-- Use buildtool_depend for build tool packages: -->
-  <!--   <buildtool_depend>catkin</buildtool_depend> -->
-  <!-- Use exec_depend for packages you need at runtime: -->
-  <!--   <exec_depend>message_runtime</exec_depend> -->
-  <!-- Use test_depend for packages you need only for testing: -->
-  <!--   <test_depend>gtest</test_depend> -->
-  <!-- Use doc_depend for packages you need only for building documentation: -->
-  <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>control_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>move_base_msgs</depend>
+  <depend>tf</depend>
+  <depend>message_generation</depend>
+  <depend>realtime_tools</depend>
+  <depend>control_toolbox</depend>
+  <depend>controller_manager</depend>
+  <depend>hardware_interface</depend>
+  <depend>transmission_interface</depend>
+  <depend>joint_limits_interface</depend>
+  <depend>joint_trajectory_controller</depend>
+  <depend>joint_state_controller</depend>
+  <depend>angles</depend>
+  <depend>pluginlib</depend>
+  <depend>urdf</depend>
+  <depend>message_runtime</depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
+
+  <depend>noid_robot_interface</depend>
+
+  <depend>rostest</depend>
+
   <export>
-    <!-- Other tools can request additional information be placed here -->
-
+    <!--gazebo_ros_control plugin="${prefix}/robot_hw_sim_plugins.xml"/-->
   </export>
 </package>

@@ -1,0 +1,14 @@
+mover_base_param:
+ radius: 0.076
+ Radius: 0.300822
+ max_velocity: 90.0
+
+ ktheta: -5.58199
+ kv: 13.1579
+ 
+_ros_rate: 0.05
+_odom_rate: 0.02
+_safe_rate: 0.5
+_safe_duration: 1.0
+_num_of_wheels: 4
+_wheel_names: ['can_front_l_wheel', 'can_front_r_wheel', 'can_rear_l_wheel', 'can_rear_r_wheel']

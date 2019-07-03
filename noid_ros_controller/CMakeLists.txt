@@ -5,6 +5,12 @@ project(noid_ros_controller)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  trajectory_msgs 
+  geometry_msgs
+  sensor_msgs 
+  nav_msgs 
+  control_msgs
+  move_base_msgs
   control_toolbox
   controller_manager
   hardware_interface
@@ -12,10 +18,25 @@ find_package(catkin REQUIRED COMPONENTS
   joint_limits_interface
   angles
   urdf
-  #noid_robot_interface
+  noid_robot_interface
+  message_generation
 
   
 #  pluginlib
+)
+
+## Generate services in the 'srv' folder
+
+add_service_files(
+   FILES
+   GraspControl.srv
+   HandControl.srv
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
+  trajectory_msgs
 )
 
 catkin_package(
@@ -24,6 +45,12 @@ catkin_package(
   CATKIN_DEPENDS
     roscpp
     std_msgs
+    trajectory_msgs 
+    sensor_msgs
+    geometry_msgs 
+    nav_msgs 
+    control_msgs 
+    move_base_msgs
     controller_manager
     control_toolbox
     hardware_interface
@@ -31,7 +58,8 @@ catkin_package(
     joint_limits_interface
     angles
     urdf
-    #noid_robot_interface
+    noid_robot_interface
+    message_runtime
     #    pluginlib
 )
 
@@ -63,15 +91,14 @@ else()
 endif()
 
 ## Library
-add_library(robot_interface src/RobotInterface.cc )
-target_link_libraries(robot_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
 
 ## Executable
-add_executable(${PROJECT_NAME} src/aero_ros_controller.cpp src/aero_robot_hardware.cpp src/AeroMoveBaseRH.cc)
-target_link_libraries(${PROJECT_NAME} aero_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(${PROJECT_NAME} src/noid_ros_controller.cpp src/noid_robot_hardware.cpp )
+target_link_libraries(${PROJECT_NAME} noid_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
-add_executable(aero_hand_controller_node src/AeroHandController.cc)
-target_link_libraries(aero_hand_controller_node robot_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(noid_hand_controller_node src/NoidHandController.cpp)
+target_link_libraries(noid_hand_controller_node  ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 ## Install
 install(TARGETS ${PROJECT_NAME}
@@ -79,18 +106,8 @@ install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
 
-#install(DIRECTORY include/${PROJECT_NAME}/
-#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#)
 
-#install(FILES robot_hw_sim_plugins.xml
-#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-#)
 
-if (CATKIN_ENABLE_TESTING)
-  find_package(roslaunch REQUIRED)
-  find_package(rostest REQUIRED)
-  add_rostest_gtest(test_robot_interface test/test_robot_interface.test test/test_robot_interface.cpp)
-  target_link_libraries(test_robot_interface ${catkin_LIBRARIES} ${GTEST_LIBRARIES} robot_interface )
+add_dependencies(noid_ros_controller ${PROJECT_NAME}_generate_messages_cpp)
 
-endif() ## CATKIN_ENABLE_TESTING
+

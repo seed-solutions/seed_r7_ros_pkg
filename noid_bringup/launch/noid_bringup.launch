@@ -1,0 +1,45 @@
+<launch>
+  <arg name ="robot_model" default="typef"/>
+  <arg name ="moveit_directory" default="(find noid_$(arg robot_model)_moveit_config)"/>
+  <arg name ="dollar" value="$" />
+
+  <node pkg="noid_ros_controller" type="noid_ros_controller"
+        name="noid_ros_controller"
+        output="screen" >
+    <param name="robot_model" value="$(arg robot_model)"/>
+    <param name="port_lower" value="/dev/aero_lower" />
+    <param name="port_upper" value="/dev/aero_upper" />
+    <param name="controller_rate" value="15"  /> <!-- [ Hz ] ( rate of read/write cycle) -->
+    <param name="overlap_scale"   value="2.0" /> <!-- scaling of target time -->
+  </node>
+
+  <rosparam>
+    joint_state_controller:
+      type: joint_state_controller/JointStateController
+      publish_rate: 50
+  </rosparam>
+
+  <!-- controller settings / load from yaml -->
+  <rosparam command="load"
+            file="$(find noid_description)/robots/typeF/controller_settings.yaml" />
+
+  <include file="$(arg dollar)$(arg moveit_directory)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <node name="noid_state_publisher"
+        pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- spawing joint controllers -->
+  <!-- names of controllers depend on robot type (described at controller_settings.yaml) -->
+  <node name="cm_spawner" pkg="controller_manager"
+        type="spawner" args="joint_state_controller larm_controller rarm_controller
+                             head_controller waist_controller lifter_controller
+                             lhand_controller rhand_controller" />
+
+  <!-- depend on robot type -->
+  <node name="noid_hand_controller"
+        pkg="noid_ros_controller" type="noid_hand_controller_node"
+        output="screen" />
+
+</launch>

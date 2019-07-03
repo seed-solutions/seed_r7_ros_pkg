@@ -39,11 +39,12 @@
 
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-#include "noid_robot_hardware.hh"
-#include "NoidMoveBaseRH.hh"
-#include "NoidGrasp.hh"
+#include "noid_robot_hardware.h"
+#include "mover_robot_hardware.h"
+#include "NoidGrasp.h"
 
 using namespace noid_robot_hardware;
+using namespace mover_robot_hardware;
 
 
 #define MAIN_THREAD_PERIOD_MS    50000 //50ms (20Hz)
@@ -64,21 +65,25 @@ int main(int argc, char** argv)
   }
 
 #if 1 /// add base
-  noid::navigation::NoidMoveBase base_node(nh, &hw);
+  //MoverRobotHW base_node(nh, &hw);
 #endif
 
 #if 1 /// add grasp
+  ROS_INFO("grasp_server_start1");
+
   noid::grasp::NoidGrasp grasp_node(robot_nh, &hw);
 #endif
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  hw.getVersion();
+  //hw.getVersion();
 
   ros::Timer timer = robot_nh.createTimer(ros::Duration(10), &NoidRobotHW::readVoltage,&hw);
 
-  double period = hw.getPeriod();
+  //double period = hw.getPeriod();
+  double period = 0.0;
+
   controller_manager::ControllerManager cm(&hw, nh);
 
   ROS_INFO("ControllerManager start with %f Hz", 1.0/period);

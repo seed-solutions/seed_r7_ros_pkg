@@ -37,7 +37,7 @@
  Author: Yohei Kakiuchi
 */
 
-#include "noid_robot_hardware.hh"
+#include "noid_robot_hardware.h"
 #include <urdf/model.h>
 #include "std_msgs/Float32.h"
 
@@ -51,12 +51,16 @@ bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)//
   std::string port_upper("/dev/noid_upper");
   std::string port_lower("/dev/noid_lower");
 
+
   // reading paramerters
   if (robot_hw_nh.hasParam("port_upper")) {
     robot_hw_nh.getParam("port_upper", port_upper);
   }
   if (robot_hw_nh.hasParam("port_lower")) {
     robot_hw_nh.getParam("port_lower", port_lower);
+  }
+  if (robot_hw_nh.hasParam("robot_model")) {
+    robot_hw_nh.getParam("robot_model", robot_model);
   }
   if (robot_hw_nh.hasParam("controller_rate")) {
     double rate;
@@ -85,6 +89,8 @@ bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)//
   number_of_angles_ =
     controller_upper_->get_number_of_angle_joints() +
     controller_lower_->get_number_of_angle_joints();
+  //ROS_INFO("getnumber_of_angles:%d", number_of_angles_);
+
 
   joint_list_.resize(number_of_angles_);
   for(int i = 0; i < number_of_angles_; i++) {
@@ -214,11 +220,11 @@ void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bo
 #else
     std::thread t1([&](){
         if(upper_send_enable_) {
-          controller_upper_->update_position();
+        //controller_upper_->update_position();
         }
       });
     std::thread t2([&](){
-        controller_lower_->update_position();
+        //controller_lower_->update_position();
       });
     t1.join();
     t2.join();
@@ -234,35 +240,35 @@ void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bo
   mutex_lower_.unlock();
 
   // whole body strokes
-  std::vector<int16_t> act_strokes (AERO_DOF_UPPER + AERO_DOF_LOWER);
-  if (upper_act_strokes.size() < AERO_DOF_UPPER) {
-    for (size_t i = 0; i < AERO_DOF_UPPER; ++i) {
+  std::vector<int16_t> act_strokes (22 + 2);
+  if (upper_act_strokes.size() < 22) {
+    for (size_t i = 0; i < 22; ++i) {
       act_strokes[i] = 0;
     }
   } else { // usually should enter else, enters if when port is not activated
-    for (size_t i = 0; i < AERO_DOF_UPPER; ++i) {
+    for (size_t i = 0; i < 22; ++i) {
       act_strokes[i] = upper_act_strokes[i];
     }
   }
-  if ( lower_act_strokes.size() < AERO_DOF_LOWER ) {
-    for (size_t i = 0; i < AERO_DOF_LOWER; ++i) {
-      act_strokes[i + AERO_DOF_UPPER] = 0; //??
+  if ( lower_act_strokes.size() < 2 ) {
+    for (size_t i = 0; i < 2; ++i) {
+      act_strokes[i + 22] = 0; //??
     }
   } else { // usually should enter else, enters if when port is not activated
-    for (size_t i = 0; i < AERO_DOF_LOWER; ++i) {
-      act_strokes[i + AERO_DOF_UPPER] = lower_act_strokes[i];
+    for (size_t i = 0; i < 2; ++i) {
+      act_strokes[i + 22] = lower_act_strokes[i];
     }
   }
   // whole body positions from strokes
   std::vector<double> act_positions;
   act_positions.resize(number_of_angles_);
-  
-  StrokeConverter::convert_Stroke2Angle(act_positions, act_strokes);
+  //ROS_INFO("number_of_angles:%d", number_of_angles_);
 
-  // DEBUG
-  // act_strokes
-  // act_positions
-  //
+  //ROS_INFO("number of angles:%d", act_positions.size());
+  //ROS_INFO("number of strokes:%d", act_strokes.size());
+
+  if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
+  else ROS_ERROR("Not defined robot model, please check robot_model_name");
 
   double tm = period.toSec();
   for(unsigned int j=0; j < number_of_angles_; j++) {
@@ -355,17 +361,18 @@ void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
     prev_ref_positions_[i] = tmp;
   }
 
-  std::vector<int16_t> ref_strokes(AERO_DOF);
-  StrokeConverter::convert_Angle2Stroke(ref_strokes, ref_positions);
+  std::vector<int16_t> ref_strokes(26);
+  if(robot_model == "typef") typef::Angle2Stroke(ref_strokes, ref_positions);
   std::vector<int16_t> snt_strokes(ref_strokes);
   common::MaskRobotCommand(snt_strokes, mask_positions);
 
   // split strokes into upper and lower
-  std::vector<int16_t> upper_strokes(snt_strokes.begin(), snt_strokes.begin() + AERO_DOF_UPPER);
-  std::vector<int16_t> lower_strokes(snt_strokes.begin() + AERO_DOF_UPPER, snt_strokes.end());
+  std::vector<int16_t> upper_strokes(snt_strokes.begin(), snt_strokes.begin() + 22);
+  std::vector<int16_t> lower_strokes(snt_strokes.begin() + 22, snt_strokes.end());
+  //ROS_INFO("upper_strokes:%d", upper_strokes.size());
+  //ROS_INFO("lower_strokes:%d", lower_strokes.size());
 
   uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
-
   mutex_lower_.lock();
   mutex_upper_.lock();
   {
@@ -396,11 +403,11 @@ void NoidRobotHW::writeWheel(const std::vector< std::string> &_names, const std:
             _vel[0], _vel[1], _vel[2], _vel[3]);
 
   mutex_lower_.lock();
-  std::vector<int32_t> joint_to_wheel_indices(AERO_DOF_WHEEL);
+  std::vector<int32_t> joint_to_wheel_indices(4);
   for (size_t i = 0; i < _names.size(); ++i) {
     std::string joint_name = _names[i];
     joint_to_wheel_indices[i] =
-      controller_lower_->get_wheel_id(joint_name);
+    controller_lower_->get_wheel_id(joint_name);
   }
   std::vector<int16_t> wheel_vector;
   std::vector<int16_t>& ref_vector =
@@ -417,28 +424,12 @@ void NoidRobotHW::writeWheel(const std::vector< std::string> &_names, const std:
   mutex_lower_.unlock();
 }
 
-void NoidRobotHW::startWheelServo() {
-  ROS_DEBUG("servo on");
-
-  mutex_lower_.lock();
-  controller_lower_->servo_command(0x7fff, 1);
-  mutex_lower_.unlock();
-}
-
-void NoidRobotHW::stopWheelServo() {
-  ROS_DEBUG("servo off");
-
-  mutex_lower_.lock();
-  controller_lower_->servo_command(0x7fff, 0);
-  mutex_lower_.unlock();
-}
-
 void NoidRobotHW::readVoltage(const ros::TimerEvent& _event) {
   ROS_DEBUG("read voltage");
 
   mutex_lower_.lock();
   std_msgs::Float32 voltage;
-  voltage.data = controller_lower_->get_voltage();
+  //voltage.data = controller_lower_->get_voltage();
   voltage_pub_.publish(voltage);
   mutex_lower_.unlock();
 }

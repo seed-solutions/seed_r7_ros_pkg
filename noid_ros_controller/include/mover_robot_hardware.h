@@ -21,9 +21,9 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
 
-namespace aero
-{
-namespace navigation
+#include "RobotController.h"
+#include <noid_robot_hardware.h>
+namespace mover_robot_hardware
 {
 
 /// @brief wheel velocities and goal time
@@ -74,12 +74,12 @@ struct states
 /// aero_description/{hardware_type}.
 /// aero_description/aero_wheels/controllers/AeroBaseControllers.cc
 /// is sample of implementation.
-class AeroMoveBase
+class MoverRobotHW
 {
- public: explicit AeroMoveBase(const ros::NodeHandle& _nh,
-                               aero_robot_hardware::AeroRobotHW *_in_hw);
+ public: explicit MoverRobotHW(const ros::NodeHandle& _nh,
+                               mover_robot_hardware::MoverRobotHW *_in_hw);
 
- public: ~AeroMoveBase();
+ public: ~MoverRobotHW();
 
  private: void CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel);
 
@@ -140,17 +140,14 @@ class AeroMoveBase
 
  private: geometry_msgs::Twist prev_cmd_;
 
- private: AeroBaseConfig base_config_;
-
  private: boost::mutex base_mtx_;
   ///
- private: aero_robot_hardware::AeroRobotHW *hw_;
+ private: noid::controller::NoidLowerController *hw_;
 
 };
 
-typedef std::shared_ptr<AeroMoveBase> AeroMoveBasePtr;
+typedef std::shared_ptr<MoverRobotHW> MoverRobotHWPtr;
 
-}  // navigation
-}  // aero
+}  // mover_robot_hardware
 
 #endif

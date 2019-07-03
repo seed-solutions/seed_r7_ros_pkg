@@ -7,11 +7,11 @@
 
   <!-- The following included files set up definitions of parts of the robot body -->
   <!-- common variables -->
-  <xacro:include filename="$(find aero_description)/robots/typeFCET/common.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
   <!-- wraps upperbody and hand-->
-  <xacro:include filename="$(find aero_description)/robots/typeFCET/aero-upper.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/aero-upper.urdf.xacro" />
   <!-- wraps lifter and wheels-->
-  <xacro:include filename="$(find aero_description)/robots/typeFCET/aero-wheels.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/aero-wheels.urdf.xacro" />
  
  <!-- Now we can start using the macros included above to define the actual robot -->
  <xacro:aero-upper/>
