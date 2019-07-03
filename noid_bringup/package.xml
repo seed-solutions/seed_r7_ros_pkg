@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>noid_typef_bringup</name>
+  <name>noid_bringup</name>
   <version>0.0.5</version>
 
-  <description>The noid_typef_bringup package</description>
+  <description>The noid_bringup package</description>
 
 
   <maintainer email="develop@seed-solutions.net">seed_solutions</maintainer>

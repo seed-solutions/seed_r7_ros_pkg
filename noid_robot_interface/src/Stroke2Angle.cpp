@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <stdint.h>
 #include <math.h> // for M_PI
-#include "Stroke2Angle.hh"
+#include "Stroke2Angle.h"
 
 namespace noid
 {

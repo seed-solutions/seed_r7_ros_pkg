@@ -1,9 +1,9 @@
 #ifndef _ROBOT_STROKE_CONVERTER_H_
 #define _ROBOT_STROKE_CONVERTER_H_
 
-#include "Angle2Stroke.hh"
-#include "Stroke2Angle.hh"
-#include "CommonAngle2Stroke.hh"
+#include "Angle2Stroke.h"
+#include "Stroke2Angle.h"
+#include "CommonAngle2Stroke.h"
 #include "ros/ros.h"
 
 namespace typef
@@ -16,7 +16,7 @@ namespace typef
 
 
 
-
+#endif
 
 
 

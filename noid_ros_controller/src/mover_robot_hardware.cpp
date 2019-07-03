@@ -1,6 +1,6 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 
-#include "mover_robot_hardware.hh"
+#include "mover_robot_hardware.h"
 
 using namespace mover_robot_hardware;
 

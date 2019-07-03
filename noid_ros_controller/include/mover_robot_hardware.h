@@ -21,8 +21,8 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
 
-#include <noid_robot_interface/include/RobotController.hh>
-#include <noid_robot_hardware.hh>
+#include "RobotController.h"
+#include <noid_robot_hardware.h>
 namespace mover_robot_hardware
 {
 

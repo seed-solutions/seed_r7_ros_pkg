@@ -1,4 +1,4 @@
-#include "RobotStrokeConverter.hh"
+#include "RobotStrokeConverter.h"
 
 using namespace noid;
 using namespace common;
@@ -137,7 +137,7 @@ void Stroke2Angle
       _angles[29] = ankle_angle;
 }
 
-
+}
 
 
 

@@ -57,9 +57,8 @@
 #include <urdf/model.h>
 
 // AERO
-#include "noid_typef_description/robots/headers/Constants.hh"
-#include "noid_robot_interface/include/RobotController.hh"
-#include "noid_robot_interface/include/RobotStrokeConverter.hh"
+#include "RobotController.h"
+#include "RobotStrokeConverter.h"
 
 #include <mutex>
 
@@ -173,7 +172,7 @@ protected:
   std::vector<ControlMethod> joint_control_methods_;
   // std::vector<control_toolbox::Pid> pid_controllers_;
   std::vector<double> joint_position_;
-  std::vector<double> joint_velo city_;
+  std::vector<double> joint_velocity_;
   std::vector<double> joint_effort_;
   std::vector<double> joint_position_command_;
   std::vector<double> joint_velocity_command_;

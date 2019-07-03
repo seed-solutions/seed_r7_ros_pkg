@@ -1,20 +1,14 @@
 #include <ros/ros.h>
-#include <HandControl.h>
-#include <GraspControl.h>
+#include <noid_ros_controller/HandControl.h>
+#include <noid_ros_controller/GraspControl.h>
 
-#include "NoidHandController.hh" 
-
-
-class NoidHandInterface : public robot_interface::RobotInterface
-{
+#include "NoidHandController.h" 
 
 using namespace noid_ros_controller;
-
 class NoidHandControl {
 public:
   NoidHandControl (ros::NodeHandle &nh) : executing_flg_left_(true), executing_flg_right_(true), exist_grasp_server_(false)
   {
-    hi.reset(new NoidHandInterface(nh));
 
     service_ = nh.advertiseService("/noid_hand_controller",
                                    &NoidHandControl::HandControl, this);
@@ -29,7 +23,7 @@ public:
     }
 
     {
-      noid_ros_conotroller::GraspControl g_srv;
+      noid_ros_controller::GraspControl g_srv;
       g_srv.request.position = POSITION_Left;
       g_srv.request.script = GraspControlRequest::SCRIPT_CANCEL;
       g_srv.request.power = (100 << 8) + 30;
@@ -136,7 +130,6 @@ public:
     ROS_DEBUG("OpenHand %d", hand);
     noid_ros_controller::GraspControl g_srv;
 
-    robot_interface::joint_angle_map map;
     if (hand == HandControlRequest::HAND_LEFT) {
       g_srv.request.position = POSITION_Left;
       g_srv.request.script = GraspControlRequest::SCRIPT_UNGRASP;
@@ -219,12 +212,11 @@ private:
   ros::ServiceClient g_client_;
   ros::ServiceServer service_;
 
-  boost::shared_ptr<NoidHandInterface > hi;
 };
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "aero_hand_controller");
+  ros::init(argc, argv, "noid_hand_controller");
   ros::NodeHandle nh;
   NoidHandControl ahc(nh);
 
