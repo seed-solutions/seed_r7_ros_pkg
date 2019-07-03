@@ -51,6 +51,7 @@
   <exec_depend>urg_node</exec_depend>
   <exec_depend>noid_description</exec_depend>
 
+  <depend>seed_solutions_sdk</depend>
 
   <export/>
 </package>

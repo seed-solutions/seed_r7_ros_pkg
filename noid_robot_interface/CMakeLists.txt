@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   message_generation
   noid_description
+  seed_solutions_sdk
 )
 if(NOT catkin_LIBRARIES)
   message(FATAL "catkin required but not supported")
@@ -36,6 +37,7 @@ catkin_package(
   DEPENDS
   INCLUDE_DIRS include
   LIBRARIES noid_controllers
+  seed_solutions_sdk
 )
 
 include_directories(${catkin_INCLUDE_DIRS} ${noid_ros_pkg_path}/noid_typef_description/robots/include)
@@ -56,9 +58,10 @@ endif()
 
 add_library(noid_controllers
   src/RobotStrokeConverter.cpp
-  src/RobotController.cpp
   src/Stroke2Angle.cpp
   src/Angle2Stroke.cpp
+  src/noid_upper_controller.cpp
+  src/noid_lower_controller.cpp
   )
 target_link_libraries(noid_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 #add_dependencies(noid_controllers ${PROJECT_NAME}_gencpp)

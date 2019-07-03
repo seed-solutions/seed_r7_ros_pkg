@@ -38,7 +38,6 @@
 */
 
 #include "noid_robot_hardware.h"
-#include <urdf/model.h>
 #include "std_msgs/Float32.h"
 
 #include <thread>
@@ -46,394 +45,264 @@
 namespace noid_robot_hardware
 {
 
-bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)// add joint list
-{
-  std::string port_upper("/dev/noid_upper");
-  std::string port_lower("/dev/noid_lower");
+  bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)// add joint list
+  {
+    std::string port_upper("/dev/aero_upper");
+    std::string port_lower("/dev/aero_lower");
 
-
-  // reading paramerters
-  if (robot_hw_nh.hasParam("port_upper")) {
-    robot_hw_nh.getParam("port_upper", port_upper);
-  }
-  if (robot_hw_nh.hasParam("port_lower")) {
-    robot_hw_nh.getParam("port_lower", port_lower);
-  }
-  if (robot_hw_nh.hasParam("robot_model")) {
-    robot_hw_nh.getParam("robot_model", robot_model);
-  }
-  if (robot_hw_nh.hasParam("controller_rate")) {
-    double rate;
-    robot_hw_nh.getParam("controller_rate", rate);
-    CONTROL_PERIOD_US_ = (1000*1000)/rate;
-  } else {
-    CONTROL_PERIOD_US_ = 50*1000; // 50ms
-  }
-  if (robot_hw_nh.hasParam("overlap_scale")) {
-    double scl;
-    robot_hw_nh.getParam("overlap_scale", scl);
-    OVERLAP_SCALE_    = scl;     //
-  }  else {
-    OVERLAP_SCALE_    = 2.8;     //
-  }
-
-  ROS_INFO("upper_port: %s", port_upper.c_str());
-  ROS_INFO("lower_port: %s", port_lower.c_str());
-  ROS_INFO("cycle: %f [ms], overlap_scale %f", CONTROL_PERIOD_US_*0.001, OVERLAP_SCALE_);
-
-  // create controllersd
-  controller_upper_.reset(new NoidUpperController(port_upper));
-  controller_lower_.reset(new NoidLowerController(port_lower));
-
-  // joint list
-  number_of_angles_ =
-    controller_upper_->get_number_of_angle_joints() +
-    controller_lower_->get_number_of_angle_joints();
-  //ROS_INFO("getnumber_of_angles:%d", number_of_angles_);
-
-
-  joint_list_.resize(number_of_angles_);
-  for(int i = 0; i < number_of_angles_; i++) {
-    std::string name;
-    if(controller_upper_->get_joint_name(i, name)) {
-      joint_list_[i] = name;
-    } else if (controller_lower_->get_joint_name(i, name)) {
-      joint_list_[i] = name;
+    // reading paramerters
+    if (robot_hw_nh.hasParam("port_upper")) robot_hw_nh.getParam("port_upper", port_upper);
+    if (robot_hw_nh.hasParam("port_lower")) robot_hw_nh.getParam("port_lower", port_lower);
+    if (robot_hw_nh.hasParam("robot_model")) robot_hw_nh.getParam("robot_model", robot_model);
+    if (robot_hw_nh.hasParam("/joint_settings/upper")) robot_hw_nh.getParam("/joint_settings/upper/name",joint_names_upper_);
+    else ROS_WARN("/joint_settings/upper read error");
+    if (robot_hw_nh.hasParam("/joint_settings/lower")) robot_hw_nh.getParam("/joint_settings/lower/name",joint_names_lower_);
+    else ROS_WARN("/joint_settings/lower read error");
+    if (robot_hw_nh.hasParam("controller_rate")) {
+      double rate;
+      robot_hw_nh.getParam("controller_rate", rate);
+      CONTROL_PERIOD_US_ = (1000*1000)/rate;
     } else {
-      ROS_WARN_STREAM("name of joint " << i << "can not find!");
+      CONTROL_PERIOD_US_ = 50*1000; // 50ms
     }
-  }
+    if (robot_hw_nh.hasParam("overlap_scale")) {
+      double scl;
+      robot_hw_nh.getParam("overlap_scale", scl);
+      OVERLAP_SCALE_    = scl;     //
+    }  else {
+      OVERLAP_SCALE_    = 2.8;     //
+    }
 
-  // stroke list
-#if 0
-  number_of_strokes_ =
-    controller_upper_->get_number_of_strokes() +
-    controller_lower_->get_number_of_strokes();
-  stroke_list_.resize(0);
-  for(int i = 0; i < controller_upper_->get_number_of_strokes(); i++) {
-    std::string name = controller_upper_->get_stroke_joint_name(i);
-    stroke_list_.push_back(name);
-  }
-  for(int i = 0; i < controller_lower_->get_number_of_strokes(); i++) {
-    std::string name = controller_lower_->get_stroke_joint_name(i);
-    stroke_list_.push_back(name);
-  }
-#endif
-  prev_ref_positions_.resize(number_of_angles_);
-  initialized_flag_ = false;
+    ROS_INFO("upper_port: %s", port_upper.c_str());
+    ROS_INFO("lower_port: %s", port_lower.c_str());
+    ROS_INFO("cycle: %f [ms], overlap_scale %f", CONTROL_PERIOD_US_*0.001, OVERLAP_SCALE_);
 
-  std::string model_str;
-  if (!root_nh.getParam("robot_description", model_str)) {
-    ROS_ERROR("Failed to get model from robot_description");
-    return false;
-  }
-  urdf::Model model;
-  if (!model.initString(model_str)) {
-    ROS_ERROR("Failed to parse robot_description");
-    return false;
-  }
+    // create controllersd
+    controller_upper_.reset(new NoidUpperController(port_upper));
+    controller_lower_.reset(new NoidLowerController(port_lower));
 
-  ROS_DEBUG("read %d joints", number_of_angles_);
-  for (int i = 0; i < number_of_angles_; i++) {
-    ROS_DEBUG("  %d: %s", i, joint_list_[i].c_str());
-    if(!model.getJoint(joint_list_[i])) {
-      ROS_ERROR("Joint %s does not exist in urdf model", joint_list_[i].c_str());
+    // joint list
+    number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
+
+    joint_list_.resize(number_of_angles_);
+    for(int i = 0; i < number_of_angles_; i++) {
+      if(i < joint_names_upper_.size() ) joint_list_[i] = joint_names_upper_[i];
+      else joint_list_[i] = joint_names_lower_[i - joint_names_upper_.size()];
+    }
+
+    prev_ref_positions_.resize(number_of_angles_);
+    initialized_flag_ = false;
+
+    std::string model_str;
+    if (!root_nh.getParam("robot_description", model_str)) {
+      ROS_ERROR("Failed to get model from robot_description");
       return false;
     }
-  }
-
-  // joint_names_.resize(number_of_angles_);
-  joint_types_.resize(number_of_angles_);
-  joint_lower_limits_.resize(number_of_angles_);
-  joint_upper_limits_.resize(number_of_angles_);
-  joint_effort_limits_.resize(number_of_angles_);
-  joint_control_methods_.resize(number_of_angles_);
-  //pid_controllers_.resize(number_of_angles_);
-  joint_position_.resize(number_of_angles_);
-  joint_velocity_.resize(number_of_angles_);
-  joint_effort_.resize(number_of_angles_);
-  joint_effort_command_.resize(number_of_angles_);
-  joint_position_command_.resize(number_of_angles_);
-  joint_velocity_command_.resize(number_of_angles_);
-
-  readPos(ros::Time::now(), ros::Duration(0.0), true); /// initial
-
-  // Initialize values
-  for(unsigned int j = 0; j < number_of_angles_; j++) {
-    // Add data from transmission
-    //joint_position_[j]         = 0.0; // initialize
-    //joint_position_command_[j] = 0.0; //
-
-    joint_velocity_[j] = 0.0;
-    joint_velocity_command_[j] = 0.0;
-    joint_effort_[j]   = 0.0;  // N/m for continuous joints
-    joint_effort_command_[j]   = 0.0;
-
-    std::string jointname = joint_list_[j];
-    // Create joint state interface for all joints
-    js_interface_.registerHandle(hardware_interface::JointStateHandle(
-        jointname, &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
-
-    joint_control_methods_[j] = POSITION;
-    hardware_interface::JointHandle joint_handle =
-      hardware_interface::JointHandle(js_interface_.getHandle(jointname),
-                                      &joint_position_command_[j]);
-    pj_interface_.registerHandle(joint_handle);
-
-    joint_limits_interface::JointLimits limits;
-    const bool urdf_limits_ok = joint_limits_interface::getJointLimits(model.getJoint(jointname), limits);
-    if (!urdf_limits_ok) {
-      ROS_WARN("urdf limits of joint %s is not defined", jointname.c_str());
+    urdf::Model model;
+    if (!model.initString(model_str)) {
+      ROS_ERROR("Failed to parse robot_description");
+      return false;
     }
-    // Register handle in joint limits interface
-    joint_limits_interface::PositionJointSaturationHandle
-      limits_handle(joint_handle, // We read the state and read/write the command
-                    limits);       // Limits spec
-    pj_sat_interface_.registerHandle(limits_handle);
-  }
-  // Register interfaces
-  registerInterface(&js_interface_);
-  registerInterface(&pj_interface_);
-  //registerInterface(&vj_interface_);
-  //registerInterface(&ej_interface_);
 
-  upper_send_enable_ = true;
-  // lower_send_enable_ = true;
-
-  voltage_pub_ = robot_hw_nh.advertise<std_msgs::Float32>("voltage", 1);
-
-  return true;
-}
-
-void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
-{
-  /////
-  ROS_DEBUG("read %d", update);
-
-  mutex_lower_.lock();
-  mutex_upper_.lock();
-  // TODO: thrading?? or making no wait
-  if (update) {
-#if 0 // NO_THREAD
-    controller_upper_->update_position();
-    controller_lower_->update_position();
-#else
-    std::thread t1([&](){
-        if(upper_send_enable_) {
-        //controller_upper_->update_position();
-        }
-      });
-    std::thread t2([&](){
-        //controller_lower_->update_position();
-      });
-    t1.join();
-    t2.join();
-#endif
-  }
-  // get upper actual positions
-  std::vector<int16_t> upper_act_strokes =
-    controller_upper_->get_actual_stroke_vector();
-  // get lower actual positions
-  std::vector<int16_t> lower_act_strokes =
-    controller_lower_->get_actual_stroke_vector();
-  mutex_upper_.unlock();
-  mutex_lower_.unlock();
-
-  // whole body strokes
-  std::vector<int16_t> act_strokes (22 + 2);
-  if (upper_act_strokes.size() < 22) {
-    for (size_t i = 0; i < 22; ++i) {
-      act_strokes[i] = 0;
+    ROS_DEBUG("read %d joints", number_of_angles_);
+    for (int i = 0; i < number_of_angles_; i++) {
+      ROS_DEBUG("  %d: %s", i, joint_list_[i].c_str());
+      if(!model.getJoint(joint_list_[i])) {
+        ROS_ERROR("Joint %s does not exist in urdf model", joint_list_[i].c_str());
+        return false;
+      }
     }
-  } else { // usually should enter else, enters if when port is not activated
-    for (size_t i = 0; i < 22; ++i) {
-      act_strokes[i] = upper_act_strokes[i];
-    }
-  }
-  if ( lower_act_strokes.size() < 2 ) {
-    for (size_t i = 0; i < 2; ++i) {
-      act_strokes[i + 22] = 0; //??
-    }
-  } else { // usually should enter else, enters if when port is not activated
-    for (size_t i = 0; i < 2; ++i) {
-      act_strokes[i + 22] = lower_act_strokes[i];
-    }
-  }
-  // whole body positions from strokes
-  std::vector<double> act_positions;
-  act_positions.resize(number_of_angles_);
-  //ROS_INFO("number_of_angles:%d", number_of_angles_);
 
-  //ROS_INFO("number of angles:%d", act_positions.size());
-  //ROS_INFO("number of strokes:%d", act_strokes.size());
+    // joint_names_.resize(number_of_angles_);
+    joint_types_.resize(number_of_angles_);
+    joint_control_methods_.resize(number_of_angles_);
+    joint_position_.resize(number_of_angles_);
+    joint_velocity_.resize(number_of_angles_);
+    joint_effort_.resize(number_of_angles_);
+    joint_position_command_.resize(number_of_angles_);
+    joint_velocity_command_.resize(number_of_angles_);
+    joint_effort_command_.resize(number_of_angles_);
 
-  if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
-  else ROS_ERROR("Not defined robot model, please check robot_model_name");
+    readPos(ros::Time::now(), ros::Duration(0.0), true); /// initial
 
-  double tm = period.toSec();
-  for(unsigned int j=0; j < number_of_angles_; j++) {
-    float position = act_positions[j];
-    float velocity = 0.0;
-
-    if (joint_types_[j] == PRISMATIC) {
-      joint_position_[j] = position;
-    } else {
-      //joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], position);
-      joint_position_[j] = position;
-    }
-    joint_velocity_[j] = velocity; // read velocity from HW
-    joint_effort_[j]   = 0;        // read effort   from HW
-  }
-
-  if (!initialized_flag_) {
+    // Initialize values
     for(unsigned int j = 0; j < number_of_angles_; j++) {
-      joint_position_command_[j] = prev_ref_positions_[j] = joint_position_[j];
-      ROS_DEBUG("%d: %s - %f", j, joint_list_[j].c_str(), joint_position_command_[j]);
+      joint_velocity_[j] = 0.0;
+      joint_velocity_command_[j] = 0.0;
+      joint_effort_[j]   = 0.0;  // N/m for continuous joints
+      joint_effort_command_[j]   = 0.0;
+
+      std::string jointname = joint_list_[j];
+      // Create joint state interface for all joints
+      js_interface_.registerHandle(hardware_interface::JointStateHandle(jointname, &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
+
+      joint_control_methods_[j] = POSITION;
+      hardware_interface::JointHandle joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(jointname), &joint_position_command_[j]);
+      pj_interface_.registerHandle(joint_handle);
+
+      joint_limits_interface::JointLimits limits;
+      const bool urdf_limits_ok = joint_limits_interface::getJointLimits(model.getJoint(jointname), limits);
+      if (!urdf_limits_ok) {
+        ROS_WARN("urdf limits of joint %s is not defined", jointname.c_str());
+      }
+      // Register handle in joint limits interface
+      joint_limits_interface::PositionJointSaturationHandle limits_handle(joint_handle,limits);       // Limits spec
+      pj_sat_interface_.registerHandle(limits_handle);
     }
-    initialized_flag_ = true;
-  }
-}
+    // Register interfaces
+    registerInterface(&js_interface_);
+    registerInterface(&pj_interface_);
 
-void NoidRobotHW::read(const ros::Time& time, const ros::Duration& period)
-{
-  //
-  mutex_upper_.lock();
-  bool collision_status = controller_upper_->get_status();
-  if (collision_status) {
-    ROS_WARN("reset status");
-    controller_upper_->reset_status();
-  }
-  mutex_upper_.unlock();
-  //
-  //readPos(time, period, true);
-
-  return;
-}
-
-void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
-{
-  ROS_DEBUG("write");
-
-  pj_sat_interface_.enforceLimits(period);
-  //pj_limits_interface_.enforceLimits(period);
-  //vj_sat_interface_.enforceLimits(period);
-  //vj_limits_interface_.enforceLimits(period);
-  //ej_sat_interface_.enforceLimits(period);
-  //ej_limits_interface_.enforceLimits(period);
-
-  ////// convert poitions to strokes and write strokes
-  std::vector<double > ref_positions(number_of_angles_);
-  //std::fill(ref_positions.begin(), ref_positions.end(), 0.0);
-  for(unsigned int j=0; j < number_of_angles_; j++) {
-    switch (joint_control_methods_[j]) {
-    case POSITION:
-      {
-        ref_positions[j] = joint_position_command_[j];
-      }
-      break;
-    case VELOCITY:
-      {
-      }
-      break;
-    case EFFORT:
-      {
-      }
-      break;
-    case POSITION_PID:
-      {
-      }
-      break;
-    case VELOCITY_PID:
-      {
-      }
-      break;
-    } // switch
-  } // for
-
-  std::vector<bool > mask_positions(number_of_angles_);
-  std::fill(mask_positions.begin(), mask_positions.end(), true); // send if true
-
-  for(int i = 0; i < number_of_angles_; i++) {
-    double tmp = ref_positions[i];
-    if (tmp == prev_ref_positions_[i]) {
-      mask_positions[i] = false;
-    }
-    prev_ref_positions_[i] = tmp;
+    return true;
   }
 
-  std::vector<int16_t> ref_strokes(26);
-  if(robot_model == "typef") typef::Angle2Stroke(ref_strokes, ref_positions);
-  std::vector<int16_t> snt_strokes(ref_strokes);
-  common::MaskRobotCommand(snt_strokes, mask_positions);
-
-  // split strokes into upper and lower
-  std::vector<int16_t> upper_strokes(snt_strokes.begin(), snt_strokes.begin() + 22);
-  std::vector<int16_t> lower_strokes(snt_strokes.begin() + 22, snt_strokes.end());
-  //ROS_INFO("upper_strokes:%d", upper_strokes.size());
-  //ROS_INFO("lower_strokes:%d", lower_strokes.size());
-
-  uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
-  mutex_lower_.lock();
-  mutex_upper_.lock();
+  void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
   {
-#if 0 // NO_THREAD
-    controller_upper_->set_position(upper_strokes, time_csec);
-    controller_lower_->set_position(lower_strokes, time_csec);
-#else
-    std::thread t1([&](){
-        controller_upper_->set_position(upper_strokes, time_csec);
-      });
-    std::thread t2([&](){
-        controller_lower_->set_position(lower_strokes, time_csec);
-      });
-    t1.join();
-    t2.join();
-    //usleep( 1000 * 2 ); // why needed?
-  }
-#endif
-  mutex_upper_.unlock();
-  mutex_lower_.unlock();
 
-  //  resd ? →　updatePOS
-  readPos(time, period, false);
-}
-
-void NoidRobotHW::writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec) {
-  ROS_DEBUG("wheel %d %d %d %d",
-            _vel[0], _vel[1], _vel[2], _vel[3]);
-
-  mutex_lower_.lock();
-  std::vector<int32_t> joint_to_wheel_indices(4);
-  for (size_t i = 0; i < _names.size(); ++i) {
-    std::string joint_name = _names[i];
-    joint_to_wheel_indices[i] =
-    controller_lower_->get_wheel_id(joint_name);
-  }
-  std::vector<int16_t> wheel_vector;
-  std::vector<int16_t>& ref_vector =
-    controller_lower_->get_reference_wheel_vector();
-  wheel_vector.assign(ref_vector.begin(), ref_vector.end());
-  for (size_t j = 0; j < _vel.size(); ++j) {
-    if (joint_to_wheel_indices[j] >= 0) {
-      wheel_vector[static_cast<size_t>(joint_to_wheel_indices[j])] = _vel[j];
+    mutex_lower_.lock();
+    mutex_upper_.lock();
+    if (update) {
+      std::thread t1([&](){
+          controller_upper_->getPosition();
+        });
+      std::thread t2([&](){
+          controller_lower_->getPosition();
+        });
+      t1.join();
+      t2.join();
     }
+    mutex_upper_.unlock();
+    mutex_lower_.unlock();
+
+    // whole body strokes
+    std::vector<int16_t> act_strokes(0);
+    std::vector<int16_t> act_upper_strokes (controller_upper_->DOF_);
+    std::vector<int16_t> act_lower_strokes (controller_lower_->DOF_);
+
+    //remap
+    controller_upper_->remapAeroToRos(controller_upper_->raw_data_,act_upper_strokes);
+    controller_lower_->remapAeroToRos(controller_lower_->raw_data_,act_lower_strokes);
+
+    act_strokes.insert(act_strokes.end(),act_upper_strokes.begin(),act_upper_strokes.end());
+    act_strokes.insert(act_strokes.end(),act_lower_strokes.begin(),act_lower_strokes.end());
+
+    // whole body positions from strokes
+    std::vector<double> act_positions;
+    act_positions.resize(number_of_angles_);
+    //aero::common::Stroke2Angle(act_positions, act_strokes);
+    if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
+    else ROS_ERROR("Not defined robot model, please check robot_model_name");
+
+
+    double tm = period.toSec();
+    for(unsigned int j=0; j < number_of_angles_; j++) {
+      float position = act_positions[j];
+      float velocity = 0.0;
+
+      joint_position_[j] = position;
+      joint_velocity_[j] = velocity; // read velocity from HW
+      joint_effort_[j]   = 0;        // read effort   from HW
+    }
+
+    if (!initialized_flag_) {
+      for(unsigned int j = 0; j < number_of_angles_; j++) {
+        joint_position_command_[j] = prev_ref_positions_[j] = joint_position_[j];
+        ROS_DEBUG("%d: %s - %f", j, joint_list_[j].c_str(), joint_position_command_[j]);
+      }
+      initialized_flag_ = true;
+    }
+
+    return;
   }
-  uint16_t time_csec = static_cast<uint16_t>(_tm_sec * 100.0);
-  controller_lower_->set_wheel_velocity(wheel_vector, time_csec);
 
-  mutex_lower_.unlock();
+  void NoidRobotHW::read(const ros::Time& time, const ros::Duration& period)
+  {
+    return;
+  }
+
+  void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
+  {
+    pj_sat_interface_.enforceLimits(period);
+
+    ////// convert poitions to strokes and write strokes
+    std::vector<double > ref_positions(number_of_angles_);
+    for(unsigned int j=0; j < number_of_angles_; j++) {
+      switch (joint_control_methods_[j]) {
+      case POSITION:
+        {
+          ref_positions[j] = joint_position_command_[j];
+        }
+        break;
+      case VELOCITY:
+        {
+        }
+        break;
+      case EFFORT:
+        {
+        }
+        break;
+      case POSITION_PID:
+        {
+        }
+        break;
+      case VELOCITY_PID:
+        {
+        }
+        break;
+      } // switch
+    } // for
+
+    std::vector<bool > mask_positions(number_of_angles_);
+    std::fill(mask_positions.begin(), mask_positions.end(), true); // send if true
+
+    for(int i = 0; i < number_of_angles_; i++) {
+      double tmp = ref_positions[i];
+      if (tmp == prev_ref_positions_[i]) {
+        mask_positions[i] = false;
+      }
+      prev_ref_positions_[i] = tmp;
+    }
+
+    std::vector<int16_t> ref_strokes(controller_upper_->DOF_ + controller_lower_->DOF_);
+
+    //aero::common::Angle2Stroke(ref_strokes, ref_positions);
+    if(robot_model == "typef") typef::Angle2Stroke(ref_strokes, ref_positions);
+    else ROS_ERROR("Not defined robot model, please check robot_model_name");
+
+    std::vector<int16_t> snt_strokes(ref_strokes);
+    noid::common::UnusedAngle2Stroke(snt_strokes, mask_positions);
+
+    // split strokes into upper and lower
+    size_t aero_array_size = 30;
+    std::vector<int16_t> upper_strokes(aero_array_size);
+    std::vector<int16_t> lower_strokes(aero_array_size);
+
+    //remap
+    if(controller_upper_->is_open_) controller_upper_->remapRosToAero(snt_strokes, upper_strokes);
+    else controller_upper_->remapRosToAero(ref_strokes, upper_strokes);
+    if(controller_lower_->is_open_) controller_lower_->remapRosToAero(snt_strokes, lower_strokes);
+    else controller_lower_->remapRosToAero(ref_strokes, lower_strokes);
+
+    uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
+
+    mutex_lower_.lock();
+    mutex_upper_.lock();
+    {
+      std::thread t1([&](){
+          controller_upper_->sendPosition(time_csec, upper_strokes);
+        });
+      std::thread t2([&](){
+          controller_lower_->sendPosition(time_csec, lower_strokes);
+        });
+      t1.join();
+      t2.join();
+    }
+    mutex_upper_.unlock();
+    mutex_lower_.unlock();
+
+    // read
+    readPos(time, period, false);
+    return;
+  }
+
 }
-
-void NoidRobotHW::readVoltage(const ros::TimerEvent& _event) {
-  ROS_DEBUG("read voltage");
-
-  mutex_lower_.lock();
-  std_msgs::Float32 voltage;
-  //voltage.data = controller_lower_->get_voltage();
-  voltage_pub_.publish(voltage);
-  mutex_lower_.unlock();
-}
-
-}
-
-// PLUGINLIB_EXPORT_CLASS(universal_realtime_controller::UniversealRobotHWShm, gazebo_ros_control::RobotHWSim)

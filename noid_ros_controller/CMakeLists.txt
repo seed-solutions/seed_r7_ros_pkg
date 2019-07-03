@@ -20,8 +20,8 @@ find_package(catkin REQUIRED COMPONENTS
   urdf
   noid_robot_interface
   message_generation
+  seed_solutions_sdk
 
-  
 #  pluginlib
 )
 
@@ -60,6 +60,7 @@ catkin_package(
     urdf
     noid_robot_interface
     message_runtime
+
     #    pluginlib
 )
 

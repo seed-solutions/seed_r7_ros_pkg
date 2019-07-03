@@ -57,8 +57,10 @@
 #include <urdf/model.h>
 
 // AERO
-#include "RobotController.h"
+#include "noid_upper_controller.h"
+#include "noid_lower_controller.h"
 #include "RobotStrokeConverter.h"
+#include "UnusedAngle2Stroke.h"
 
 #include <mutex>
 
@@ -76,73 +78,13 @@ public:
 
   virtual ~NoidRobotHW() {}
 
-  /** \brief The init function is called to initialize the RobotHW from a
-   * non-realtime thread.
-   *
-   * \param root_nh A NodeHandle in the root of the caller namespace.
-   *
-   * \param robot_hw_nh A NodeHandle in the namespace from which the RobotHW
-   * should read its configuration.
-   *
-   * \returns True if initialization was successful
-   */
   virtual bool init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh);
-
-
-  /** \name Hardware Interface Switching
-   *\{*/
-  /**
-   * Check (in non-realtime) if given controllers could be started and stopped from the current state of the RobotHW
-   * with regard to necessary hardware interface switches and prepare the switching. Start and stop list are disjoint.
-   * This handles the check and preparation, the actual switch is commited in doSwitch()
-   */
-  virtual bool prepareSwitch(const std::list<hardware_interface::ControllerInfo>& start_list,
-                             const std::list<hardware_interface::ControllerInfo>& stop_list) {
-    // message
-    return true;
-  }
-
-  /**
-   * Perform (in realtime) all necessary hardware interface switches in order to start and stop the given controllers.
-   * Start and stop list are disjoint. The feasability was checked in prepareSwitch() beforehand.
-   */
-  virtual void doSwitch(const std::list<hardware_interface::ControllerInfo>& start_list,
-                        const std::list<hardware_interface::ControllerInfo>& stop_list) {
-    // message
-  }
-
-  /**
-   * Reads data from the robot HW
-   *
-   * \param time The current time
-   * \param period The time passed since the last call to \ref read
-   */
   virtual void read(const ros::Time& time, const ros::Duration& period);
-
-  /**
-   * Writes data to the robot HW
-   *
-   * \param time The current time
-   * \param period The time passed since the last call to \ref write
-   */
   virtual void write(const ros::Time& time, const ros::Duration& period);
 
-
-  ///
   void readPos(const ros::Time& time, const ros::Duration& period, bool update);
   void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
-  void startWheelServo();
-  void stopWheelServo();
-  void readVoltage(const ros::TimerEvent& _event);
-  //These functions needs in this library?
-  std::string getVersion();
-  void handScript(uint16_t _sendnum, uint16_t _script);
-  void setMaxSingleCurrent(uint16_t _sendnum, uint16_t _power);
-  void stopUpper();
-  void startUpper();
-  void servo(uint16_t _sendnum); 
-  double getPeriod(); 
-  double getOverLapScale();
+  double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
 
 protected:
   // Methods used to control a joint.
@@ -153,24 +95,13 @@ protected:
 
   hardware_interface::JointStateInterface    js_interface_;
   hardware_interface::PositionJointInterface pj_interface_;
-  //hardware_interface::VelocityJointInterface vj_interface_;
-  //hardware_interface::EffortJointInterface   ej_interface_;
 
   joint_limits_interface::PositionJointSaturationInterface pj_sat_interface_;
-  //joint_limits_interface::PositionJointSaturationInterface pj_sat_interface_;
-  //joint_limits_interface::PositionJointSoftLimitsInterface pj_limits_interface_;
-  //joint_limits_interface::VelocityJointSaturationInterface vj_sat_interface_;
-  //joint_limits_interface::VelocityJointSoftLimitsInterface vj_limits_interface_;
-  //joint_limits_interface::EffortJointSaturationInterface   ej_sat_interface_;
-  //joint_limits_interface::EffortJointSoftLimitsInterface   ej_limits_interface_;
 
   std::vector<std::string> joint_list_;
-  std::vector<double> joint_lower_limits_;
-  std::vector<double> joint_upper_limits_;
   std::vector<double> joint_effort_limits_;
   std::vector<JointType>     joint_types_;
   std::vector<ControlMethod> joint_control_methods_;
-  // std::vector<control_toolbox::Pid> pid_controllers_;
   std::vector<double> joint_position_;
   std::vector<double> joint_velocity_;
   std::vector<double> joint_effort_;
@@ -178,10 +109,13 @@ protected:
   std::vector<double> joint_velocity_command_;
   std::vector<double> joint_effort_command_;
 
-  std::vector<double> prev_ref_positions_;
 
-  boost::shared_ptr<NoidUpperController > controller_upper_;
-  boost::shared_ptr<NoidLowerController > controller_lower_;
+  std::vector<double> prev_ref_positions_;
+  std::vector<int16_t> upper_act_strokes_;
+  std::vector<int16_t> lower_act_strokes_;
+
+  boost::shared_ptr<NoidUpperController> controller_upper_;
+  boost::shared_ptr<NoidLowerController> controller_lower_;
 
   bool initialized_flag_;
   bool upper_send_enable_;
@@ -190,11 +124,11 @@ protected:
   float OVERLAP_SCALE_;
   int   BASE_COMMAND_PERIOD_MS_;
 
-  ros::Publisher voltage_pub_;
-
   std::mutex mutex_lower_;
   std::mutex mutex_upper_;
 
+  std::vector<std::string> joint_names_upper_;
+  std::vector<std::string> joint_names_lower_;
   std::string robot_model;
 
 };
@@ -202,4 +136,4 @@ protected:
 typedef boost::shared_ptr<NoidRobotHW> NoidRobotHWPtr;
 }
 
-#endif // #ifndef _UNIVERSAL_ROBOT_HW_SHM_H_
+#endif
