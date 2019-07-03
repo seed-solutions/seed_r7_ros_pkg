@@ -36,6 +36,8 @@ namespace noid
         void get_command(uint8_t _cmd, uint8_t _sub, std::vector<int16_t>& _stroke_vector);
         void get_command(uint8_t _cmd, std::vector<int16_t>& _stroke_vector);
         bool get_status();
+        void reset_status();
+
 
         std::vector<int16_t> get_actual_stroke_vector();
         int get_number_of_angle_joints();
@@ -63,6 +65,8 @@ namespace noid
         std::unordered_map<std::string, int32_t> angle_joint_indices_;
         boost::mutex ctrl_mtx_;
         bool bad_status_;
+        std::vector<int16_t> status_vector_;
+
 
 
         // id: upper = 1, lower = 2

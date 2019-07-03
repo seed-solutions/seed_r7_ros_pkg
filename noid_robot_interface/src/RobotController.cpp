@@ -100,6 +100,13 @@ bool NoidControllerProto::get_status()
   return bad_status_;
 }
 
+void NoidControllerProto::reset_status()
+{
+  //include seed_\solutions_sdk
+  //seed_.flush();
+  get_command(0x52, 0xff, status_vector_);
+}
+
 int NoidControllerProto::get_number_of_angle_joints()
 {
     return angle_joint_indices_.size();
@@ -135,11 +142,10 @@ void NoidControllerProto::set_position(
   boost::mutex::scoped_lock lock(ctrl_mtx_);
 
   // for ROS
-  ROS_INFO("strokes_vector:%d", _stroke_vector.size());
-  ROS_INFO("strokes_ref_vector:%d", stroke_ref_vector_.size());
-  ROS_INFO("strokes_cur_vector:%d", stroke_cur_vector_.size());
-
-
+  // for Debug
+  //ROS_INFO("strokes_vector:%d", _stroke_vector.size());
+  //ROS_INFO("strokes_ref_vector:%d", stroke_ref_vector_.size());
+  //ROS_INFO("strokes_cur_vector:%d", stroke_cur_vector_.size());
 
   for (size_t i = 0; i < _stroke_vector.size(); ++i) {
     if (_stroke_vector[i] != 0x7fff) {
@@ -171,10 +177,6 @@ void NoidControllerProto::stroke_to_raw_(std::vector<int16_t>& _stroke,
                   &_raw[RAW_HEADER_OFFSET + aji.raw_index * 2]);
   }
 }
-
-
-
-
 
 /* ---------   NoidUpperController ----------------*/
 NoidUpperController::NoidUpperController(const std::string& _port) :

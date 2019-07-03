@@ -89,7 +89,7 @@ bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)//
   number_of_angles_ =
     controller_upper_->get_number_of_angle_joints() +
     controller_lower_->get_number_of_angle_joints();
-  ROS_INFO("getnumber_of_angles:%d", number_of_angles_);
+  //ROS_INFO("getnumber_of_angles:%d", number_of_angles_);
 
 
   joint_list_.resize(number_of_angles_);
@@ -262,17 +262,13 @@ void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bo
   // whole body positions from strokes
   std::vector<double> act_positions;
   act_positions.resize(number_of_angles_);
-  ROS_INFO("number_of_angles:%d", number_of_angles_);
+  //ROS_INFO("number_of_angles:%d", number_of_angles_);
 
-  ROS_INFO("number of angles:%d", act_positions.size());
-  ROS_INFO("number of strokes:%d", act_strokes.size());
+  //ROS_INFO("number of angles:%d", act_positions.size());
+  //ROS_INFO("number of strokes:%d", act_strokes.size());
 
   if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
   else ROS_ERROR("Not defined robot model, please check robot_model_name");
-  // DEBUG
-  // act_strokes
-  // act_positions
-  //
 
   double tm = period.toSec();
   for(unsigned int j=0; j < number_of_angles_; j++) {
@@ -305,7 +301,7 @@ void NoidRobotHW::read(const ros::Time& time, const ros::Duration& period)
   bool collision_status = controller_upper_->get_status();
   if (collision_status) {
     ROS_WARN("reset status");
-    //controller_upper_->reset_status();
+    controller_upper_->reset_status();
   }
   mutex_upper_.unlock();
   //
@@ -373,8 +369,8 @@ void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
   // split strokes into upper and lower
   std::vector<int16_t> upper_strokes(snt_strokes.begin(), snt_strokes.begin() + 22);
   std::vector<int16_t> lower_strokes(snt_strokes.begin() + 22, snt_strokes.end());
-  ROS_INFO("upper_strokes:%d", upper_strokes.size());
-  ROS_INFO("lower_strokes:%d", lower_strokes.size());
+  //ROS_INFO("upper_strokes:%d", upper_strokes.size());
+  //ROS_INFO("lower_strokes:%d", lower_strokes.size());
 
   uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
   mutex_lower_.lock();
