@@ -1,7 +1,7 @@
 ## position where executing command
 int16 position
 ## command type
-int16 script
+int8 script
 ### command types for command
 int16 SCRIPT_GRASP=2
 int16 SCRIPT_UNGRASP=3

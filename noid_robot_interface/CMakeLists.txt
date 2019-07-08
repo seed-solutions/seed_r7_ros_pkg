@@ -24,6 +24,8 @@ else()
   include_directories(include ${Boost_INCLUDE_DIRS})
 endif()
 
+
+
 # ROS setups
 
 catkin_package(
@@ -36,6 +38,8 @@ catkin_package(
   LIBRARIES noid_controllers
   seed_solutions_sdk
 )
+
+
 
 include_directories(${catkin_INCLUDE_DIRS})
 # add c++ dependencies :
@@ -53,9 +57,9 @@ else()
 endif()
 
 add_library(noid_controllers
-  src/RobotStrokeConverter.cpp
-  src/Stroke2Angle.cpp
-  src/Angle2Stroke.cpp
+  src/robot_stroke_converter.cpp
+  src/stroke_to_angle.cpp
+  src/angle_to_stroke.cpp
   src/noid_upper_controller.cpp
   src/noid_lower_controller.cpp
   )

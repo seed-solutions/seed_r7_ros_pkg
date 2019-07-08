@@ -15,13 +15,13 @@
        xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find aero_description)/urdf/common.xacro" />
-  <xacro:include filename="$(find aero_description)/common_urdf/gazebo.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
+  <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
 
   <xacro:property name="wheel_radius" value="0.075"/>
 
   <xacro:macro name="wheels" params="base_link disable_mesh:=false">
-  <!-- ============================   aero(typeE_wheels)   ============================ -->
+  <!-- ============================   typeE_wheels  ============================ -->
 
   <link name="${base_link}"/>
 
@@ -29,13 +29,13 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 -0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_base.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_base.dae" scale="1 1 1" />
           </geometry>
       </visual> </xacro:unless>
       <xacro:unless value="${disable_mesh}"> <collision>
         <!--origin xyz="0.0 0.0 0.0" rpy="0 -0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_base.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_base.dae" scale="1 1 1" />
         </geometry-->
         <origin xyz="0.018 0.0 0.0375" rpy="0 -0 0"/>
         <geometry>
@@ -54,7 +54,7 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 -0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_top.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_top.dae" scale="1 1 1" />
         </geometry>
       </visual> </xacro:unless>
       <!-- no collision geometry -->
@@ -70,7 +70,7 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="-1.57079632679 0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
         </geometry>
       </visual> </xacro:unless>
       <xacro:unless value="${disable_mesh}"> <collision>
@@ -92,7 +92,7 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="-1.57079632679 0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
         </geometry>
       </visual> </xacro:unless>
       <xacro:unless value="${disable_mesh}"> <collision>
@@ -114,7 +114,7 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="-1.57079632679 0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
         </geometry>
       </visual> </xacro:unless>
       <xacro:unless value="${disable_mesh}"> <collision>
@@ -136,7 +136,7 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="-1.57079632679 0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_mecanum.dae" scale="1 1 1" />
         </geometry>
       </visual> </xacro:unless>
       <xacro:unless value="${disable_mesh}"> <collision>
@@ -158,7 +158,7 @@
       <xacro:unless value="${disable_mesh}"> <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://aero_description/meshes/typeE_wheel/wheels_urg.dae" scale="1 1 1" />
+          <mesh filename="package://noid_description/meshes/typeE_wheel/wheels_urg.dae" scale="1 1 1" />
         </geometry>
       </visual> </xacro:unless>
       <xacro:unless value="${disable_mesh}"> <collision>

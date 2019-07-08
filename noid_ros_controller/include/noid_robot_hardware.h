@@ -59,8 +59,8 @@
 // AERO
 #include "noid_upper_controller.h"
 #include "noid_lower_controller.h"
-#include "RobotStrokeConverter.h"
-#include "UnusedAngle2Stroke.h"
+#include "robot_stroke_converter.h"
+#include "stroke_mask.h"
 
 #include <mutex>
 
@@ -86,6 +86,7 @@ public:
   void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
   double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
 
+  void handScript(uint16_t _sendnum, uint16_t _script);
 protected:
   // Methods used to control a joint.
   enum ControlMethod {EFFORT, POSITION, POSITION_PID, VELOCITY, VELOCITY_PID};
@@ -126,10 +127,16 @@ protected:
 
   std::mutex mutex_lower_;
   std::mutex mutex_upper_;
+  boost::mutex ctrl_mtx_;
+
 
   std::vector<std::string> joint_names_upper_;
   std::vector<std::string> joint_names_lower_;
   std::string robot_model;
+
+  boost::shared_ptr<aero::controller::AeroCommand> command_;
+
+  
 
 };
 
