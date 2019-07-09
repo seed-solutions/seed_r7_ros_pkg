@@ -16,9 +16,6 @@ if(NOT catkin_LIBRARIES)
   message(FATAL "catkin required but not supported")
 endif()
 
-set(noid_ros_pkg_path /home/seed/ros/kinetic/src/noid_ros_pkg) 
-
-
 # boost
 find_package(Boost REQUIRED COMPONENTS filesystem system signals thread)
 if(NOT Boost_INCLUDE_DIRS)
@@ -26,6 +23,8 @@ if(NOT Boost_INCLUDE_DIRS)
 else()
   include_directories(include ${Boost_INCLUDE_DIRS})
 endif()
+
+
 
 # ROS setups
 
@@ -40,8 +39,9 @@ catkin_package(
   seed_solutions_sdk
 )
 
-include_directories(${catkin_INCLUDE_DIRS} ${noid_ros_pkg_path}/noid_typef_description/robots/include)
-message(${noid_ros_pkg_path}/noid_typef_description/robots/include)
+
+
+include_directories(${catkin_INCLUDE_DIRS})
 # add c++ dependencies :
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c+11" COMPILER_SUPPORTS_CXX11)
@@ -57,25 +57,11 @@ else()
 endif()
 
 add_library(noid_controllers
-  src/RobotStrokeConverter.cpp
-  src/Stroke2Angle.cpp
-  src/Angle2Stroke.cpp
+  src/robot_stroke_converter.cpp
+  src/stroke_to_angle.cpp
+  src/angle_to_stroke.cpp
   src/noid_upper_controller.cpp
   src/noid_lower_controller.cpp
   )
 target_link_libraries(noid_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-#add_dependencies(noid_controllers ${PROJECT_NAME}_gencpp)
 
-##add_executable(wait_interpolation aero_controller_manager/wait_interpolation.cc)
-##target_link_libraries(wait_interpolation ${catkin_LIBRARIES})
-
-# Executables
-
-# >>> add controllers
-# <<< add controllers
-
-# >>> add dependencies
-# <<< add dependencies
-
-# >>> add applications
-# <<< add applications

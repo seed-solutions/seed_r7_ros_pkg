@@ -21,9 +21,11 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
 
-#include "RobotController.h"
-#include <noid_robot_hardware.h>
-namespace mover_robot_hardware
+#include "seed_solutions_sdk/aero3_command.h"
+namespace mover
+{
+
+namespace navigation
 {
 
 /// @brief wheel velocities and goal time
@@ -76,25 +78,28 @@ struct states
 /// is sample of implementation.
 class MoverRobotHW
 {
- public: explicit MoverRobotHW(const ros::NodeHandle& _nh,
-                               mover_robot_hardware::MoverRobotHW *_in_hw);
+ public: explicit MoverRobotHW(const ros::NodeHandle& _nh);
 
  public: ~MoverRobotHW();
 
- private: void CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel);
+ public: void CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel);
 
- private: void SafetyCheckCallback(const ros::TimerEvent& _event);
+ public: void SafetyCheckCallback(const ros::TimerEvent& _event);
 
- private: void CalculateOdometry(const ros::TimerEvent& _event);
+ public: void CalculateOdometry(const ros::TimerEvent& _event);
+
+ public: void VelocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel);
+ public: void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
 
   /// @param node handle
  private: ros::NodeHandle nh_;
 
   /// @param names of wheel joints
- private: std::vector<std::string> wheel_names_;
+ private: std::vector<std::string> joint_names_wheels_;
 
   /// @param number of wheels
  private: int num_of_wheels_;
+ 
 
   /// @param rate for move base action
  private: double ros_rate_;
@@ -147,7 +152,10 @@ class MoverRobotHW
 };
 
 typedef std::shared_ptr<MoverRobotHW> MoverRobotHWPtr;
+std::shared_ptr<aero::controller::AeroCommand> command_;
 
-}  // mover_robot_hardware
+}  // mover
+
+}  //navigation
 
 #endif

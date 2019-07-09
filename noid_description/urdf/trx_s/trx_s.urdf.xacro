@@ -6,8 +6,8 @@
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find aero_description)/urdf/common.xacro" />
-  <xacro:include filename="$(find aero_description)/common_urdf/gazebo.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
+  <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
   <property name="M_PI" value="3.1415926535897931" />
 
   <xacro:macro name="trx_s" params="prefix:=r reflect:=1 disable_mesh:=false">
@@ -19,7 +19,7 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 ${(1.0 - reflect) * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/trx_s/RARM_LINK7_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/trx_s/RARM_LINK7_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}">
@@ -48,7 +48,7 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 ${0.013 * reflect} 0.115" rpy="0 -0 ${(1.0 - reflect) * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/trx_s/RARM_INDEX_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/trx_s/RARM_INDEX_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
@@ -69,7 +69,7 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 ${-0.015754 * reflect} 0.149615" rpy="0 -0 ${(1.0 - reflect) * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/trx_s/RARM_INDEX_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/trx_s/RARM_INDEX_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
@@ -90,7 +90,7 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 ${-0.03747 * reflect} 0.162972" rpy="0 -0 ${(1.0 - reflect) * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/trx_s/RARM_INDEX_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/trx_s/RARM_INDEX_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
@@ -111,7 +111,7 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 ${-0.022355 * reflect} 0.079645" rpy="0 -0 ${(1.0 - reflect) * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/trx_s/RARM_THUMB_LINK_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/trx_s/RARM_THUMB_LINK_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}">

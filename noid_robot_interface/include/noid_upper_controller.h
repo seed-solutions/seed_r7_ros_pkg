@@ -31,6 +31,8 @@ namespace noid
       protected: 
         aero::controller::AeroCommand *upper_;
         const static uint32_t BAUDRATE = 1000000;
+        boost::mutex ctrl_mtx_;
+
       
     };
 

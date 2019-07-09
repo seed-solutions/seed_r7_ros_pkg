@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name ="robot_model" default="typef"/>
-  <arg name ="moveit_directory" default="(find noid_$(arg robot_model)_moveit_config)"/>
-  <arg name ="dollar" value="$" />
+  <arg name ="robot_model" default="typeFCETy"/>
 
-  <node pkg="noid_ros_controller" type="noid_ros_controller" name="noid_ros_controller" output="screen" >
+  <node pkg="noid_ros_controller" type="noid_ros_controller" name="noid_ros_controller" output="screen"  >
     <param name="port_lower" value="/dev/aero_lower" />
     <param name="port_upper" value="/dev/aero_upper" />
     <param name="robot_model" value="$(arg robot_model)"/>
@@ -19,12 +17,20 @@
   </rosparam>
 
   <!-- controller settings / load from yaml -->
-  <rosparam command="load" file="$(find noid_description)/robots/typeF/controller_settings.yaml" />
-  <rosparam command="load" file="$(find noid_description)/robots/typeF/joint_settings.yaml" />
+  <rosparam command="load" file="$(find noid_description)/robots/$(arg robot_model)/controller_settings.yaml" />
+  <rosparam command="load" file="$(find noid_description)/robots/$(arg robot_model)/joint_settings.yaml" />
+  <rosparam command="load" file="$(find noid_bringup)/config/hand_setting.yaml" />
 
-  <include file="$(arg dollar)$(arg moveit_directory)/launch/planning_context.launch">
-    <arg name="load_robot_description" value="true"/>
-  </include>
+  <group if="$(eval robot_model== 'typeF')">
+    <include file="$(find noid_typeF_moveit_config)/launch/planning_context.launch">
+      <arg name="load_robot_description" value="true"/>
+    </include>
+  </group>
+  <group if="$(eval robot_model== 'typeFCETy')">
+    <include file="$(find noid_typeFCETy_moveit_config)/launch/planning_context.launch">
+      <arg name="load_robot_description" value="true"/>
+    </include>
+  </group>
 
   <node name="noid_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 

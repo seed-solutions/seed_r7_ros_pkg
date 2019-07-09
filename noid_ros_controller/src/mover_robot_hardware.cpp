@@ -2,15 +2,14 @@
 
 #include "mover_robot_hardware.h"
 
-using namespace mover_robot_hardware;
+using namespace mover;
+using namespace navigation;
 
 //////////////////////////////////////////////////
 /// @brief constructor
 /// @param _nh ROS Node Handle
-MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh,
-                           noid::controller::NoidLowerController *_in_hw) :
-  nh_(_nh),
-  vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), base_spinner_(1, &base_queue_), base_config_()
+MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh) 
+                          : nh_(_nh), vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), base_spinner_(1, &base_queue_), base_config_()
 {
   prev_cmd_.linear.x = 0;
   prev_cmd_.linear.y = 0;
@@ -23,8 +22,7 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh,
   nh_.getParam("mover_base_param/_num_of_wheels", num_of_wheels_);
   nh_.getParam("mover_base_param/_wheels_names", wheel_names_);
 
-  hw_ = _in_hw;
-  
+ 
   servo_ = false;
   current_time_ = ros::Time::now();
   last_time_ = current_time_;
@@ -49,6 +47,13 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh,
 
   odom_timer_ = nh_.createTimer(ros::Duration(odom_rate_),
                                 &MoverRobotHW::CalculateOdometry, this);
+  //joint_list
+  number_of_wheels_ = joint_names_wheels_.size(); 
+
+  joint_list_wheels_.resize(number_of_wheels_);
+    for(int i = 0; i < number_of_angles_; i++) {
+      if(i < joint_names_wheels_.size() ) joint_list_wheels_[i] = joint_names_wheels_[i];
+    }
 }
 
 //////////////////////////////////////////////////
@@ -105,9 +110,9 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 
     // convert velocity to wheel
     // need to declarion check
-    NoidLowerController::VelocityToWheel(vx_, vy_, vth_, int_vel);
+    VelocityToWheel(vx_, vy_, vth_, int_vel);
 
-    hw_->writeWheel(wheel_names_, int_vel, ros_rate_);
+    writeWheel(wheel_names_, int_vel, ros_rate_);
 
     //update time_stamp_
     time_stamp_ = now;
@@ -196,6 +201,59 @@ void MoverRobotHW::CalculateOdometry(const ros::TimerEvent& _event)
   odom_pub_.publish(odom);
 
   last_time_ = current_time_;
+}
+
+void MoverRobotHW::writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec) {
+    mutex_lower_.lock();
+    
+   
+    for (size_t j = 0; j < _vel.size(); ++j) {
+      if (joint_to_wheel_indices[j] >= 0) {
+        wheel_vector[static_cast<size_t>(joint_to_wheel_indices[j])] = _vel[j];
+      }
+    }
+    uint16_t time_csec = static_cast<uint16_t>(_tm_sec * 100.0);
+    controller_lower_->set_wheel_velocity(wheel_vector, time_csec);
+
+    mutex_lower_.unlock();
+  }
+
+void MoverRobotHW::VelocityToWheel(double _linear_x, double _linear_y, double _angular_z,
+                           std::vector<int16_t>& _wheel_vel) 
+{
+    float dx, dy, dtheta, theta;
+    float v1, v2, v3, v4;
+    int16_t FR_wheel, RR_wheel, FL_wheel, RL_wheel;
+    theta = 0.0;  // this means angle in local coords, so always 0
+
+    float cos_theta = cos(theta);
+    float sin_theta = sin(theta);
+
+    // change dy and dx, because of between ROS and vehicle direction
+    dy = (_linear_x * cos_theta - _linear_y * sin_theta);
+    dx = (_linear_x * sin_theta + _linear_y * cos_theta);
+    dtheta = _angular_z;  // desirede angular velocity
+
+    // calculate wheel velocity
+    v1 = ktheta * dtheta +
+      kv * ((-cos_theta + sin_theta) * dx + (-cos_theta - sin_theta) * dy);
+    v2 = ktheta * dtheta +
+      kv * ((-cos_theta - sin_theta) * dx + ( cos_theta - sin_theta) * dy);
+    v3 = ktheta * dtheta +
+      kv * (( cos_theta - sin_theta) * dx + ( cos_theta + sin_theta) * dy);
+    v4 = ktheta * dtheta +
+      kv * (( cos_theta + sin_theta) * dx + (-cos_theta + sin_theta) * dy);
+
+    //[rad/sec] -> [deg/sec]
+    FR_wheel = static_cast<int16_t>(v1 * (180 / M_PI));
+    RR_wheel = static_cast<int16_t>(v4 * (180 / M_PI));
+    FL_wheel = static_cast<int16_t>(v2 * (180 / M_PI));
+    RL_wheel = static_cast<int16_t>(v3 * (180 / M_PI));
+
+    _wheel_vel[0] = FL_wheel;
+    _wheel_vel[1] = FR_wheel;
+    _wheel_vel[2] = RL_wheel;
+    _wheel_vel[3] = RR_wheel;
 }
 
 

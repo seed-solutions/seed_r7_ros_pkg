@@ -4,12 +4,8 @@
   <version>0.0.5</version>
   <description>The noid_description package</description>
 
-  <maintainer email="hi.kondo@thk.co.jp">hi-kondo</maintainer>
+  <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
 
-
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>

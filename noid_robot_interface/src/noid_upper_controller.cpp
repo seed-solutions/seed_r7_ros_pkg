@@ -28,12 +28,16 @@ NoidUpperController::NoidUpperController(const std::string& _port)
 
 void NoidUpperController::getPosition()
 {
+  boost::mutex::scoped_lock lock(ctrl_mtx_);
+
   if(is_open_) raw_data_ = upper_->getPosition(0);
 }
 
 
 void NoidUpperController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
 {
+  boost::mutex::scoped_lock lock(ctrl_mtx_);
+
   if(is_open_) raw_data_ = upper_->actuateByPosition(_time, _data.data());
   else raw_data_.assign(_data.begin(), _data.end());
 }
