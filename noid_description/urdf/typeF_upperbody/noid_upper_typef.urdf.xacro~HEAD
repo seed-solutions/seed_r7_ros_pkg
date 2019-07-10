@@ -7,24 +7,24 @@
        xmlns:xacro="http://ros.org/wiki/xacro">
 
 
-  <xacro:include filename="$(find aero_description)/urdf/common.xacro" />
-  <xacro:include filename="$(find aero_description)/common_urdf/gazebo.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/common.xacro" />
+  <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
 
   <xacro:property name="wrist_sensor_offset" value="0.0"/>
 
-  <xacro:macro name="aero_upper" params="base_link disable_mesh:=false r_hand_link:=r_hand_link l_hand_link:=l_hand_link">
-  <!-- ============================   aero(typeF_upper)   ============================ -->
+  <xacro:macro name="noid_upper" params="base_link disable_mesh:=false r_hand_link:=r_hand_link l_hand_link:=l_hand_link">
+  <!-- ============================   typeF_upper   ============================ -->
   <link name="${base_link}">
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/WAIST_LINK0_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/WAIST_LINK0_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/WAIST_LINK0_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/WAIST_LINK0_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -39,13 +39,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/WAIST_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/WAIST_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/WAIST_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/WAIST_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -73,13 +73,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/WAIST_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/WAIST_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/WAIST_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/WAIST_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -94,13 +94,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="-0.174532925 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="-0.174532925 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -118,13 +118,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -140,13 +140,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -164,13 +164,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="-0.035 0 -0.035" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK4_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK4_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="-0.035 0 -0.035" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK4_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK4_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -188,13 +188,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 0 -1.5707963267948966"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK5_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK5_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 0 -1.5707963267948966"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/LARM_LINK5_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/LARM_LINK5_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -219,13 +219,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/NECK_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/NECK_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/NECK_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/NECK_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -241,13 +241,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/NECK_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/NECK_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/NECK_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/NECK_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -262,13 +262,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/NECK_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/NECK_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/NECK_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/NECK_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -283,13 +283,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0.174532925 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0.174532925 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK1_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -306,13 +306,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -328,13 +328,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -352,13 +352,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="-0.035 0 -0.035" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK4_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK4_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="-0.035 0 -0.035" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK4_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK4_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>
@@ -376,13 +376,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0 0 0" rpy="0 0 1.5707963267948966"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK5_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK5_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 0 1.5707963267948966"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/typeF_upperbody/RARM_LINK5_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://noid_description/meshes/typeF_upperbody/RARM_LINK5_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>

@@ -21,11 +21,9 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
 
-#include "seed_solutions_sdk/aero3_command.h"
-namespace mover
-{
-
-namespace navigation
+#include "noid_lower_controller.h"
+#include <noid_robot_hardware.h>
+namespace mover_robot_hardware
 {
 
 /// @brief wheel velocities and goal time

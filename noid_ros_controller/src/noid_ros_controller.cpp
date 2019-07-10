@@ -41,7 +41,7 @@
 #include <controller_manager/controller_manager.h>
 #include "noid_robot_hardware.h"
 //#include "mover_robot_hardware.h"
-#include "noid_grasp.h"
+#include "noid_hand_controller.h"
 
 using namespace noid_robot_hardware;
 //using namespace mover_robot_hardware;
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 #endif
 
 #if 1 /// add grasp
-  noid::grasp::NoidGrasp grasp_node(robot_nh, &hw);
+  noid::grasp::NoidHandControl hand_node(robot_nh, &hw);
 #endif
 
   ros::AsyncSpinner spinner(1);

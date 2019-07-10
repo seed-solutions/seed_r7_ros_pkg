@@ -81,6 +81,9 @@ namespace noid_robot_hardware
     controller_upper_.reset(new NoidUpperController(port_upper));
     controller_lower_.reset(new NoidLowerController(port_lower));
 
+    //command_.reset(new aero::controller::AeroCommand);
+
+
     // joint list
     number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
 
@@ -158,30 +161,10 @@ namespace noid_robot_hardware
   }
 
   void NoidRobotHW::handScript(uint16_t _sendnum, uint16_t _script) {
-    boost::mutex::scoped_lock lock(ctrl_mtx_);
-
     mutex_upper_.lock();
-    command_->runScript(_sendnum, _script);
+    controller_upper_->script(_sendnum, _script);
     ROS_INFO("sendnum : %d, script : %d", _sendnum, _script);
     mutex_upper_.unlock();
-  }
-
-  
-
-  void NoidRobotHW::startWheelServo() {
-    ROS_DEBUG("servo on");
-
-    mutex_lower_.lock();
-    controller_lower_->wheel_on();
-    mutex_lower_.unlock();
-  }
-
-  void NoidRobotHW::stopWheelServo() {
-    ROS_DEBUG("servo off");
-
-    mutex_lower_.lock();
-    controller_lower_->wheel_only_off();
-    mutex_lower_.unlock();
   }
 
   void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
@@ -219,7 +202,6 @@ namespace noid_robot_hardware
     act_positions.resize(number_of_angles_);
     //aero::common::Stroke2Angle(act_positions, act_strokes);
     if(robot_model == "typeF") typef::Stroke2Angle(act_positions, act_strokes);
-    else if(robot_model == "typeFCETy") typefcety::Stroke2Angle(act_positions, act_strokes);
     else ROS_ERROR("Not defined robot model, please check robot_model_name");
 
 
@@ -296,8 +278,6 @@ namespace noid_robot_hardware
 
     //aero::common::Angle2Stroke(ref_strokes, ref_positions);
     if(robot_model == "typeF") typef::Angle2Stroke(ref_strokes, ref_positions);
-    else if(robot_model == "typeFCETy") typefcety::Angle2Stroke(ref_strokes, ref_positions);
-
     else ROS_ERROR("Not defined robot model, please check robot_model_name");
 
     std::vector<int16_t> snt_strokes(ref_strokes);

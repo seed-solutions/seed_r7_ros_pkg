@@ -15,7 +15,11 @@
        xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
+<<<<<<< HEAD
   <xacro:include filename="$(find noid_description)/robots/common.xacro" />
+=======
+  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
+>>>>>>> 2f195b7a53d7118c7ec6551d133377636a98c6b4
   <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
 
   <xacro:property name="wheel_radius" value="0.075"/>

@@ -7,7 +7,7 @@
        xmlns:xacro="http://ros.org/wiki/xacro">
 
 
-  <xacro:include filename="$(find noid_description)/robots/common.xacro" />
+  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
   <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
 
   <xacro:property name="wrist_sensor_offset" value="0.0"/>
