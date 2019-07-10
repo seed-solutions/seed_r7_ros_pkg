@@ -133,9 +133,6 @@ protected:
   std::vector<std::string> joint_names_upper_;
   std::vector<std::string> joint_names_lower_;
   std::string robot_model;
-
-  boost::shared_ptr<aero::controller::AeroCommand> command_;
-
   
 
 };

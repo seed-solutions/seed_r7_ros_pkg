@@ -81,7 +81,7 @@ namespace noid_robot_hardware
     controller_upper_.reset(new NoidUpperController(port_upper));
     controller_lower_.reset(new NoidLowerController(port_lower));
 
-    command_.reset(new aero::controller::AeroCommand);
+    //command_.reset(new aero::controller::AeroCommand);
 
 
     // joint list
@@ -160,10 +160,8 @@ namespace noid_robot_hardware
   }
 
   void NoidRobotHW::handScript(uint16_t _sendnum, uint16_t _script) {
-    boost::mutex::scoped_lock lock(ctrl_mtx_);
-
     mutex_upper_.lock();
-    command_->runScript(_sendnum, _script);
+    controller_upper_->script(_sendnum, _script);
     ROS_INFO("sendnum : %d, script : %d", _sendnum, _script);
     mutex_upper_.unlock();
   }
