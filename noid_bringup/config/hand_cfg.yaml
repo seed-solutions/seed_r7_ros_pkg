@@ -1,3 +1,3 @@
 noid_hand_controller:
-  POSITION_Right: 12
-  POSITION_Left: 27
+  right_hand: 12
+  left_hand: 27

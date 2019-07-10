@@ -68,6 +68,16 @@ void NoidUpperController::remapRosToAero(std::vector<int16_t>& _before, std::vec
   }
 }
 
+#if 1
+void NoidUpperController::script(uint16_t _sendnum, uint16_t _script) 
+{
+    //boost::mutex::scoped_lock lock(ctrl_mtx_);
+
+    upper_->runScript(_sendnum, _script);
+}
+#endif
+
+
 NoidUpperController::~NoidUpperController()
 {
   if(is_open_) upper_->closePort();

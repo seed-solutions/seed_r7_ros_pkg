@@ -30,7 +30,6 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
    FILES
    GraspControl.srv
-   HandControl.srv
 )
 generate_messages(
   DEPENDENCIES
@@ -91,14 +90,17 @@ else()
 endif()
 
 ## Library
+add_library(noid_hand_controllers
+  src/noid_hand_controller.cpp
+)
+target_link_libraries(noid_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
 ## Executable
 add_executable(${PROJECT_NAME} src/noid_ros_controller.cpp src/noid_robot_hardware.cpp )
-target_link_libraries(${PROJECT_NAME} noid_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} noid_controllers noid_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
-add_executable(noid_hand_controller_node src/noid_hand_controller.cpp)
-target_link_libraries(noid_hand_controller_node  ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
 
 ## Install
 install(TARGETS ${PROJECT_NAME}
