@@ -41,7 +41,7 @@
 #include <controller_manager/controller_manager.h>
 #include "noid_robot_hardware.h"
 //#include "mover_robot_hardware.h"
-#include "NoidGrasp.h"
+#include "noid_hand_controller.h"
 
 using namespace noid_robot_hardware;
 //using namespace mover_robot_hardware;
@@ -70,14 +70,11 @@ int main(int argc, char** argv)
 #endif
 
 #if 1 /// add grasp
-  ROS_INFO("grasp_server_start1");
-
-  noid::grasp::NoidGrasp grasp_node(robot_nh, &hw);
+  noid::grasp::NoidHandControl hand_node(robot_nh, &hw);
 #endif
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
-
   double period = hw.getPeriod();
   controller_manager::ControllerManager cm(&hw, nh);
 
