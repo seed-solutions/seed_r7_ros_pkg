@@ -1,16 +1,21 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 
-#include "mover_robot_hardware.h"
+#include "seed-mover_hardware.h"
 
 using namespace mover;
 using namespace navigation;
+using namespace mover_robot_hardware;
+
 
 //////////////////////////////////////////////////
 /// @brief constructor
 /// @param _nh ROS Node Handle
-MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh) 
-                          : nh_(_nh), vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), base_spinner_(1, &base_queue_), base_config_()
+MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw) 
+                          : vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), base_spinner_(1, &base_queue_)
 {
+
+  hw_ = _in_hw;
+  nh_ = _nh;
   prev_cmd_.linear.x = 0;
   prev_cmd_.linear.y = 0;
   prev_cmd_.angular.z = 0;
@@ -64,7 +69,7 @@ MoverRobotHW::~MoverRobotHW()
 
 //////////////////////////////////////////////////
 /// @brief control with cmd_vel
-void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
+void MoverRobotHW::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 {
   ros::Time now = ros::Time::now();
   ROS_DEBUG("cmd_vel: %f %f %f",
@@ -84,9 +89,7 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
     double acc_z = (_cmd_vel->angular.z - vth_) / dt;
 
     ROS_DEBUG("vel_acc: %f %f %f", acc_x, acc_y, acc_z);
-#define MAX_ACC_X 3.0
-#define MAX_ACC_Y 3.0
-#define MAX_ACC_Z 3.0
+
     if (acc_x >   MAX_ACC_X) acc_x =   MAX_ACC_X;
     if (acc_x < - MAX_ACC_X) acc_x = - MAX_ACC_X;
     if (acc_y >   MAX_ACC_Y) acc_y =   MAX_ACC_Y;
@@ -110,9 +113,9 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 
     // convert velocity to wheel
     // need to declarion check
-    VelocityToWheel(vx_, vy_, vth_, int_vel);
+    velocityToWheel(vx_, vy_, vth_, int_vel);
 
-    writeWheel(wheel_names_, int_vel, ros_rate_);
+    hw_->writeWheel(int_vel, ros_rate_);
 
     //update time_stamp_
     time_stamp_ = now;
@@ -128,9 +131,8 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 //////////////////////////////////////////////////
 /// @brief safety stopper when msg is not reached
 ///  for more than `safe_duration_` [s]
-void MoverRobotHW::SafetyCheckCallback(const ros::TimerEvent& _event)
+void MoverRobotHW::safetyCheckCallback(const ros::TimerEvent& _event)
 {
-  boost::mutex::scoped_lock lk(base_mtx_);
   if((ros::Time::now() - time_stamp_).toSec() >= safe_duration_ && servo_) {
     std::vector<int16_t> int_vel(num_of_wheels_);
     
@@ -139,7 +141,8 @@ void MoverRobotHW::SafetyCheckCallback(const ros::TimerEvent& _event)
     for (size_t i = 0; i < num_of_wheels_; i++) {
       int_vel[i] = 0;
     }
-    hw_->writeWheel(wheel_names_, int_vel, ros_rate_);
+    hw_->writeWheel(int_vel, ros_rate_);
+    
 
     servo_ = false;
     hw_->stopWheelServo();
@@ -148,7 +151,7 @@ void MoverRobotHW::SafetyCheckCallback(const ros::TimerEvent& _event)
 
 //////////////////////////////////////////////////
 /// @brief odometry publisher
-void MoverRobotHW::CalculateOdometry(const ros::TimerEvent& _event)
+void MoverRobotHW::calculateOdometry(const ros::TimerEvent& _event)
 {
   current_time_ = ros::Time::now();
 
@@ -203,22 +206,9 @@ void MoverRobotHW::CalculateOdometry(const ros::TimerEvent& _event)
   last_time_ = current_time_;
 }
 
-void MoverRobotHW::writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec) {
-    mutex_lower_.lock();
-    
-   
-    for (size_t j = 0; j < _vel.size(); ++j) {
-      if (joint_to_wheel_indices[j] >= 0) {
-        wheel_vector[static_cast<size_t>(joint_to_wheel_indices[j])] = _vel[j];
-      }
-    }
-    uint16_t time_csec = static_cast<uint16_t>(_tm_sec * 100.0);
-    controller_lower_->set_wheel_velocity(wheel_vector, time_csec);
 
-    mutex_lower_.unlock();
-  }
 
-void MoverRobotHW::VelocityToWheel(double _linear_x, double _linear_y, double _angular_z,
+void MoverRobotHW::velocityToWheel(double _linear_x, double _linear_y, double _angular_z,
                            std::vector<int16_t>& _wheel_vel) 
 {
     float dx, dy, dtheta, theta;

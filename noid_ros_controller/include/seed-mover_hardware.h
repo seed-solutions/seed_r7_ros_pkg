@@ -12,10 +12,6 @@
 #include <ros/callback_queue.h>
 #include <ros/subscribe_options.h>
 
-//#include <actionlib/server/simple_action_server.h>
-//#include <move_base_msgs/MoveBaseAction.h>
-//#include <move_base_msgs/MoveBaseFeedback.h>
-//#include <move_base_msgs/MoveBaseResult.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
@@ -76,28 +72,20 @@ struct states
 /// is sample of implementation.
 class MoverRobotHW
 {
- public: explicit MoverRobotHW(const ros::NodeHandle& _nh);
+ public: explicit MoverRobotHW(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw);
 
  public: ~MoverRobotHW();
 
- public: void CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel);
+ public: void cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel);
 
- public: void SafetyCheckCallback(const ros::TimerEvent& _event);
+ public: void safetyCheckCallback(const ros::TimerEvent& _event);
 
- public: void CalculateOdometry(const ros::TimerEvent& _event);
+ public: void calculateOdometry(const ros::TimerEvent& _event);
 
- public: void VelocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel);
- public: void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
+ public: void velocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel);
 
   /// @param node handle
  private: ros::NodeHandle nh_;
-
-  /// @param names of wheel joints
- private: std::vector<std::string> joint_names_wheels_;
-
-  /// @param number of wheels
- private: int num_of_wheels_;
- 
 
   /// @param rate for move base action
  private: double ros_rate_;
@@ -145,12 +133,11 @@ class MoverRobotHW
 
  private: boost::mutex base_mtx_;
   ///
- private: noid::controller::NoidLowerController *hw_;
+ private: noid_robot_hardware::NoidRobotHW *hw_;
 
 };
 
 typedef std::shared_ptr<MoverRobotHW> MoverRobotHWPtr;
-std::shared_ptr<aero::controller::AeroCommand> command_;
 
 }  // mover
 

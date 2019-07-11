@@ -9,6 +9,8 @@ NoidLowerController::NoidLowerController(const std::string& _port)
   ros::param::get("joint_settings/lower/aero_index",aero_index_);
   ros::param::get("joint_settings/lower/ros_index",ros_index_);
   ros::param::get("joint_settings/lower/DOF",DOF_);
+  ros::param::get("joint_settings/lower/DOF_wheel",DOF_wheel_);
+
 
   lower_ = new aero::controller::AeroCommand();
   if(lower_->openPort(_port,BAUDRATE)){
@@ -63,8 +65,44 @@ void NoidLowerController::remapRosToAero(std::vector<int16_t>& _before, std::vec
   }
 }
 
+
+/* -----------   For seed-mover -------------------*/
+//This function is the same sendPosition?
+void NoidLowerController::sendVelocity(uint16_t _time, std::vector<int16_t>& _data)
+{
+  //if(is_open_) raw_data_ = lower_->actuateByVelocity(_time, _data.data());
+  //else raw_data_.assign(_data.begin(), _data.end());
+
+}
+
+void NoidLowerController::servo_command(int16_t _d1)
+{
+  std::vector<uint8_t> dat(DOF_wheel_, 0x7fff);
+  
+  // adding code
+  encode_short_(_d1, &dat[5 + 2 * 2]);
+  encode_short_(_d1, &dat[5 + 3 * 2]);
+  encode_short_(_d1, &dat[5 + 4 * 2]);
+  encode_short_(_d1, &dat[5 + 5 * 2]);
+
+
+  
+  //seed_.send_command(CMD_MOTOR_SRV, 0, dat);
+}
+
+//////////////////////////////////////////////////
+void NoidLowerController::encode_short_(int16_t _value, uint8_t* _raw)
+{
+  uint8_t* bvalue = reinterpret_cast<uint8_t*>(&_value);
+  _raw[0] = bvalue[1];
+  _raw[1] = bvalue[0];
+}
+
 NoidLowerController::~NoidLowerController()
 {
   if(is_open_)lower_->closePort();
 }
+
+
+
 
