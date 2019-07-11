@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="RUN_BRINGUP" default="true" />
+
+  <!--- Run bringup -->
+  <include if="$(arg RUN_BRINGUP)"
+           file="$(find aero_startup)/aero_move_base/launch/wheel_bringup.launch" />
+
+  <!--- Run making map -->
+  <include file="$(find aero_startup)/aero_move_base/launch/making_map_navigation.launch" />
+
+</launch>
