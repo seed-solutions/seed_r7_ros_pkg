@@ -77,7 +77,10 @@ void NoidLowerController::sendVelocity(uint16_t _time, std::vector<int16_t>& _da
 
 void NoidLowerController::servo_command(int16_t _d1)
 {
-  std::vector<uint8_t> dat(DOF_wheel_, 0x7fff);
+  std::vector<uint8_t> dat;
+  dat.reserve(DOF_wheel_);
+  //dat(0x7fff);
+
   
   // adding code
   encode_short_(_d1, &dat[5 + 2 * 2]);
