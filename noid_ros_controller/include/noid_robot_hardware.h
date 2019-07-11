@@ -68,6 +68,7 @@
 #define MAX_ACC_Y 3.0
 #define MAX_ACC_Z 3.0
 
+
 using namespace noid;
 using namespace controller;
 using namespace common;
@@ -95,6 +96,7 @@ public:
   void startWheelServo();
   void stopWheelServo();
 
+
 protected:
   // Methods used to control a joint.
   enum ControlMethod {EFFORT, POSITION, POSITION_PID, VELOCITY, VELOCITY_PID};
@@ -102,6 +104,7 @@ protected:
 
   unsigned int number_of_angles_;
   unsigned int number_of_wheels_;
+
 
   hardware_interface::JointStateInterface    js_interface_;
   hardware_interface::PositionJointInterface pj_interface_;
@@ -120,8 +123,6 @@ protected:
   std::vector<double> joint_effort_command_;
 
   std::vector<std::string> joint_list_wheels_;
-
-
 
   std::vector<double> prev_ref_positions_;
   std::vector<int16_t> upper_act_strokes_;

@@ -16,6 +16,7 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh, noid_robot_hardware::Noid
 
   hw_ = _in_hw;
   nh_ = _nh;
+
   prev_cmd_.linear.x = 0;
   prev_cmd_.linear.y = 0;
   prev_cmd_.angular.z = 0;
@@ -27,7 +28,7 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh, noid_robot_hardware::Noid
   nh_.getParam("mover_base_param/_num_of_wheels", num_of_wheels_);
   nh_.getParam("mover_base_param/_wheels_names", wheel_names_);
 
- 
+
   servo_ = false;
   current_time_ = ros::Time::now();
   last_time_ = current_time_;
@@ -59,6 +60,7 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh, noid_robot_hardware::Noid
     for(int i = 0; i < number_of_angles_; i++) {
       if(i < joint_names_wheels_.size() ) joint_list_wheels_[i] = joint_names_wheels_[i];
     }
+
 }
 
 //////////////////////////////////////////////////
@@ -70,6 +72,7 @@ MoverRobotHW::~MoverRobotHW()
 //////////////////////////////////////////////////
 /// @brief control with cmd_vel
 void MoverRobotHW::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
+
 {
   ros::Time now = ros::Time::now();
   ROS_DEBUG("cmd_vel: %f %f %f",
@@ -117,6 +120,7 @@ void MoverRobotHW::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 
     hw_->writeWheel(int_vel, ros_rate_);
 
+
     //update time_stamp_
     time_stamp_ = now;
     prev_cmd_ = *_cmd_vel;
@@ -133,6 +137,7 @@ void MoverRobotHW::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 ///  for more than `safe_duration_` [s]
 void MoverRobotHW::safetyCheckCallback(const ros::TimerEvent& _event)
 {
+
   if((ros::Time::now() - time_stamp_).toSec() >= safe_duration_ && servo_) {
     std::vector<int16_t> int_vel(num_of_wheels_);
     
