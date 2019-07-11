@@ -15,7 +15,8 @@
        xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
+
+  <xacro:include filename="$(find noid_description)/robots/common.xacro" />
   
   <xacro:macro name="virtual_lifter" params="base_link x_max x_min z_max z_min">
     
