@@ -37,6 +37,7 @@ namespace noid
         int DOF_;
         int DOF_wheel_;
 
+
       protected:
         aero::controller::AeroCommand *lower_;
         const static uint32_t BAUDRATE = 1000000;   

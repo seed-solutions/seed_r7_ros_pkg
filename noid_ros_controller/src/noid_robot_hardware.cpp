@@ -85,6 +85,7 @@ namespace noid_robot_hardware
     number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
     number_of_wheels_ = joint_names_wheels_.size();
 
+
     joint_list_.resize(number_of_angles_);
     for(int i = 0; i < number_of_angles_; i++) {
       if(i < joint_names_upper_.size() ) joint_list_[i] = joint_names_upper_[i];
@@ -97,6 +98,7 @@ namespace noid_robot_hardware
     }
 
   
+
     prev_ref_positions_.resize(number_of_angles_);
     initialized_flag_ = false;
 
@@ -204,7 +206,8 @@ namespace noid_robot_hardware
     std::vector<double> act_positions;
     act_positions.resize(number_of_angles_);
     //aero::common::Stroke2Angle(act_positions, act_strokes);
-    if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
+
+    if(robot_model == "typeF") typef::Stroke2Angle(act_positions, act_strokes);
     else ROS_ERROR("Not defined robot model, please check robot_model_name");
 
 
@@ -313,7 +316,6 @@ namespace noid_robot_hardware
     }
     mutex_upper_.unlock();
     mutex_lower_.unlock();
-   
 
     // read
     readPos(time, period, false);
@@ -346,4 +348,5 @@ void NoidRobotHW::stopWheelServo() {
 }
 
 }
+
 

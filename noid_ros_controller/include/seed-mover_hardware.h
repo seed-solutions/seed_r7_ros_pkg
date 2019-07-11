@@ -84,6 +84,7 @@ class MoverRobotHW
 
  public: void velocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel);
 
+
   /// @param node handle
  private: ros::NodeHandle nh_;
 
@@ -135,6 +136,7 @@ class MoverRobotHW
   ///
  private: noid_robot_hardware::NoidRobotHW *hw_;
 
+
 };
 
 typedef std::shared_ptr<MoverRobotHW> MoverRobotHWPtr;
@@ -142,5 +144,6 @@ typedef std::shared_ptr<MoverRobotHW> MoverRobotHWPtr;
 }  // mover
 
 }  //navigation
+
 
 #endif

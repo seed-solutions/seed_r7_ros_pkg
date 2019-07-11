@@ -11,7 +11,6 @@ NoidLowerController::NoidLowerController(const std::string& _port)
   ros::param::get("joint_settings/lower/DOF",DOF_);
   ros::param::get("joint_settings/lower/DOF_wheel",DOF_wheel_);
 
-
   lower_ = new aero::controller::AeroCommand();
   if(lower_->openPort(_port,BAUDRATE)){
     ROS_INFO("%s is connected", _port.c_str());
@@ -101,11 +100,10 @@ void NoidLowerController::encode_short_(int16_t _value, uint8_t* _raw)
   _raw[1] = bvalue[0];
 }
 
+
 NoidLowerController::~NoidLowerController()
 {
   if(is_open_)lower_->closePort();
 }
-
-
 
 
