@@ -1,0 +1,14 @@
+wheelbaseparam:
+  radius: 0.076
+  Radius: 0.300822
+  max_velocity: 90.0  # deg/s
+  ktheta: -5.58199
+  kv: 13.1579
+  ros_rate: 0.05
+  odom_rate: 0.02
+  safe_rate: 0.5
+  safe_duration: 1.0
+  num_of_wheels: 4
+  wheel_names: ["can_front_l_wheel", "can_front_r_wheel","can_rear_l_wheel", "can_rear_r_wheel"]
+          
+      

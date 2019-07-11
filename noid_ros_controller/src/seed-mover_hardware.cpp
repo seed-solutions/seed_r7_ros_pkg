@@ -1,17 +1,21 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 
-#include "mover_robot_hardware.h"
+#include "seed-mover_hardware.h"
 
+using namespace mover;
+using namespace navigation;
 using namespace mover_robot_hardware;
+
 
 //////////////////////////////////////////////////
 /// @brief constructor
 /// @param _nh ROS Node Handle
-MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh,
-                           noid::controller::NoidLowerController *_in_hw) :
-  nh_(_nh),
-  vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), base_spinner_(1, &base_queue_), base_config_()
+MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw) 
+                          : vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), base_spinner_(1, &base_queue_)
 {
+
+  hw_ = _in_hw;
+  nh_ = _nh;
   prev_cmd_.linear.x = 0;
   prev_cmd_.linear.y = 0;
   prev_cmd_.angular.z = 0;
@@ -23,8 +27,7 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh,
   nh_.getParam("mover_base_param/_num_of_wheels", num_of_wheels_);
   nh_.getParam("mover_base_param/_wheels_names", wheel_names_);
 
-  hw_ = _in_hw;
-  
+ 
   servo_ = false;
   current_time_ = ros::Time::now();
   last_time_ = current_time_;
@@ -49,6 +52,13 @@ MoverRobotHW::MoverRobotHW(const ros::NodeHandle& _nh,
 
   odom_timer_ = nh_.createTimer(ros::Duration(odom_rate_),
                                 &MoverRobotHW::CalculateOdometry, this);
+  //joint_list
+  number_of_wheels_ = joint_names_wheels_.size(); 
+
+  joint_list_wheels_.resize(number_of_wheels_);
+    for(int i = 0; i < number_of_angles_; i++) {
+      if(i < joint_names_wheels_.size() ) joint_list_wheels_[i] = joint_names_wheels_[i];
+    }
 }
 
 //////////////////////////////////////////////////
@@ -59,7 +69,7 @@ MoverRobotHW::~MoverRobotHW()
 
 //////////////////////////////////////////////////
 /// @brief control with cmd_vel
-void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
+void MoverRobotHW::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 {
   ros::Time now = ros::Time::now();
   ROS_DEBUG("cmd_vel: %f %f %f",
@@ -79,9 +89,7 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
     double acc_z = (_cmd_vel->angular.z - vth_) / dt;
 
     ROS_DEBUG("vel_acc: %f %f %f", acc_x, acc_y, acc_z);
-#define MAX_ACC_X 3.0
-#define MAX_ACC_Y 3.0
-#define MAX_ACC_Z 3.0
+
     if (acc_x >   MAX_ACC_X) acc_x =   MAX_ACC_X;
     if (acc_x < - MAX_ACC_X) acc_x = - MAX_ACC_X;
     if (acc_y >   MAX_ACC_Y) acc_y =   MAX_ACC_Y;
@@ -105,9 +113,9 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 
     // convert velocity to wheel
     // need to declarion check
-    NoidLowerController::VelocityToWheel(vx_, vy_, vth_, int_vel);
+    velocityToWheel(vx_, vy_, vth_, int_vel);
 
-    hw_->writeWheel(wheel_names_, int_vel, ros_rate_);
+    hw_->writeWheel(int_vel, ros_rate_);
 
     //update time_stamp_
     time_stamp_ = now;
@@ -123,9 +131,8 @@ void MoverRobotHW::CmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 //////////////////////////////////////////////////
 /// @brief safety stopper when msg is not reached
 ///  for more than `safe_duration_` [s]
-void MoverRobotHW::SafetyCheckCallback(const ros::TimerEvent& _event)
+void MoverRobotHW::safetyCheckCallback(const ros::TimerEvent& _event)
 {
-  boost::mutex::scoped_lock lk(base_mtx_);
   if((ros::Time::now() - time_stamp_).toSec() >= safe_duration_ && servo_) {
     std::vector<int16_t> int_vel(num_of_wheels_);
     
@@ -134,7 +141,8 @@ void MoverRobotHW::SafetyCheckCallback(const ros::TimerEvent& _event)
     for (size_t i = 0; i < num_of_wheels_; i++) {
       int_vel[i] = 0;
     }
-    hw_->writeWheel(wheel_names_, int_vel, ros_rate_);
+    hw_->writeWheel(int_vel, ros_rate_);
+    
 
     servo_ = false;
     hw_->stopWheelServo();
@@ -143,7 +151,7 @@ void MoverRobotHW::SafetyCheckCallback(const ros::TimerEvent& _event)
 
 //////////////////////////////////////////////////
 /// @brief odometry publisher
-void MoverRobotHW::CalculateOdometry(const ros::TimerEvent& _event)
+void MoverRobotHW::calculateOdometry(const ros::TimerEvent& _event)
 {
   current_time_ = ros::Time::now();
 
@@ -196,6 +204,46 @@ void MoverRobotHW::CalculateOdometry(const ros::TimerEvent& _event)
   odom_pub_.publish(odom);
 
   last_time_ = current_time_;
+}
+
+
+
+void MoverRobotHW::velocityToWheel(double _linear_x, double _linear_y, double _angular_z,
+                           std::vector<int16_t>& _wheel_vel) 
+{
+    float dx, dy, dtheta, theta;
+    float v1, v2, v3, v4;
+    int16_t FR_wheel, RR_wheel, FL_wheel, RL_wheel;
+    theta = 0.0;  // this means angle in local coords, so always 0
+
+    float cos_theta = cos(theta);
+    float sin_theta = sin(theta);
+
+    // change dy and dx, because of between ROS and vehicle direction
+    dy = (_linear_x * cos_theta - _linear_y * sin_theta);
+    dx = (_linear_x * sin_theta + _linear_y * cos_theta);
+    dtheta = _angular_z;  // desirede angular velocity
+
+    // calculate wheel velocity
+    v1 = ktheta * dtheta +
+      kv * ((-cos_theta + sin_theta) * dx + (-cos_theta - sin_theta) * dy);
+    v2 = ktheta * dtheta +
+      kv * ((-cos_theta - sin_theta) * dx + ( cos_theta - sin_theta) * dy);
+    v3 = ktheta * dtheta +
+      kv * (( cos_theta - sin_theta) * dx + ( cos_theta + sin_theta) * dy);
+    v4 = ktheta * dtheta +
+      kv * (( cos_theta + sin_theta) * dx + (-cos_theta + sin_theta) * dy);
+
+    //[rad/sec] -> [deg/sec]
+    FR_wheel = static_cast<int16_t>(v1 * (180 / M_PI));
+    RR_wheel = static_cast<int16_t>(v4 * (180 / M_PI));
+    FL_wheel = static_cast<int16_t>(v2 * (180 / M_PI));
+    RL_wheel = static_cast<int16_t>(v3 * (180 / M_PI));
+
+    _wheel_vel[0] = FL_wheel;
+    _wheel_vel[1] = FR_wheel;
+    _wheel_vel[2] = RL_wheel;
+    _wheel_vel[3] = RR_wheel;
 }
 
 

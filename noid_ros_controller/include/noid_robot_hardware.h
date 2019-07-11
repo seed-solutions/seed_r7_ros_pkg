@@ -64,6 +64,10 @@
 
 #include <mutex>
 
+#define MAX_ACC_X 3.0
+#define MAX_ACC_Y 3.0
+#define MAX_ACC_Z 3.0
+
 using namespace noid;
 using namespace controller;
 using namespace common;
@@ -83,16 +87,21 @@ public:
   virtual void write(const ros::Time& time, const ros::Duration& period);
 
   void readPos(const ros::Time& time, const ros::Duration& period, bool update);
-  void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
   double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
 
   void handScript(uint16_t _sendnum, uint16_t _script);
+
+  void writeWheel(std::vector<int16_t> &_vel, double _tm_sec);
+  void startWheelServo();
+  void stopWheelServo();
+
 protected:
   // Methods used to control a joint.
   enum ControlMethod {EFFORT, POSITION, POSITION_PID, VELOCITY, VELOCITY_PID};
   enum JointType {NONE, PRISMATIC, ROTATIONAL, CONTINUOUS, FIXED};
 
   unsigned int number_of_angles_;
+  unsigned int number_of_wheels_;
 
   hardware_interface::JointStateInterface    js_interface_;
   hardware_interface::PositionJointInterface pj_interface_;
@@ -110,10 +119,15 @@ protected:
   std::vector<double> joint_velocity_command_;
   std::vector<double> joint_effort_command_;
 
+  std::vector<std::string> joint_list_wheels_;
+
+
 
   std::vector<double> prev_ref_positions_;
   std::vector<int16_t> upper_act_strokes_;
   std::vector<int16_t> lower_act_strokes_;
+
+  std::vector<int16_t> wheels_act_vel_;
 
   boost::shared_ptr<NoidUpperController> controller_upper_;
   boost::shared_ptr<NoidLowerController> controller_lower_;
@@ -132,8 +146,11 @@ protected:
 
   std::vector<std::string> joint_names_upper_;
   std::vector<std::string> joint_names_lower_;
+  std::vector<std::string> joint_names_wheels_;
   std::string robot_model;
   
+
+ 
 
 };
 
