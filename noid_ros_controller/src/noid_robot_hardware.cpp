@@ -204,7 +204,7 @@ namespace noid_robot_hardware
     std::vector<double> act_positions;
     act_positions.resize(number_of_angles_);
     //aero::common::Stroke2Angle(act_positions, act_strokes);
-    if(robot_model == "typef") typef::Stroke2Angle(act_positions, act_strokes);
+    if(robot_model == "typeF") typef::Stroke2Angle(act_positions, act_strokes);
     else ROS_ERROR("Not defined robot model, please check robot_model_name");
 
 
