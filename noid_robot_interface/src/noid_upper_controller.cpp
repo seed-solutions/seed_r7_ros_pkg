@@ -28,16 +28,12 @@ NoidUpperController::NoidUpperController(const std::string& _port)
 
 void NoidUpperController::getPosition()
 {
-  boost::mutex::scoped_lock lock(ctrl_mtx_);
-
   if(is_open_) raw_data_ = upper_->getPosition(0);
 }
 
 
 void NoidUpperController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
 {
-  boost::mutex::scoped_lock lock(ctrl_mtx_);
-
   if(is_open_) raw_data_ = upper_->actuateByPosition(_time, _data.data());
   else raw_data_.assign(_data.begin(), _data.end());
 }
@@ -68,14 +64,15 @@ void NoidUpperController::remapRosToAero(std::vector<int16_t>& _before, std::vec
   }
 }
 
-#if 1
-void NoidUpperController::script(uint16_t _sendnum, uint16_t _script) 
+void NoidUpperController::setCurrent(uint8_t _number, uint8_t _max, uint8_t _down) 
 {
-    //boost::mutex::scoped_lock lock(ctrl_mtx_);
-
-    upper_->runScript(_sendnum, _script);
+    if(is_open_)upper_->setCurrent(_number, _max, _down);
 }
-#endif
+
+void NoidUpperController::runScript(uint8_t _number, uint16_t _script) 
+{
+    if(is_open_)upper_->runScript(_number, _script);
+}
 
 
 NoidUpperController::~NoidUpperController()

@@ -18,7 +18,8 @@ namespace noid
         void sendPosition(uint16_t _time, std::vector<int16_t>& _data);
         void remapAeroToRos(std::vector<int16_t>& _before, std::vector<int16_t>& _after);
         void remapRosToAero(std::vector<int16_t>& _before, std::vector<int16_t>& _after);
-        void script(uint16_t _sendnum, uint16_t _script);
+        void setCurrent(uint8_t _number, uint8_t _max, uint8_t _down);
+        void runScript(uint8_t _number, uint16_t _script);
 
         bool is_open_;
         std::vector<int16_t> raw_data_;
@@ -32,8 +33,6 @@ namespace noid
       protected: 
         aero::controller::AeroCommand *upper_;
         const static uint32_t BAUDRATE = 1000000;
-        boost::mutex ctrl_mtx_;
-
       
     };
 

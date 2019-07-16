@@ -1,8 +1,0 @@
-## position where executing command
-string position
-## command type
-string script
-## power???
-int16 power
----
-string result
