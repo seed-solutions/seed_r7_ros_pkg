@@ -38,7 +38,6 @@
 */
 
 #include "noid_robot_hardware.h"
-#include "std_msgs/Float32.h"
 
 #include <thread>
 
@@ -157,13 +156,6 @@ namespace noid_robot_hardware
     registerInterface(&pj_interface_);
 
     return true;
-  }
-
-  void NoidRobotHW::handScript(uint16_t _sendnum, uint16_t _script) {
-    mutex_upper_.lock();
-    controller_upper_->script(_sendnum, _script);
-    ROS_INFO("sendnum : %d, script : %d", _sendnum, _script);
-    mutex_upper_.unlock();
   }
 
   void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
@@ -313,6 +305,21 @@ namespace noid_robot_hardware
     // read
     readPos(time, period, false);
     return;
+  }
+
+/////////////////////////////////////
+// specific functions are below:  ///
+/////////////////////////////////////
+  void NoidRobotHW::runHandScript(uint8_t _number, uint16_t _script, uint8_t _current) {
+    mutex_upper_.lock();
+    if(_script == 2){
+      controller_upper_->runScript(_number, 4);
+      usleep(20 * 1000);
+      controller_upper_->setCurrent(_number, _current, _current);
+    }
+    controller_upper_->runScript(_number, _script);
+    ROS_INFO("sendnum : %d, script : %d", _number, _script);
+    mutex_upper_.unlock();
   }
 
 }

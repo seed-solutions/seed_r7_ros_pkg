@@ -1,102 +1,71 @@
-#include <ros/ros.h>
-#include <noid_ros_controller/GraspControl.h>
-
 #include <noid_hand_controller.h>
 
-using namespace noid_ros_controller;
 using namespace noid;
 using namespace grasp;
 
 
-NoidHandControl::NoidHandControl(const ros::NodeHandle& _nh, 
-                                noid_robot_hardware::NoidRobotHW *_in_hw):hand_right_num_(0),hand_left_num_(0)
+NoidHandController::NoidHandController(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw)
+:right_number_(0),left_number_(0)
 {
-  ROS_INFO("grasp_server_start");
+  ROS_INFO("hand_control_server start");
 
   hw_ = _in_hw;
   nh_ = _nh;
   grasp_control_server_ = nh_.advertiseService("hand_control",
-                                                &NoidHandControl::GraspControlCallback,this);
+                                                &NoidHandController::HandControlCallback,this);
 
   if(nh_.hasParam("/noid_hand_controller/right_hand")) 
   {
-    nh_.getParam("/noid_hand_controller/right_hand", hand_right_num_);
+    nh_.getParam("/noid_hand_controller/right_hand", right_number_);
   }
   if(nh_.hasParam("/noid_hand_controller/left_hand")) 
   {
-    nh_.getParam("/noid_hand_controller/left_hand", hand_left_num_);
+    nh_.getParam("/noid_hand_controller/left_hand", left_number_);
   }
 
   //initialize script cancel on right_hand
-  hw_->handScript(hand_right_num_, script_cancel);
+  hw_->runHandScript(right_number_, SCRIPT_CANCEL,0);
   //initialize script cancel on left_hand
-  hw_->handScript(hand_left_num_, script_cancel);
+  hw_->runHandScript(left_number_, SCRIPT_CANCEL,0);
     
   ROS_INFO("Initialized Handcontroller");
 }   
 
-NoidHandControl::~NoidHandControl()
+NoidHandController::~NoidHandController()
 {
 
 }
 
-bool NoidHandControl::GraspControlCallback(noid_ros_controller::GraspControl::Request&  _req,
-                                   noid_ros_controller::GraspControl::Response& _res) 
+bool NoidHandController::HandControlCallback(noid_ros_controller::HandControl::Request&  _req,
+                                   noid_ros_controller::HandControl::Response& _res) 
 {
-   ROS_INFO("Grasp callback start");
-   
-   if(_req.position == "right")
-   {
-           // return if cancel script
-      if (_req.script == "cancel") {
-        SelectHandScript(_req.script, hand_right_num_ ,script_cancel, _req.power);
-      } 
-      else if (_req.script == "grasp") {
-        SelectHandScript(_req.script, hand_right_num_ ,script_grasp, _req.power);
-        ros::Duration(2.8).sleep(); // wait 2.8 seconds, as script takes max 2.8 seconds!
-      } 
-      else if (_req.script == "ungrasp") {
-        SelectHandScript(_req.script, hand_right_num_ ,script_ungrasp, _req.power);
-        ros::Duration(2.7).sleep(); // wait 2.7 seconds, as script takes max 2.7 seconds!
-      }
-      else
-      {
-        ROS_ERROR("please input string_type or valid name");
-        _res.result = "service call failed";
-      }
-   }
-   else if(_req.position == "left")
-   {
-      // return if cancel script
-      if (_req.script == "cancel") {
-        SelectHandScript(_req.script, hand_left_num_ ,script_cancel, _req.power);
-      } else if (_req.script == "grasp") {
-        SelectHandScript(_req.script, hand_left_num_ ,script_grasp, _req.power);
-        ros::Duration(2.8).sleep(); // wait 2.8 seconds, as script takes max 2.8 seconds!
-      } else if (_req.script == "ungrasp") {
-        SelectHandScript(_req.script, hand_left_num_ ,script_ungrasp, _req.power);
-        ros::Duration(2.7).sleep(); // wait 2.7 seconds, as script takes max 2.7 seconds!
-      }
-      else
-      {
-        ROS_ERROR("please input string_type or valid name");
-        _res.result = "service call failed";
-      }
-   }
-   ROS_INFO("End Grasp");
-   return true;
-   
- 
+  uint8_t send_number;
+  uint16_t script_number;
+
+  ROS_INFO("Grasp callback start");
+
+  //position
+  if(_req.position == "right") send_number = right_number_;
+  else if(_req.position == "left")  send_number = left_number_;
+  else {
+    ROS_ERROR("please input \"right\" or \"left\". ");
+    _res.result = "service call failed";
+    return false;
+  }
+
+  //script
+  if(_req.script == "grasp") script_number = SCRIPT_GRASP;
+  else if(_req.script == "ungrasp") script_number = SCRIPT_UNGRASP;
+  else if(_req.script == "cancel") script_number = SCRIPT_CANCEL;
+  else {
+    ROS_ERROR("please input \"grasp\", \"ungrasp\" or \"cancel\".");
+    _res.result = "service call failed";
+    return false;
+  }
+
+  ROS_INFO("motion: %s", _req.script.c_str());
+  hw_->runHandScript(send_number, script_number, _req.current);
+
+  ROS_INFO("End Grasp");
+  return true;
 }
-
-void NoidHandControl::SelectHandScript(std::string _motion, int16_t _hand_type, int16_t _hand_scriptnum, int16_t _power)
-{
-      ROS_INFO("handscript: setMaxSingleCurrent");
-      //hw_->setMaxSingleCurrent(_hand_type, _power);
-      ROS_INFO("motion: %s", _motion.c_str());
-      hw_->handScript(_hand_type, _hand_scriptnum);
-  
-}
-
-
-

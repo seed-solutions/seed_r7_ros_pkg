@@ -29,7 +29,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_service_files(
    FILES
-   GraspControl.srv
+   HandControl.srv
 )
 generate_messages(
   DEPENDENCIES

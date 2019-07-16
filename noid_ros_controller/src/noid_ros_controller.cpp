@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 #endif
 
 #if 1 /// add grasp
-  noid::grasp::NoidHandControl hand_node(robot_nh, &hw);
+  noid::grasp::NoidHandController hand_node(robot_nh, &hw);
 #endif
 
   ros::AsyncSpinner spinner(1);

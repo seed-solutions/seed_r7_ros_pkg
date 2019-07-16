@@ -1,0 +1,5 @@
+string position   # right or left hand
+string script     # script number
+uint8 current     # grasping current setting[%]
+---
+string result
