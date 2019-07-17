@@ -80,9 +80,6 @@ namespace noid_robot_hardware
     controller_upper_.reset(new NoidUpperController(port_upper));
     controller_lower_.reset(new NoidLowerController(port_lower));
 
-    //command_.reset(new aero::controller::AeroCommand);
-
-
     // joint list
     number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
 
@@ -310,16 +307,31 @@ namespace noid_robot_hardware
 /////////////////////////////////////
 // specific functions are below:  ///
 /////////////////////////////////////
-  void NoidRobotHW::runHandScript(uint8_t _number, uint16_t _script, uint8_t _current) {
+  void NoidRobotHW::runHandScript(uint8_t _number, uint16_t _script, uint8_t _current)
+  {
     mutex_upper_.lock();
     if(_script == 2){
       controller_upper_->runScript(_number, 4);
-      usleep(20 * 1000);
+      usleep(20 * 1000);    //magic number
       controller_upper_->setCurrent(_number, _current, _current);
     }
     controller_upper_->runScript(_number, _script);
     ROS_INFO("sendnum : %d, script : %d", _number, _script);
     mutex_upper_.unlock();
+  }
+
+  void NoidRobotHW::writeWheel(std::vector<int16_t> &_vel)
+  {
+    mutex_lower_.lock();
+    controller_lower_->sendVelocity(_vel);
+    mutex_lower_.unlock();
+  }
+
+   void NoidRobotHW::onWheelServo(bool _value)
+  {
+    mutex_lower_.lock();
+    controller_lower_->onServo(_value);
+    mutex_lower_.unlock();
   }
 
 }

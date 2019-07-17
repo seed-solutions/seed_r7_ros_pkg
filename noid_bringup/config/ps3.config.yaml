@@ -1,0 +1,10 @@
+axis_linear: 1    #left axis up/down
+scale_linear: 0.3
+scale_linear_turbo: 0.6
+
+axis_angular: 0    #left axis left/right
+scale_angular: 0.6
+scale_angular_turbo: 1.0
+
+enable_button: 10       #L1 button
+enable_turbo_button: 8  #L2 button

@@ -97,7 +97,7 @@ target_link_libraries(noid_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIE
 
 
 ## Executable
-add_executable(${PROJECT_NAME} src/noid_ros_controller.cpp src/noid_robot_hardware.cpp )
+add_executable(${PROJECT_NAME} src/noid_ros_controller.cpp src/noid_robot_hardware.cpp src/noid_mover_controller.cpp)
 target_link_libraries(${PROJECT_NAME} noid_controllers noid_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 

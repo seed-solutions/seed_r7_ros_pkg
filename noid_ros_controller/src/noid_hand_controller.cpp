@@ -11,17 +11,10 @@ NoidHandController::NoidHandController(const ros::NodeHandle& _nh, noid_robot_ha
 
   hw_ = _in_hw;
   nh_ = _nh;
-  grasp_control_server_ = nh_.advertiseService("hand_control",
-                                                &NoidHandController::HandControlCallback,this);
+  grasp_control_server_ = nh_.advertiseService("hand_control", &NoidHandController::HandControlCallback,this);
 
-  if(nh_.hasParam("/noid_hand_controller/right_hand")) 
-  {
-    nh_.getParam("/noid_hand_controller/right_hand", right_number_);
-  }
-  if(nh_.hasParam("/noid_hand_controller/left_hand")) 
-  {
-    nh_.getParam("/noid_hand_controller/left_hand", left_number_);
-  }
+  if(nh_.hasParam("/joint_settings/hand/right_number")) nh_.getParam("/joint_settings/hand/right_number", right_number_);
+  if(nh_.hasParam("/joint_settings/hand/left_number")) nh_.getParam("/joint_settings/hand/left_number", left_number_);
 
   //initialize script cancel on right_hand
   hw_->runHandScript(right_number_, SCRIPT_CANCEL,0);

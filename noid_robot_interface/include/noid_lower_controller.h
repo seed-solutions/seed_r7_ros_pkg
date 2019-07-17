@@ -18,6 +18,8 @@ namespace noid
         void sendPosition(uint16_t _time, std::vector<int16_t>& _data);
         void remapAeroToRos(std::vector<int16_t>& _before, std::vector<int16_t>& _after);
         void remapRosToAero(std::vector<int16_t>& _before, std::vector<int16_t>& _after);
+        void sendVelocity(std::vector<int16_t>& _data);
+        void onServo(bool _value);
 
         bool is_open_;
         std::vector<int16_t> raw_data_;
@@ -27,6 +29,9 @@ namespace noid
         std::vector<int> aero_index_;
         std::vector<int> ros_index_;
         int DOF_;
+
+        std::vector<int> wheel_aero_index_;
+        std::vector<int> wheel_ros_index_;
 
       protected:
         aero::controller::AeroCommand *lower_;
