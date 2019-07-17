@@ -3,9 +3,9 @@
 
   <!-- The following included files set up definitions of parts of the robot body -->
   <!-- wraps upperbody and hand-->
-  <xacro:include filename="$(find noid_description)/robots/typeF/noid-upper.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/typeF/noid-upper.urdf.xacro" />
   <!-- wraps lifter and wheels-->
-  <xacro:include filename="$(find noid_description)/robots/typeF/noid-wheels.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/typeF/noid-wheels.urdf.xacro" />
  
  <!-- Now we can start using the macros included above to define the actual robot -->
  <xacro:noid-upper/>
