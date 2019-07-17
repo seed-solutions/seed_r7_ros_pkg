@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 
 <!-- XML namespaces -->
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="noid_upper_typef" xmlns:xacro="http://ros.org/wiki/xacro">
 
-
-  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
   <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
 
   <xacro:property name="wrist_sensor_offset" value="0.0"/>
