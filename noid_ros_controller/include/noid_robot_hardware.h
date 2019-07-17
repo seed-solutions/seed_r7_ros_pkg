@@ -86,7 +86,14 @@ public:
   void writeWheel(const std::vector< std::string> &_names, const std::vector<int16_t> &_vel, double _tm_sec);
   double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
 
+  //--specific functions--
   void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
+  void writeWheel(std::vector<int16_t> &_vel);
+  //void startWheelServo();
+  //void stopWheelServo();
+  void onWheelServo(bool _value);
+  //----------------------
+
 protected:
   // Methods used to control a joint.
   enum ControlMethod {EFFORT, POSITION, POSITION_PID, VELOCITY, VELOCITY_PID};

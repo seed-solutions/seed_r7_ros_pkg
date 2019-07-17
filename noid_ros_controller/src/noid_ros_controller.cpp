@@ -40,12 +40,10 @@
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
 #include "noid_robot_hardware.h"
-//#include "mover_robot_hardware.h"
+#include "noid_mover_controller.h"
 #include "noid_hand_controller.h"
 
 using namespace noid_robot_hardware;
-//using namespace mover_robot_hardware;
-
 
 #define MAIN_THREAD_PERIOD_MS    50000 //50ms (20Hz)
 #define NSEC_PER_SEC    1000000000L
@@ -64,14 +62,9 @@ int main(int argc, char** argv)
     exit(1);
   }
 
-
-#if 1 /// add base
-  //MoverRobotHW base_node(nh, &hw);
-#endif
-
-#if 1 /// add grasp
+  //add extra controller
+  noid::mover::NoidMoverController mover_node(nh, &hw);
   noid::grasp::NoidHandController hand_node(robot_nh, &hw);
-#endif
 
   ros::AsyncSpinner spinner(1);
   spinner.start();

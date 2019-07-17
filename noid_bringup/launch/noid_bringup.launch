@@ -2,9 +2,6 @@
 <launch>
   <arg name ="robot_model" default="typeF"/>
 
-  <rosparam command="load" file="$(find noid_bringup)/config/hand_cfg.yaml" />
-
-
   <node pkg="noid_ros_controller" type="noid_ros_controller" name="noid_ros_controller" output="screen"  >
     <param name="port_lower" value="/dev/aero_lower" />
     <param name="port_upper" value="/dev/aero_upper" />
@@ -22,6 +19,7 @@
   <!-- controller settings / load from yaml -->
   <rosparam command="load" file="$(find noid_description)/robots/$(arg robot_model)/controller_settings.yaml" />
   <rosparam command="load" file="$(find noid_description)/robots/$(arg robot_model)/joint_settings.yaml" />
+  <rosparam command="load" file="$(find noid_bringup)/config/extra_controller_settings.yaml" />
 
   <group if="$(eval robot_model== 'typeF')">
     <include file="$(find noid_typef_moveit_config)/launch/planning_context.launch">
@@ -38,6 +36,4 @@
                              head_controller waist_controller lifter_controller
                              lhand_controller rhand_controller" />
 
-  <!-- depend on robot type -->
-  <!--node name="noid_hand_controller" pkg="noid_ros_controller" type="noid_hand_controller_node" output="screen" /-->
 </launch>

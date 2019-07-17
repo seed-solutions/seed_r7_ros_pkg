@@ -26,6 +26,11 @@ NoidUpperController::NoidUpperController(const std::string& _port)
   
 }
 
+NoidUpperController::~NoidUpperController()
+{
+  if(is_open_) upper_->closePort();
+}
+
 void NoidUpperController::getPosition()
 {
   if(is_open_) raw_data_ = upper_->getPosition(0);
@@ -73,10 +78,3 @@ void NoidUpperController::runScript(uint8_t _number, uint16_t _script)
 {
     if(is_open_)upper_->runScript(_number, _script);
 }
-
-
-NoidUpperController::~NoidUpperController()
-{
-  if(is_open_) upper_->closePort();
-}
-
