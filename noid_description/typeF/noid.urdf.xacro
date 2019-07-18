@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="SEED-Noid-typeFCET" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="SEED-Noid-Mover-typeF" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- The following included files set up definitions of parts of the robot body -->
   <!-- wraps upperbody and hand-->
