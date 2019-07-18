@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: noid_description
+    relative_path: typeF/noid.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/SEED-Noid-Mover-typeF.srdf
+  CONFIG:
+    author_name: Yasuto Shiigi
+    author_email: y.shiigi@thk.co.jp
+    generated_timestamp: 1563424092

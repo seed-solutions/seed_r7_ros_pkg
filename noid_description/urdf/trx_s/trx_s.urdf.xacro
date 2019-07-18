@@ -1,14 +1,10 @@
 <?xml version="1.0"?>
 
 <!-- XML namespaces -->
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="trx_s" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
+  <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:include filename="$(find noid_description)/urdf/gazebo.xacro" />
-  <property name="M_PI" value="3.1415926535897931" />
 
   <xacro:macro name="trx_s" params="prefix:=r reflect:=1 disable_mesh:=false">
   <!-- ============================   Hand(trx_s)   ============================ -->

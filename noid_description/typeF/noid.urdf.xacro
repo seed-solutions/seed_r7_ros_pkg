@@ -1,17 +1,11 @@
 <?xml version="1.0"?>
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       name="SEED-Noid-typeFCET" >
+<robot name="SEED-Noid-Mover-typeF" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- The following included files set up definitions of parts of the robot body -->
-  <!-- common variables -->
-  <xacro:include filename="$(find noid_description)/robots/typeF/common.xacro" />
   <!-- wraps upperbody and hand-->
-  <xacro:include filename="$(find noid_description)/robots/typeF/noid-upper.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/typeF/noid-upper.urdf.xacro" />
   <!-- wraps lifter and wheels-->
-  <xacro:include filename="$(find noid_description)/robots/typeF/noid-wheels.urdf.xacro" />
+  <xacro:include filename="$(find noid_description)/typeF/noid-wheels.urdf.xacro" />
  
  <!-- Now we can start using the macros included above to define the actual robot -->
  <xacro:noid-upper/>
