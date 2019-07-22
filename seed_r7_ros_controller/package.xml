@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>seed_r7_ros_controller</name>
+  <version>0.0.0</version>
+  <description>The seed_r7_ros_controller package</description>
+
+   <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/</url>
+  <url type="bugtracker">https://github.com/seed-solutions/noid-ros-pkg/issues </url>
+  <url type="repository">https://github.com/noid_moveit_config </url>
+
+  <author>Yohei Kakiuchi</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>control_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>move_base_msgs</depend>
+  <depend>message_generation</depend>
+  <depend>tf</depend>
+  <depend>realtime_tools</depend>
+  <depend>control_toolbox</depend>
+  <depend>controller_manager</depend>
+  <depend>hardware_interface</depend>
+  <depend>transmission_interface</depend>
+  <depend>joint_limits_interface</depend>
+  <depend>joint_trajectory_controller</depend>
+  <depend>joint_state_controller</depend>
+  <depend>angles</depend>
+  <depend>pluginlib</depend>
+  <depend>urdf</depend>
+
+
+  <depend>seed_r7_robot_interface</depend>
+
+  <depend>rostest</depend>
+
+  <depend>seed_solutions_sdk</depend>
+
+  <export>
+    <!--gazebo_ros_control plugin="${prefix}/robot_hw_sim_plugins.xml"/-->
+  </export>
+</package>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>seed_r7_robot_interface</name>
+  <version>0.0.0</version>
+  <description>The seed_r7_robot_interface package</description>
+
+  <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>control_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>move_base_msgs</depend>
+  <depend>tf</depend>
+  <depend>message_generation</depend>
+  <depend>roslib</depend>
+  <depend>gmapping</depend>
+  <depend>message_runtime</depend>
+  <depend>amcl</depend>
+  <depend>move_base</depend>
+  <depend>map_server</depend>
+  <depend>eband_local_planner</depend>
+  <depend>teb_local_planner</depend>
+  <depend>urg_node</depend>
+  <depend>seed_r7_description</depend>
+
+  <depend>seed_solutions_sdk</depend>
+
+  <export/>
+</package>

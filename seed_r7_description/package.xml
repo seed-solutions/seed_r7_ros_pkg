@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>seed_r7_description</name>
+  <version>0.0.5</version>
+  <description>The seed_r7_description package</description>
+
+  <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>xacro</build_depend>
+  <exec_depend>xacro</exec_depend>
+</package>

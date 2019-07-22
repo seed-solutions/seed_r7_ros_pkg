@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find seed_r7_bringup)/launch/seed_r7_bringup.launch" />
+  <include file="$(find seed_r7_typef_moveit_config)/launch/move_group.launch" />
+  <include file="$(find seed_r7_typef_moveit_config)/launch/moveit_rviz.launch" >
+    <arg name="config" value="True"/>
+  </include>
+</launch>

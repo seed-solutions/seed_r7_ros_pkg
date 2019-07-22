@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <!--- Run gmapping -->
-  <include file="$(find noid_mover_navigation)/launch/gmapping.launch" />
-
-  <!--- Run Move Base -->
-  <include file="$(find noid_mover_navigation)/launch/move_base.launch" />
-</launch>
