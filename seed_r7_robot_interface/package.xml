@@ -31,7 +31,7 @@
   <depend>urg_node</depend>
   <depend>seed_r7_description</depend>
 
-  <depend>seed_solutions_sdk</depend>
+  <depend>seed_smartactuator_sdk</depend>
 
   <export/>
 </package>

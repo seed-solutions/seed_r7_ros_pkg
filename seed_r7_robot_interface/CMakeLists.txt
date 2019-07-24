@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   message_generation
   seed_r7_description
-  seed_solutions_sdk
+  seed_smartactuator_sdk
 )
 if(NOT catkin_LIBRARIES)
   message(FATAL "catkin required but not supported")
@@ -36,7 +36,7 @@ catkin_package(
   DEPENDS
   INCLUDE_DIRS include
   LIBRARIES seed_r7_controllers
-  seed_solutions_sdk
+  seed_smartactuator_sdk
 )
 
 

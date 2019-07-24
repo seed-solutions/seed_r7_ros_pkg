@@ -43,7 +43,7 @@
 
   <depend>rostest</depend>
 
-  <depend>seed_solutions_sdk</depend>
+  <depend>seed_smartactuator_sdk</depend>
 
   <export>
     <!--gazebo_ros_control plugin="${prefix}/robot_hw_sim_plugins.xml"/-->
