@@ -189,9 +189,18 @@ namespace noid_robot_hardware
     std::vector<double> act_positions;
     act_positions.resize(number_of_angles_);
     //aero::common::Stroke2Angle(act_positions, act_strokes);
-    if(robot_model == "typeF") typef::Stroke2Angle(act_positions, act_strokes);
-    else ROS_ERROR("Not defined robot model, please check robot_model_name");
-
+    if(robot_model == "typeF") 
+    {
+      typef::Stroke2Angle(act_positions, act_strokes);
+    }
+    else if(robot_model == "typeFCETy") 
+    {
+      typefcety::Stroke2Angle(act_positions, act_strokes);
+    }
+    else 
+    {
+      ROS_ERROR("Not defined robot model, please check robot_model_name");
+    }
 
     double tm = period.toSec();
     for(unsigned int j=0; j < number_of_angles_; j++) {
@@ -265,9 +274,18 @@ namespace noid_robot_hardware
     std::vector<int16_t> ref_strokes(controller_upper_->DOF_ + controller_lower_->DOF_);
 
     //aero::common::Angle2Stroke(ref_strokes, ref_positions);
-    if(robot_model == "typeF") typef::Angle2Stroke(ref_strokes, ref_positions);
-    else ROS_ERROR("Not defined robot model, please check robot_model_name");
-
+    if(robot_model == "typeF") 
+    {
+      typef::Angle2Stroke(ref_strokes, ref_positions);
+    }
+    else if(robot_model == "typeFCETy")
+    {
+      typefcety::Angle2Stroke(ref_strokes, ref_positions);
+    }
+    else 
+    {
+      ROS_ERROR("Not defined robot model, please check robot_model_name");
+    }
     std::vector<int16_t> snt_strokes(ref_strokes);
     noid::common::MaskRobotCommand(snt_strokes, mask_positions);
 

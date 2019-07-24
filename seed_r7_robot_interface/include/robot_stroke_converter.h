@@ -14,6 +14,15 @@ namespace typef
     (std::vector<double>& _angles, const std::vector<int16_t> _strokes);
 }
 
+namespace typefcety
+{
+    void Angle2Stroke
+    (std::vector<int16_t>& _strokes, const std::vector<double> _angles);
+    void Stroke2Angle
+    (std::vector<double>& _angles, const std::vector<int16_t> _strokes);
+}
+
+
 
 
 #endif

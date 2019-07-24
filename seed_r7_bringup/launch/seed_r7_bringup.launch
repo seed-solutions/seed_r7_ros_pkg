@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name ="robot_model" default="typeF"/>
+  <arg name ="robot_model" default="typeFCETy"/>
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen"  >
     <param name="port_lower" value="/dev/aero_lower" />
@@ -26,6 +26,12 @@
       <arg name="load_robot_description" value="true"/>
     </include>
   </group>
+  <group if="$(eval robot_model== 'typeFCETy')">
+    <include file="$(find seed_r7_typefcety_moveit_config)/launch/planning_context.launch">
+      <arg name="load_robot_description" value="true"/>
+    </include>
+  </group>
+
 
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
