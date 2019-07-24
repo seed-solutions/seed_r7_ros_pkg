@@ -20,7 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   angles
   urdf
   seed_r7_robot_interface
-  seed_solutions_sdk
+  seed_smartactuator_sdk
 
 #  pluginlib
 )
