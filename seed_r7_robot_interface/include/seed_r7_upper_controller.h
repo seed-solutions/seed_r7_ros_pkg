@@ -2,7 +2,7 @@
 #define _NOID_UPPER_CONTROLLER_H_
 
 #include <ros/ros.h>
-#include "seed_solutions_sdk/aero3_command.h"
+#include "seed_smartactuator_sdk/aero3_command.h"
 
 namespace noid
 {
