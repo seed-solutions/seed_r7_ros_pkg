@@ -8,3 +8,11 @@ find_package(catkin REQUIRED)
 # find_package(Boost REQUIRED COMPONENTS system)
 
 catkin_package()
+
+if (CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(tests/roslaunch_seed_r7_typef.xml)
+endif()
+
+install(DIRECTORY meshes urdf typeF
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
