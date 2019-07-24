@@ -10,5 +10,12 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <depend>move_base</depend>
+  <depend>amcl</depend>
+  <depend>teleop_twist_joy</depend>
+  <depend>joy</depend>
+  <depend>urg_node</depend>
+  <depend>gmapping</depend>
+  <depend>map_server</depend>
 
 </package>

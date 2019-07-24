@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <group ns="make_map">
+    <include file="$(find seed_r7_navigation)/launch/wheel_with_making_map.launch" />
+  </group>
+
+  <group ns="static_map">
+    <include file="$(find seed_r7_navigation)/launch/wheel_with_static_map.launch" />
+  </group>
+</launch>
