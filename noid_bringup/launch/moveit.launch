@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <include file="$(find noid_bringup)/launch/noid_bringup.launch" />
-  <include file="$(find noid_typef_moveit_config)/launch/move_group.launch" />
-  <include file="$(find noid_typef_moveit_config)/launch/moveit_rviz.launch" >
-    <arg name="config" value="True"/>
-  </include>
-</launch>
