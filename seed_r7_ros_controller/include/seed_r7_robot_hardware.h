@@ -59,14 +59,13 @@
 // AERO
 #include "seed_r7_upper_controller.h"
 #include "seed_r7_lower_controller.h"
-#include "robot_stroke_converter.h"
-#include "stroke_mask.h"
+#include "stroke_converter.h"
 
 #include <mutex>
 
 using namespace noid;
 using namespace controller;
-using namespace common;
+//using namespace common;
 
 namespace noid_robot_hardware
 {
@@ -88,7 +87,7 @@ public:
 
   //--specific functions--
   void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
-  void writeWheel(std::vector<int16_t> &_vel);
+  void turnWheel(std::vector<int16_t> &_vel);
   //void startWheelServo();
   //void stopWheelServo();
   void onWheelServo(bool _value);
@@ -138,6 +137,8 @@ protected:
   std::vector<std::string> joint_names_upper_;
   std::vector<std::string> joint_names_lower_;
   std::string robot_model;
+
+  StrokeConverter *stroke_converter_;
 };
 
 typedef boost::shared_ptr<NoidRobotHW> NoidRobotHWPtr;
