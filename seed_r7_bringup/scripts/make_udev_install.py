@@ -3,28 +3,76 @@
 import os
 import sys
 import tempfile
-import subprocess 
+from subprocess import *
+import subprocess
+import shutil
 
 class UdevInstall:
-    def __init__(self):
-        a = 3
     def setup_serial(self): 
         choice = raw_input("install setserial yes(y) or none(n) : ")
         if choice in ['y', 'ye', 'yes']:
             subprocess.call('sudo apt-get install setserial')
+   
     def usb_id_write(self):
-        with tempfile.TemporaryFile() as tf:
-            tf.write('#aero_controller\n')
-            tf.write('SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper"\n')
-            tf.write('SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower"')
-            tf.seek(0)
-            lines = tf.readlines()
-            print lines[1].split(",")
+        with tempfile.NamedTemporaryFile() as tf:
+            self.filename = tf.name
+
+            header = '#aero_controller\n'
+            upper_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper"\n'
+            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower"'
+            
+            print("Please insert upper USB to PC port")
             choice = raw_input("yes(y) or none(n) : ")
             if choice in ['y', 'yes']:
-                print "test"
-                
-               
+               upper = upper_string.split(',')
+
+               print upper[3]
+               #prev_upper_id = upper.strip("ATTRS{serial}==")
+               #p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
+               #p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               p1 = subprocess.Popen(['udevadm','info','-n', '/dev/tty0'], stdout=subprocess.PIPE)
+               p2 = subprocess.Popen(['grep', 'MAJOR'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               p1.stdout.close()
+
+               out, err = p2.communicate()
+               upper[3] = "ATTRS{serial}==" + out.split('=')[1].strip()
+               print(upper[3])
+               print(upper)
+               upper_string = (','.join(upper))
+               print(upper_string)
+            
+            print("Please insert lower USB to PC port")
+            choice = raw_input("yes(y) or none(n) : ")
+            if choice in ['y', 'yes']:
+               lower = lower_string.split(',')
+
+               print lower[3]
+               #prev_upper_id = upper.strip("ATTRS{serial}==")
+               #p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
+               #p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               p1 = subprocess.Popen(['udevadm','info','-n', '/dev/tty0'], stdout=subprocess.PIPE)
+               p2 = subprocess.Popen(['grep', 'MAJOR'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               p1.stdout.close()
+
+               out, err = p2.communicate()
+               lower[3] = "ATTRS{serial}==" + out.split('=')[1].strip()
+               print(lower[3])
+               print(lower)
+               lower_string = (','.join(lower))
+               print(lower_string)
+            
+            print "write tempfile"
+            tf.write(header)
+            tf.write(upper_string)
+            tf.write(lower_string)
+            tf.seek(0)
+            print(tf.read())
+            subprocess.call(['sudo', 'cp',  self.filename, '/etc/udev/rules.d/test.rules'])
+
+                  
 if __name__ == "__main__" :
     ui = UdevInstall()   
+    ui.setup_serial()
     ui.usb_id_write()
+
+    
