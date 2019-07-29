@@ -76,9 +76,11 @@ namespace noid_robot_hardware
     ROS_INFO("lower_port: %s", port_lower.c_str());
     ROS_INFO("cycle: %f [ms], overlap_scale %f", CONTROL_PERIOD_US_*0.001, OVERLAP_SCALE_);
 
-    // create controllersd
+    // create controllers
     controller_upper_.reset(new NoidUpperController(port_upper));
     controller_lower_.reset(new NoidLowerController(port_lower));
+    // stroke converter
+    stroke_converter_ = new StrokeConverter(robot_hw_nh, robot_model);
 
     // joint list
     number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
@@ -175,12 +177,12 @@ namespace noid_robot_hardware
 
     // whole body strokes
     std::vector<int16_t> act_strokes(0);
-    std::vector<int16_t> act_upper_strokes (controller_upper_->DOF_);
-    std::vector<int16_t> act_lower_strokes (controller_lower_->DOF_);
+    std::vector<int16_t> act_upper_strokes;
+    std::vector<int16_t> act_lower_strokes;
 
     //remap
-    controller_upper_->remapAeroToRos(controller_upper_->raw_data_,act_upper_strokes);
-    controller_lower_->remapAeroToRos(controller_lower_->raw_data_,act_lower_strokes);
+    controller_upper_->remapAeroToRos(act_upper_strokes, controller_upper_->raw_data_);
+    controller_lower_->remapAeroToRos(act_lower_strokes, controller_lower_->raw_data_);
 
     act_strokes.insert(act_strokes.end(),act_upper_strokes.begin(),act_upper_strokes.end());
     act_strokes.insert(act_strokes.end(),act_lower_strokes.begin(),act_lower_strokes.end());
@@ -188,10 +190,9 @@ namespace noid_robot_hardware
     // whole body positions from strokes
     std::vector<double> act_positions;
     act_positions.resize(number_of_angles_);
-    //aero::common::Stroke2Angle(act_positions, act_strokes);
-    if(robot_model == "typeF") typef::Stroke2Angle(act_positions, act_strokes);
-    else ROS_ERROR("Not defined robot model, please check robot_model_name");
 
+    // convert from stroke to angle
+    stroke_converter_->Stroke2Angle(act_positions, act_strokes);
 
     double tm = period.toSec();
     for(unsigned int j=0; j < number_of_angles_; j++) {
@@ -262,25 +263,25 @@ namespace noid_robot_hardware
       prev_ref_positions_[i] = tmp;
     }
 
-    std::vector<int16_t> ref_strokes(controller_upper_->DOF_ + controller_lower_->DOF_);
-
-    //aero::common::Angle2Stroke(ref_strokes, ref_positions);
-    if(robot_model == "typeF") typef::Angle2Stroke(ref_strokes, ref_positions);
-    else ROS_ERROR("Not defined robot model, please check robot_model_name");
-
+    //convert from angle to stroke
+    std::vector<int16_t> ref_strokes(ref_positions.size());
+    stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
+    
+    // masking
     std::vector<int16_t> snt_strokes(ref_strokes);
-    noid::common::MaskRobotCommand(snt_strokes, mask_positions);
+    for(size_t i = 0; i < ref_strokes.size() ; ++i){
+      if(!mask_positions[i]) snt_strokes[i] = 0x7FFF;
+    }
 
     // split strokes into upper and lower
-    size_t aero_array_size = 30;
-    std::vector<int16_t> upper_strokes(aero_array_size);
-    std::vector<int16_t> lower_strokes(aero_array_size);
+    std::vector<int16_t> upper_strokes;
+    std::vector<int16_t> lower_strokes;
 
     //remap
-    if(controller_upper_->is_open_) controller_upper_->remapRosToAero(snt_strokes, upper_strokes);
-    else controller_upper_->remapRosToAero(ref_strokes, upper_strokes);
-    if(controller_lower_->is_open_) controller_lower_->remapRosToAero(snt_strokes, lower_strokes);
-    else controller_lower_->remapRosToAero(ref_strokes, lower_strokes);
+    if(controller_upper_->is_open_) controller_upper_->remapRosToAero(upper_strokes,snt_strokes);
+    else controller_upper_->remapRosToAero(upper_strokes,ref_strokes);
+    if(controller_lower_->is_open_) controller_lower_->remapRosToAero(lower_strokes,snt_strokes);
+    else controller_lower_->remapRosToAero(lower_strokes,ref_strokes);
 
     uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
 
@@ -320,7 +321,7 @@ namespace noid_robot_hardware
     mutex_upper_.unlock();
   }
 
-  void NoidRobotHW::writeWheel(std::vector<int16_t> &_vel)
+  void NoidRobotHW::turnWheel(std::vector<int16_t> &_vel)
   {
     mutex_lower_.lock();
     controller_lower_->sendVelocity(_vel);

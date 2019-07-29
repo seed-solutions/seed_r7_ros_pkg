@@ -16,22 +16,22 @@ namespace noid
       public: 
         void getPosition();
         void sendPosition(uint16_t _time, std::vector<int16_t>& _data);
-        void remapAeroToRos(std::vector<int16_t>& _before, std::vector<int16_t>& _after);
-        void remapRosToAero(std::vector<int16_t>& _before, std::vector<int16_t>& _after);
+        void remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero);
+        void remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros);
         void sendVelocity(std::vector<int16_t>& _data);
         void onServo(bool _value);
 
         bool is_open_;
         std::vector<int16_t> raw_data_;
-        unsigned int number_of_angles_;
 
+        std::vector<std::string> upper_name_;
         std::vector<std::string> name_;
         std::vector<int> aero_index_;
-        std::vector<int> ros_index_;
-        int DOF_;
+        std::vector<std::pair<int,std::string>> aero_table_;
 
+        std::vector<std::string> wheel_name_;
         std::vector<int> wheel_aero_index_;
-        std::vector<int> wheel_ros_index_;
+        std::vector<std::pair<int,std::string>> wheel_table_;
 
       protected:
         aero::controller::AeroCommand *lower_;

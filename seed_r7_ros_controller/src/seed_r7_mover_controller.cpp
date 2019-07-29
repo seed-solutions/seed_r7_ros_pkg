@@ -103,7 +103,7 @@ void SeedMoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cm
     // need to declarion check
     velocityToWheel(vx_, vy_, vth_, wheel_vel);
 
-    hw_->writeWheel(wheel_vel);
+    hw_->turnWheel(wheel_vel);
 
     //update time_stamp_
     time_stamp_ = now;
@@ -127,7 +127,7 @@ void SeedMoverController::safetyCheckCallback(const ros::TimerEvent& _event)
     for (size_t i = 0; i < num_of_wheels_; i++) {
       wheel_velocity[i] = 0;
     }
-    hw_->writeWheel(wheel_velocity);
+    hw_->turnWheel(wheel_velocity);
 
     servo_on_ = false;
     hw_->onWheelServo(servo_on_);

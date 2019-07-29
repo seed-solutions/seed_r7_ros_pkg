@@ -98,7 +98,7 @@ target_link_libraries(seed_r7_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRA
 
 ## Executable
 add_executable(${PROJECT_NAME} src/seed_r7_ros_controller.cpp src/seed_r7_robot_hardware.cpp src/seed_r7_mover_controller.cpp)
-target_link_libraries(${PROJECT_NAME} seed_r7_controllers seed_r7_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} seed_r7_robot_interface seed_r7_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
 
