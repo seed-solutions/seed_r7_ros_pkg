@@ -78,10 +78,6 @@ sudo cp "$temp_file" /etc/udev/rules.d/90-aero.rules
 
 sudo udevadm control --reload-rules
 
-<<<<<<< HEAD
-trap '
-=======
 trap "
->>>>>>> 13634c5... added make_udev_rules.sh
 rm -f $temp_file
 ' 0
