@@ -1,9 +1,7 @@
 #include "seed_r7_lower_controller.h"
 
-using namespace noid;
-using namespace controller;
 
-NoidLowerController::NoidLowerController(const std::string& _port)
+LowerController::LowerController(const std::string& _port)
 {
   ros::param::get("joint_settings/upper/name",upper_name_);
   ros::param::get("joint_settings/lower/name",name_);
@@ -40,24 +38,24 @@ NoidLowerController::NoidLowerController(const std::string& _port)
 
 }
 
-NoidLowerController::~NoidLowerController()
+LowerController::~LowerController()
 {
   if(is_open_)lower_->closePort();
 }
 
-void NoidLowerController::getPosition()
+void LowerController::getPosition()
 {
   if(is_open_) raw_data_ = lower_->getPosition(0);
 
 }
 
-void NoidLowerController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
+void LowerController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
 {
   if(is_open_) raw_data_ = lower_->actuateByPosition(_time, _data.data());
   else raw_data_.assign(_data.begin(), _data.end());
 }
 
-void NoidLowerController::remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero)
+void LowerController::remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero)
 {
   _ros.resize(name_.size());
   for(size_t i = 0; i < _ros.size(); ++i){
@@ -65,7 +63,7 @@ void NoidLowerController::remapAeroToRos(std::vector<int16_t>& _ros, std::vector
   }
 }
 
-void NoidLowerController::remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros)
+void LowerController::remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros)
 {
   _aero.resize(aero_table_.size());
   for(size_t i = 0; i < _ros.size(); ++i){
@@ -73,7 +71,7 @@ void NoidLowerController::remapRosToAero(std::vector<int16_t>& _aero, std::vecto
   }
 }
 
-void NoidLowerController::sendVelocity(std::vector<int16_t>& _data)
+void LowerController::sendVelocity(std::vector<int16_t>& _data)
 {
   std::vector<int16_t> send_data(wheel_table_.size());
   fill(send_data.begin(),send_data.end(),0x7FFF);
@@ -84,7 +82,7 @@ void NoidLowerController::sendVelocity(std::vector<int16_t>& _data)
   if(is_open_) lower_->actuateBySpeed(send_data.data());
 }
 
-void NoidLowerController::onServo(bool _value)
+void LowerController::onServo(bool _value)
 {
 
   std::vector<uint16_t> data(30);

@@ -41,10 +41,10 @@
 
 #include <thread>
 
-namespace noid_robot_hardware
+namespace robot_hardware
 {
 
-  bool NoidRobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)// add joint list
+  bool RobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)// add joint list
   {
     std::string port_upper("/dev/aero_upper");
     std::string port_lower("/dev/aero_lower");
@@ -77,8 +77,8 @@ namespace noid_robot_hardware
     ROS_INFO("cycle: %f [ms], overlap_scale %f", CONTROL_PERIOD_US_*0.001, OVERLAP_SCALE_);
 
     // create controllers
-    controller_upper_.reset(new NoidUpperController(port_upper));
-    controller_lower_.reset(new NoidLowerController(port_lower));
+    controller_upper_.reset(new UpperController(port_upper));
+    controller_lower_.reset(new LowerController(port_lower));
     // stroke converter
     stroke_converter_ = new StrokeConverter(robot_hw_nh, robot_model);
 
@@ -157,7 +157,7 @@ namespace noid_robot_hardware
     return true;
   }
 
-  void NoidRobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
+  void RobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
   {
 
     mutex_lower_.lock();
@@ -215,12 +215,12 @@ namespace noid_robot_hardware
     return;
   }
 
-  void NoidRobotHW::read(const ros::Time& time, const ros::Duration& period)
+  void RobotHW::read(const ros::Time& time, const ros::Duration& period)
   {
     return;
   }
 
-  void NoidRobotHW::write(const ros::Time& time, const ros::Duration& period)
+  void RobotHW::write(const ros::Time& time, const ros::Duration& period)
   {
     pj_sat_interface_.enforceLimits(period);
 
@@ -308,7 +308,7 @@ namespace noid_robot_hardware
 /////////////////////////////////////
 // specific functions are below:  ///
 /////////////////////////////////////
-  void NoidRobotHW::runHandScript(uint8_t _number, uint16_t _script, uint8_t _current)
+  void RobotHW::runHandScript(uint8_t _number, uint16_t _script, uint8_t _current)
   {
     mutex_upper_.lock();
     if(_script == 2){
@@ -321,14 +321,14 @@ namespace noid_robot_hardware
     mutex_upper_.unlock();
   }
 
-  void NoidRobotHW::turnWheel(std::vector<int16_t> &_vel)
+  void RobotHW::turnWheel(std::vector<int16_t> &_vel)
   {
     mutex_lower_.lock();
     controller_lower_->sendVelocity(_vel);
     mutex_lower_.unlock();
   }
 
-   void NoidRobotHW::onWheelServo(bool _value)
+   void RobotHW::onWheelServo(bool _value)
   {
     mutex_lower_.lock();
     controller_lower_->onServo(_value);

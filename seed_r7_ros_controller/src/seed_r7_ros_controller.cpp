@@ -43,7 +43,7 @@
 #include "seed_r7_mover_controller.h"
 #include "seed_r7_hand_controller.h"
 
-using namespace noid_robot_hardware;
+using namespace robot_hardware;
 
 #define MAIN_THREAD_PERIOD_MS    50000 //50ms (20Hz)
 #define NSEC_PER_SEC    1000000000L
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "seed_r7_ros_controller");
 
-  NoidRobotHW hw;
+  RobotHW hw;
 
   ros::NodeHandle nh;
   ros::NodeHandle robot_nh("~");
@@ -63,8 +63,8 @@ int main(int argc, char** argv)
   }
 
   //add extra controller
-  seed::mover::SeedMoverController mover_node(nh, &hw);
-  noid::grasp::NoidHandController hand_node(robot_nh, &hw);
+  MoverController mover_node(nh, &hw);
+  HandController hand_node(robot_nh, &hw);
 
   ros::AsyncSpinner spinner(1);
   spinner.start();

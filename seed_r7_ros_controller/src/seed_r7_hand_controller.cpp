@@ -1,17 +1,14 @@
 #include <seed_r7_hand_controller.h>
 
-using namespace noid;
-using namespace grasp;
 
-
-NoidHandController::NoidHandController(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw)
+HandController::HandController(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw)
 :right_number_(0),left_number_(0)
 {
   ROS_INFO("hand_control_server start");
-
+ 
   hw_ = _in_hw;
   nh_ = _nh;
-  grasp_control_server_ = nh_.advertiseService("hand_control", &NoidHandController::HandControlCallback,this);
+  grasp_control_server_ = nh_.advertiseService("hand_control", &HandController::HandControlCallback,this);
 
   if(nh_.hasParam("/joint_settings/hand/right_number")) nh_.getParam("/joint_settings/hand/right_number", right_number_);
   if(nh_.hasParam("/joint_settings/hand/left_number")) nh_.getParam("/joint_settings/hand/left_number", left_number_);
@@ -24,12 +21,12 @@ NoidHandController::NoidHandController(const ros::NodeHandle& _nh, noid_robot_ha
   ROS_INFO("Initialized Handcontroller");
 }   
 
-NoidHandController::~NoidHandController()
+HandController::~HandController()
 {
 
 }
 
-bool NoidHandController::HandControlCallback(seed_r7_ros_controller::HandControl::Request&  _req,
+bool HandController::HandControlCallback(seed_r7_ros_controller::HandControl::Request&  _req,
                                    seed_r7_ros_controller::HandControl::Response& _res) 
 {
   uint8_t send_number;
