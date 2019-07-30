@@ -190,25 +190,9 @@ namespace robot_hardware
     // whole body positions from strokes
     std::vector<double> act_positions;
     act_positions.resize(number_of_angles_);
-<<<<<<< HEAD
-    //aero::common::Stroke2Angle(act_positions, act_strokes);
-    if(robot_model == "typeF") 
-    {
-      typef::Stroke2Angle(act_positions, act_strokes);
-    }
-    else if(robot_model == "typeFCETy") 
-    {
-      typefcety::Stroke2Angle(act_positions, act_strokes);
-    }
-    else 
-    {
-      ROS_ERROR("Not defined robot model, please check robot_model_name");
-    }
-=======
 
     // convert from stroke to angle
     stroke_converter_->Stroke2Angle(act_positions, act_strokes);
->>>>>>> 7170f8f53b6c59b265bddb524ecd6302fd55121e
 
     double tm = period.toSec();
     for(unsigned int j=0; j < number_of_angles_; j++) {
@@ -279,29 +263,11 @@ namespace robot_hardware
       prev_ref_positions_[i] = tmp;
     }
 
-<<<<<<< HEAD
-    std::vector<int16_t> ref_strokes(controller_upper_->DOF_ + controller_lower_->DOF_);
-
-    //aero::common::Angle2Stroke(ref_strokes, ref_positions);
-    if(robot_model == "typeF") 
-    {
-      typef::Angle2Stroke(ref_strokes, ref_positions);
-    }
-    else if(robot_model == "typeFCETy")
-    {
-      typefcety::Angle2Stroke(ref_strokes, ref_positions);
-    }
-    else 
-    {
-      ROS_ERROR("Not defined robot model, please check robot_model_name");
-    }
-=======
     //convert from angle to stroke
     std::vector<int16_t> ref_strokes(ref_positions.size());
     stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
     
     // masking
->>>>>>> 7170f8f53b6c59b265bddb524ecd6302fd55121e
     std::vector<int16_t> snt_strokes(ref_strokes);
     for(size_t i = 0; i < ref_strokes.size() ; ++i){
       if(!mask_positions[i]) snt_strokes[i] = 0x7FFF;

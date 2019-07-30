@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name ="robot_model" default="typeFCETy"/>
+  <arg name ="robot_model" default="arm_typeCTy"/>
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen"  >
     <param name="port_lower" value="/dev/aero_lower" />
@@ -31,16 +31,28 @@
       <arg name="load_robot_description" value="true"/>
     </include>
   </group>
-
-
+  <group if="$(eval robot_model== 'arm_typeCTy')">
+    <include file="$(find seed_arm_typec_moveit_config)/launch/planning_context.launch">
+      <arg name="load_robot_description" value="true"/>
+    </include>
+  </group>
 
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
   <!-- spawing joint controllers -->
   <!-- names of controllers depend on robot type (described at controller_settings.yaml) -->
-  <node name="cm_spawner" pkg="controller_manager"
-        type="spawner" args="joint_state_controller larm_controller rarm_controller
+  <group if="$(eval robot_model== 'typeF')">
+    <node name="cm_spawner" pkg="controller_manager"
+          type="spawner" args="joint_state_controller larm_controller rarm_controller
                              head_controller waist_controller lifter_controller
                              lhand_controller rhand_controller" />
+  </group>
+  <group if="$(eval robot_model== 'arm_typeCTy')">
+    <node name="cm_spawner" pkg="controller_manager"
+          type="spawner" args="joint_state_controller  rarm_controller
+                              lifter_controller
+                              rhand_controller" />
+  </group>
+
 
 </launch>

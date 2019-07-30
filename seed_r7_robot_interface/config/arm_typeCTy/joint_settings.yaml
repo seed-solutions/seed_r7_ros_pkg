@@ -1,0 +1,33 @@
+joint_settings:
+  upper:
+    name:
+      - r_shoulder_y_joint
+      - r_shoulder_p_joint
+      - r_elbow_joint
+      - r_wrist_y_joint
+      - r_wrist_p_joint
+      - r_wrist_r_joint
+      - r_hand_y_joint
+      - r_indexbase_joint #passive
+      - r_indexmid_joint #passive
+      - r_indexend_joint #passive
+      - r_thumb_joint
+    aero_index: [0,1,2,3,4,5,12,-1,-1,-1,11] #passive = -1
+
+  hand:
+    right_number: 12  #11+1
+    #left_number: 27   #26+1
+
+  lower:
+    name:
+      - knee_joint
+      - ankle_joint
+    aero_index: [1,0]
+
+  wheel:
+    name:
+      - wheels_body_to_front_left_mecanum_connector   #fixed, not used
+      - wheels_body_to_front_right_mecanum_connector  #fixed, not used
+      - wheels_body_to_rear_left_mecanum_connector    #fixed, not used
+      - wheels_body_to_rear_right_mecanum_connector   #fixed, not used
+    aero_index: [4,2,5,3]

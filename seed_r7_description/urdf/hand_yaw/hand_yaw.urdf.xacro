@@ -6,7 +6,6 @@
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find aero_description)/urdf/common.xacro" />
   <property name="M_PI" value="3.1415926535897931" />
 
   <xacro:macro name="hand_yaw" params="prefix:=r reflect:=1 hand_link disable_mesh:=false">
@@ -17,13 +16,13 @@
     <xacro:unless value="${disable_mesh}"> <visual>
       <origin xyz="0.0 0 0" rpy="0 ${M_PI / 2.0} ${reflect * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/hand_yaw/wrist.dae" scale="1 1 1" />
+        <mesh filename="package://seed_r7_description/meshes/hand_yaw/wrist.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
       <origin xyz="0 0 0" rpy="0 ${M_PI / 2.0} ${reflect * M_PI / 2.0}"/>
       <geometry>
-        <mesh filename="package://aero_description/meshes/hand_yaw/wrist.dae" scale="1 1 1" />
+        <mesh filename="package://seed_r7_description/meshes/hand_yaw/wrist.dae" scale="1 1 1" />
       </geometry>
     </collision> </xacro:unless>
     <inertial>

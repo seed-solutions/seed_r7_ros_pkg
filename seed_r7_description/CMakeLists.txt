@@ -12,6 +12,8 @@ catkin_package()
 if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
   roslaunch_add_file_check(tests/roslaunch_seed_r7_typef.xml)
+  roslaunch_add_file_check(tests/roslaunch_seed_arm_typec.xml)
+
 endif()
 
 install(DIRECTORY meshes urdf typeF

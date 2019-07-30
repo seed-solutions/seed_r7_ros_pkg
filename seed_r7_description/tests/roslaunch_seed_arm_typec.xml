@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <group ns="load_arm_typec__">
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find seed_r7_description)/arm_typeCTy/arm.urdf.xacro'" />
+  </group>
+</launch>

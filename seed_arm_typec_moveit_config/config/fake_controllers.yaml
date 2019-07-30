@@ -1,0 +1,38 @@
+controller_list:
+  - name: fake_rarm_controller
+    joints:
+      - r_shoulder_y_joint
+      - r_shoulder_p_joint
+      - r_elbow_joint
+      - r_wrist_y_joint
+      - r_wrist_p_joint
+      - r_wrist_r_joint
+      - r_hand_y_joint
+  - name: fake_lifter_controller
+    joints:
+      - ankle_joint
+      - knee_joint
+  - name: fake_rhand_controller
+    joints:
+      - r_wrist_r_joint
+      - r_thumb_joint
+  - name: fake_upper_body_controller
+    joints:
+      - r_shoulder_y_joint
+      - r_shoulder_p_joint
+      - r_elbow_joint
+      - r_wrist_y_joint
+      - r_wrist_p_joint
+      - r_wrist_r_joint
+      - r_hand_y_joint
+  - name: fake_whole_body_controller
+    joints:
+      - ankle_joint
+      - knee_joint
+      - r_shoulder_y_joint
+      - r_shoulder_p_joint
+      - r_elbow_joint
+      - r_wrist_y_joint
+      - r_wrist_p_joint
+      - r_wrist_r_joint
+      - r_hand_y_joint
