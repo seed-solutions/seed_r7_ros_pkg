@@ -1,7 +1,7 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 
-#ifndef SEED_MOVER_CONTROLLER_H_
-#define SEED_MOVER_CONTROLLER_H_
+#ifndef MOVER_CONTROLLER_H_
+#define MOVER_CONTROLLER_H_
 
 #include <ros/ros.h>
 #include <ros/callback_queue.h>
@@ -14,10 +14,6 @@
 #include "seed_r7_lower_controller.h"
 #include "seed_r7_robot_hardware.h"
 
-namespace seed
-{
-namespace mover
-{
 
 #define MAX_ACC_X 1.0
 #define MAX_ACC_Y 1.0
@@ -30,11 +26,11 @@ struct pose
   float theta;
 };
 
-class SeedMoverController
+class MoverController
 {
  public: 
-  explicit SeedMoverController(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw);
-  ~SeedMoverController();
+  explicit MoverController(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw);
+  ~MoverController();
 
  private: 
   void cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel);
@@ -64,13 +60,11 @@ class SeedMoverController
   std::vector<int> aero_index_;
 
   boost::mutex base_mtx_;
-  noid_robot_hardware::NoidRobotHW *hw_;
+  robot_hardware::RobotHW *hw_;
 
 };
 
 //typedef std::shared_ptr<NoidMoverController> NoidMoverControllerPtr;
 
-} //mover
-} //seed
 
 #endif

@@ -18,7 +18,7 @@
 
   <!-- controller settings / load from yaml -->
   <rosparam command="load" file="$(find seed_r7_description)/$(arg robot_model)/controller_settings.yaml" />
-  <rosparam command="load" file="$(find seed_r7_description)/$(arg robot_model)/joint_settings.yaml" />
+  <rosparam command="load" file="$(find seed_r7_robot_interface)/config/$(arg robot_model)/joint_settings.yaml" />
   <rosparam command="load" file="$(find seed_r7_bringup)/config/extra_controller_settings.yaml" />
 
   <group if="$(eval robot_model== 'typeF')">
@@ -31,6 +31,7 @@
       <arg name="load_robot_description" value="true"/>
     </include>
   </group>
+
 
 
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

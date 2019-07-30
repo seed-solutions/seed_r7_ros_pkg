@@ -37,8 +37,8 @@
  Author: Yohei Kakiuchi
 */
 
-#ifndef _NOID_ROBOT_HW_H_
-#define _NOID_ROBOT_HW_H_
+#ifndef _ROBOT_HW_H_
+#define _ROBOT_HW_H_
 
 // ros_control
 #include <control_toolbox/pid.h>
@@ -59,24 +59,18 @@
 // AERO
 #include "seed_r7_upper_controller.h"
 #include "seed_r7_lower_controller.h"
-#include "robot_stroke_converter.h"
-#include "stroke_mask.h"
+#include "stroke_converter.h"
 
 #include <mutex>
 
-using namespace noid;
-using namespace controller;
-using namespace common;
-
-namespace noid_robot_hardware
+namespace robot_hardware
 {
-
-class NoidRobotHW : public hardware_interface::RobotHW
+class RobotHW : public hardware_interface::RobotHW
 {
 public:
-  NoidRobotHW() { }
+  RobotHW() { }
 
-  virtual ~NoidRobotHW() {}
+  virtual ~RobotHW() {}
 
   virtual bool init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh);
   virtual void read(const ros::Time& time, const ros::Duration& period);
@@ -88,7 +82,7 @@ public:
 
   //--specific functions--
   void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
-  void writeWheel(std::vector<int16_t> &_vel);
+  void turnWheel(std::vector<int16_t> &_vel);
   //void startWheelServo();
   //void stopWheelServo();
   void onWheelServo(bool _value);
@@ -122,8 +116,8 @@ protected:
   std::vector<int16_t> upper_act_strokes_;
   std::vector<int16_t> lower_act_strokes_;
 
-  boost::shared_ptr<NoidUpperController> controller_upper_;
-  boost::shared_ptr<NoidLowerController> controller_lower_;
+  boost::shared_ptr<UpperController> controller_upper_;
+  boost::shared_ptr<LowerController> controller_lower_;
 
   bool initialized_flag_;
   bool upper_send_enable_;
@@ -138,9 +132,11 @@ protected:
   std::vector<std::string> joint_names_upper_;
   std::vector<std::string> joint_names_lower_;
   std::string robot_model;
+
+  StrokeConverter *stroke_converter_;
 };
 
-typedef boost::shared_ptr<NoidRobotHW> NoidRobotHWPtr;
+typedef boost::shared_ptr<RobotHW> RobotHWPtr;
 }
 
 #endif
