@@ -7,7 +7,8 @@ echo '#aero_controller' >> $temp_file
 echo 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper"' >> "$temp_file"
 echo 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower"' >> "$temp_file"
 
-function setup_serial(){
+function setup_serial()
+{
    echo "install setserial"
    read -p "yes(y) or none(n) : " input
    case $input in
@@ -17,7 +18,8 @@ function setup_serial(){
    esac
 }
 
-function string_check(){
+function string_check()
+{
 if [ -z "$1" ]; then
   return 255
 fi
@@ -35,7 +37,7 @@ case $input in
        echo "Error : not exist prev_upper_id. .tmpfile is broken."
        exit
     fi
-    new_upper_id=$(udevadm info -n /dev/ttyUSB0 | grep SERIAL_SHORT | cut -d "=" -f2)
+    new_upper_id=$(udevadm info -n /dev/ttyUSB0 | grep SERIAL_SHORT | )
     string_check $new_upper_id
 
     sed -i -e "s/$prev_upper_id/$new_upper_id/g" "$temp_file"
