@@ -34,7 +34,7 @@ catkin_package(
   seed_r7_description
   DEPENDS
   INCLUDE_DIRS include
-  LIBRARIES seed_r7_controllers
+  LIBRARIES ${PROJECT_NAME}
   seed_smartactuator_sdk
 )
 
