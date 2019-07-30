@@ -27,6 +27,7 @@
     </include>
   </group>
 
+
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
   <!-- spawing joint controllers -->

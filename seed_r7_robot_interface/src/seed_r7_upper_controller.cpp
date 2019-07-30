@@ -1,9 +1,7 @@
 #include "seed_r7_upper_controller.h"
 
-using namespace noid;
-using namespace controller;
 
-NoidUpperController::NoidUpperController(const std::string& _port)
+UpperController::UpperController(const std::string& _port)
 {
   ros::param::get("joint_settings/upper/name",name_);
   ros::param::get("joint_settings/upper/aero_index",aero_index_);
@@ -31,24 +29,24 @@ NoidUpperController::NoidUpperController(const std::string& _port)
   
 }
 
-NoidUpperController::~NoidUpperController()
+UpperController::~UpperController()
 {
   if(is_open_) upper_->closePort();
 }
 
-void NoidUpperController::getPosition()
+void UpperController::getPosition()
 {
   if(is_open_) raw_data_ = upper_->getPosition(0);
 }
 
 
-void NoidUpperController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
+void UpperController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
 {
   if(is_open_) raw_data_ = upper_->actuateByPosition(_time, _data.data());
   else raw_data_.assign(_data.begin(), _data.end());
 }
 
-void NoidUpperController::remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero)
+void UpperController::remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero)
 {
   _ros.resize(name_.size());
   for(size_t i = 0; i < _ros.size(); ++i){
@@ -57,7 +55,7 @@ void NoidUpperController::remapAeroToRos(std::vector<int16_t>& _ros, std::vector
 }
 
 
-void NoidUpperController::remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros)
+void UpperController::remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros)
 {
   _aero.resize(aero_table_.size());
   for(size_t i = 0; i < _ros.size(); ++i){
@@ -65,12 +63,12 @@ void NoidUpperController::remapRosToAero(std::vector<int16_t>& _aero, std::vecto
   }
 }
 
-void NoidUpperController::setCurrent(uint8_t _number, uint8_t _max, uint8_t _down) 
+void UpperController::setCurrent(uint8_t _number, uint8_t _max, uint8_t _down) 
 {
     if(is_open_)upper_->setCurrent(_number, _max, _down);
 }
 
-void NoidUpperController::runScript(uint8_t _number, uint16_t _script) 
+void UpperController::runScript(uint8_t _number, uint16_t _script) 
 {
     if(is_open_)upper_->runScript(_number, _script);
 }

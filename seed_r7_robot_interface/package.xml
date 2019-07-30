@@ -23,12 +23,7 @@
   <depend>roslib</depend>
   <depend>gmapping</depend>
   <depend>message_runtime</depend>
-  <depend>amcl</depend>
-  <depend>move_base</depend>
-  <depend>map_server</depend>
-  <depend>eband_local_planner</depend>
-  <depend>teb_local_planner</depend>
-  <depend>urg_node</depend>
+
   <depend>seed_r7_description</depend>
 
   <depend>seed_smartactuator_sdk</depend>

@@ -1,10 +1,8 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 #include "seed_r7_mover_controller.h"
 
-using namespace seed;
-using namespace mover;
 
-SeedMoverController::SeedMoverController(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw) :
+MoverController::MoverController(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) :
   nh_(_nh),hw_(_in_hw),
   vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0)//, base_spinner_(1, &base_queue_)
 {
@@ -38,23 +36,23 @@ SeedMoverController::SeedMoverController(const ros::NodeHandle& _nh, noid_robot_
   base_spinner_.start();
 */
 
-  cmd_vel_sub_ = nh_.subscribe("/cmd_vel",1, &SeedMoverController::cmdVelCallback,this);
-  safe_timer_ = nh_.createTimer(ros::Duration(safety_rate_), &SeedMoverController::safetyCheckCallback, this);
+  cmd_vel_sub_ = nh_.subscribe("/cmd_vel",1, &MoverController::cmdVelCallback,this);
+  safe_timer_ = nh_.createTimer(ros::Duration(safety_rate_), &MoverController::safetyCheckCallback, this);
 
   // for odometory
   odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 1);
-  odom_timer_ = nh_.createTimer(ros::Duration(odom_rate_), &SeedMoverController::calculateOdometry, this);
+  odom_timer_ = nh_.createTimer(ros::Duration(odom_rate_), &MoverController::calculateOdometry, this);
 }
 
 //////////////////////////////////////////////////
 /// @brief destructor
-SeedMoverController::~SeedMoverController()
+MoverController::~MoverController()
 {
 }
 
 //////////////////////////////////////////////////
 /// @brief control with cmd_vel
-void SeedMoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
+void MoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 {
   ros::Time now = ros::Time::now();
   ROS_DEBUG("cmd_vel: %f %f %f", _cmd_vel->linear.x, _cmd_vel->linear.y, _cmd_vel->angular.z);
@@ -117,7 +115,7 @@ void SeedMoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cm
 //////////////////////////////////////////////////
 /// @brief safety stopper when msg is not reached
 ///  for more than `safety_duration_` [s]
-void SeedMoverController::safetyCheckCallback(const ros::TimerEvent& _event)
+void MoverController::safetyCheckCallback(const ros::TimerEvent& _event)
 {
   if((ros::Time::now() - time_stamp_).toSec() >= safety_duration_ && servo_on_) {
     std::vector<int16_t> wheel_velocity(num_of_wheels_);
@@ -136,7 +134,7 @@ void SeedMoverController::safetyCheckCallback(const ros::TimerEvent& _event)
 
 //////////////////////////////////////////////////
 /// @brief odometry publisher
-void SeedMoverController::calculateOdometry(const ros::TimerEvent& _event)
+void MoverController::calculateOdometry(const ros::TimerEvent& _event)
 {
   current_time_ = ros::Time::now();
 
@@ -191,7 +189,7 @@ void SeedMoverController::calculateOdometry(const ros::TimerEvent& _event)
   last_time_ = current_time_;
 }
 
-void SeedMoverController::velocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel) 
+void MoverController::velocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel) 
 {
     float dx, dy, dtheta, theta;
     float v1, v2, v3, v4;

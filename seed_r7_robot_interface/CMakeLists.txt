@@ -7,7 +7,6 @@ project(seed_r7_robot_interface)
 find_package(catkin REQUIRED COMPONENTS
   rospy roscpp tf std_msgs sensor_msgs roslib
   trajectory_msgs geometry_msgs nav_msgs control_msgs
-  move_base_msgs
   message_generation
   seed_r7_description
   seed_smartactuator_sdk

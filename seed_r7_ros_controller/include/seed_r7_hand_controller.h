@@ -1,25 +1,21 @@
-#ifndef _NOID_HAND_CONTROLLER_H_
-#define _NOID_HAND_CONTROLLER_H_
+#ifndef _HAND_CONTROLLER_H_
+#define _HAND_CONTROLLER_H_
 
 #include "seed_r7_robot_hardware.h"
 #include <seed_r7_ros_controller/HandControl.h>
 
-namespace noid
-{
-namespace grasp
-{
 
-class NoidHandController
+class HandController
 {
 public: 
-  NoidHandController(const ros::NodeHandle& _nh, noid_robot_hardware::NoidRobotHW *_in_hw);
-  ~NoidHandController();
+  HandController(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw);
+  ~HandController();
 
   bool HandControlCallback(seed_r7_ros_controller::HandControl::Request& _req, seed_r7_ros_controller::HandControl::Response& _res); 
 
 private: 
   ros::ServiceServer grasp_control_server_;
-  noid_robot_hardware::NoidRobotHW *hw_;
+  robot_hardware::RobotHW *hw_;
   ros::NodeHandle nh_;
 
   int right_number_;
@@ -32,7 +28,6 @@ private:
 
 };
 
-}  // grasp
-}  // noid
+
 
 #endif
