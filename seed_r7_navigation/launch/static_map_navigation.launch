@@ -16,3 +16,4 @@
   <include file="$(find seed_r7_navigation)/launch/move_base.launch">
     <arg name="map_file" value="$(arg map_file)" />
   </include>
+</launch>
