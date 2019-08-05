@@ -7,8 +7,8 @@
   </node>
 
   <!-- Run map navigation -->
-  <arg name="map_file" default="$(find seed_r7_navigation)/maps/blank.yaml"/>
-  <arg name="map_localization_file" default="$(find seed_r7_navigation)/maps/blank.yaml"/>
+  <arg name="map_file" default="$(find seed_r7_navigation)/maps/dummy.yaml"/>
+  <arg name="map_localization_file" default="$(find seed_r7_navigation)/maps/dummy.yaml"/>
   <include file="$(find seed_r7_navigation)/launch/static_map_navigation.launch">
     <arg name="map_file" value="$(arg map_file)" />
     <arg name="map_localization_file" value="$(arg map_localization_file)"/>
