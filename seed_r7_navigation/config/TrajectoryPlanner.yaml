@@ -43,3 +43,4 @@ TrajectoryPlannerROS:
   oscillation_reset_dist: 0.25 #How far the robot must travel in meters before oscillation flags are reset (double, default: 0.05)
   escape_reset_dist: 0.1
   escape_reset_theta: 0.1
+
