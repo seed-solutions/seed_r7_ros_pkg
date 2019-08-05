@@ -13,3 +13,5 @@
     <arg name="map_file" value="$(arg map_file)" />
     <arg name="map_localization_file" value="$(arg map_localization_file)"/>
   </include>
+
+</launch>
