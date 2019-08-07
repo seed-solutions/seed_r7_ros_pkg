@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="RUN_BRINGUP" default="true" />
-
-  <!--- Run bringup -->
+  <arg name="RUN_BRINGUP"  default="true"/>
+  
+  <!-- RUN bringup -->
   <include if="$(arg RUN_BRINGUP)"
            file="$(find seed_r7_navigation)/launch/wheel_bringup.launch" />
 
   <!-- Run map navigation -->
-  <arg name="map_file" default="$(find seed_r7_navigation)/maps/map.yaml"/>
-  <arg name="costmap_file" default="$(find seed_r7_navigation)/maps/map.yaml"/>
-  <include file="$(find seed_r7_navigation)/launch/static_map_navigation.launch">
-    <arg name="map_file" value="$(arg map_file)" />
-    <arg name="costmap_file" value="$(arg costmap_file)"/>
-  </include>
+  <arg name="map_file"    default="$(find seed_r7_navigation)/maps/map.yaml" />
+  <arg name="map_localization_file"    default="$(find seed_r7_navigation)/maps/map.yaml" />
 
+  <!--- Run Move Base -->
+  <include file="$(find seed_r7_navigation)/launch/static_map_navigation.launch">
+    <arg name="map_file"              value="$(arg map_file)" />
+    <arg name="map_localization_file" value="$(arg map_localization_file)"/>
+  </include>
 </launch>
