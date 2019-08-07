@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Run the map server -->
-  <arg name="map_file"              default="$(find seed_r7_navigation)/maps/map.yaml"/>
-  <arg name="map_localization_file" default="$(arg map_file)"/>
+  <arg name="RUN_BRINGUP"  default="true"/>
+  
+  <!-- RUN bringup -->
+  <include if="$(arg RUN_BRINGUP)"
+           file="$(find seed_r7_navigation)/launch/wheel_bringup.launch" />
 
-  <node name="map_localization_server" pkg="map_server" type="map_server" args="$(arg map_localization_file)" >
-    <remap from="map" to="map_localization"/>
-  </node>
-  <node name="map_planning_server"     pkg="map_server" type="map_server" args="$(arg map_file)" />
-
-  <!--- Run AMCL -->
-  <include file="$(find seed_r7_navigation)/launch/amcl.launch" />
+  <!-- Run map navigation -->
+  <arg name="map_file"    default="$(find seed_r7_navigation)/maps/map.yaml" />
+  <arg name="map_localization_file"    default="$(find seed_r7_navigation)/maps/map.yaml" />
 
   <!--- Run Move Base -->
-  <include file="$(find seed_r7_navigation)/launch/move_base.launch">
-    <arg name="map_file" value="$(arg map_file)" />
+  <include file="$(find seed_r7_navigation)/launch/static_map_navigation.launch">
+    <arg name="map_file"              value="$(arg map_file)" />
+    <arg name="map_localization_file" value="$(arg map_localization_file)"/>
   </include>
 </launch>
