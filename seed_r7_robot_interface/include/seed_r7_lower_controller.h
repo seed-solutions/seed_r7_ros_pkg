@@ -16,6 +16,8 @@ class LowerController
     void remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros);
     void sendVelocity(std::vector<int16_t>& _data);
     void onServo(bool _value);
+    float getBatteryVoltage();
+    std::string getFirmwareVersion();
 
     bool is_open_;
     std::vector<int16_t> raw_data_;

@@ -52,6 +52,7 @@
 // ROS
 #include <ros/ros.h>
 #include <angles/angles.h>
+#include <std_msgs/Float32.h>
 
 // URDF
 #include <urdf/model.h>
@@ -83,9 +84,8 @@ public:
   //--specific functions--
   void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
   void turnWheel(std::vector<int16_t> &_vel);
-  //void startWheelServo();
-  //void stopWheelServo();
   void onWheelServo(bool _value);
+  void getBatteryVoltage(const ros::TimerEvent& _event);
   //----------------------
 
 protected:
@@ -132,6 +132,9 @@ protected:
   std::vector<std::string> joint_names_upper_;
   std::vector<std::string> joint_names_lower_;
   std::string robot_model;
+
+  ros::Timer bat_vol_timer_;
+  ros::Publisher bat_vol_pub_;
 
   StrokeConverter *stroke_converter_;
 };

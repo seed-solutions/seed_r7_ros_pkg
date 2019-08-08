@@ -17,6 +17,7 @@ class UpperController
     void remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros);
     void setCurrent(uint8_t _number, uint8_t _max, uint8_t _down);
     void runScript(uint8_t _number, uint16_t _script);
+    std::string getFirmwareVersion();
 
     bool is_open_;
     std::vector<int16_t> raw_data_;
