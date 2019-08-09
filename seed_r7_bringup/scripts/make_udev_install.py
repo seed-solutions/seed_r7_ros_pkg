@@ -18,8 +18,8 @@ class UdevInstall:
             self.filename = tf.name
 
             header = '#aero_controller\n'
-            upper_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper", RUN+="/bin/setserial /dev/aero_upper low_latency"\n'
-            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower", RUN+="/bin/setserial /dev/aero_lower low_latency"\n'
+            upper_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}=="111",MODE="666",SYMLINK+="aero_upper", RUN+="/bin/setserial /dev/aero_upper low_latency"\n'
+            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}=="123",MODE="666",SYMLINK+="aero_lower", RUN+="/bin/setserial /dev/aero_lower low_latency"\n'
             space = '\n'
             header_hokuyo = '#hokuyo urg\n'
             hokuyo_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="15d1",ATTRS{idProduct}=="0000",MODE="666",SYMLINK+="hokuyo"'    
@@ -38,7 +38,7 @@ class UdevInstall:
                p1.stdout.close()
 
                out, err = p2.communicate()
-               upper[3] = "ATTRS{serial}==" + out.split('=')[1].strip()
+               upper[3] = "ATTRS{serial}==\"" + out.split('=')[1].strip() +"\""
                print(upper[3])
                print(upper)
                upper_string = (','.join(upper))
@@ -58,7 +58,7 @@ class UdevInstall:
                p1.stdout.close()
 
                out, err = p2.communicate()
-               lower[3] = "ATTRS{serial}==" + out.split('=')[1].strip()
+               lower[3] = "ATTRS{serial}==\"" + out.split('=')[1].strip() + "\""
                print(lower[3])
                print(lower)
                lower_string = (','.join(lower))
