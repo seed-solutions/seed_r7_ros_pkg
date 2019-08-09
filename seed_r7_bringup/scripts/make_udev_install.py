@@ -11,15 +11,15 @@ class UdevInstall:
     def setup_serial(self): 
         choice = raw_input("install setserial yes(y) or none(n) : ")
         if choice in ['y', 'ye', 'yes']:
-            subprocess.call('sudo apt-get install setserial')
+            os.system('sudo apt-get install setserial')
    
     def usb_id_write(self):
         with tempfile.NamedTemporaryFile() as tf:
             self.filename = tf.name
 
             header = '#aero_controller\n'
-            upper_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper"\n'
-            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower"'
+            upper_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper", RUN+="/bin/setserial /dev/aero_upper low_latency"\n'
+            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower", RUN+="/bin/setserial /dev/aero_lower low_latency"' 
             
             print("Please insert upper USB to PC port")
             choice = raw_input("yes(y) or none(n) : ")
@@ -28,10 +28,10 @@ class UdevInstall:
 
                print upper[3]
                #prev_upper_id = upper.strip("ATTRS{serial}==")
-               #p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
-               #p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
-               p1 = subprocess.Popen(['udevadm','info','-n', '/dev/tty0'], stdout=subprocess.PIPE)
-               p2 = subprocess.Popen(['grep', 'MAJOR'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
+               p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               #p1 = subprocess.Popen(['udevadm','info','-n', '/dev/tty0'], stdout=subprocess.PIPE)
+               #p2 = subprocess.Popen(['grep', 'MAJOR'], stdin=p1.stdout, stdout=subprocess.PIPE)
                p1.stdout.close()
 
                out, err = p2.communicate()
@@ -48,10 +48,10 @@ class UdevInstall:
 
                print lower[3]
                #prev_upper_id = upper.strip("ATTRS{serial}==")
-               #p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
-               #p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
-               p1 = subprocess.Popen(['udevadm','info','-n', '/dev/tty0'], stdout=subprocess.PIPE)
-               p2 = subprocess.Popen(['grep', 'MAJOR'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
+               p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
+               #p1 = subprocess.Popen(['udevadm','info','-n', '/dev/tty0'], stdout=subprocess.PIPE)
+               #p2 = subprocess.Popen(['grep', 'MAJOR'], stdin=p1.stdout, stdout=subprocess.PIPE)
                p1.stdout.close()
 
                out, err = p2.communicate()

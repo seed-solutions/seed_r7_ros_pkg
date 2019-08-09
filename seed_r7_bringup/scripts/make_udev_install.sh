@@ -4,8 +4,8 @@ temp_file=$(mktemp)
 
 #template file created
 echo '#aero_controller' >> $temp_file
-echo 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper"' >> "$temp_file"
-echo 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="43",ATTRS{idProduct}=="61",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower"' >> "$temp_file"
+echo 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper", RUN+="/bin/setserial /dev/aero_upper low_latency"' >> "$temp_file"
+echo 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower"',  RUN+="/bin/setserial /dev/aero_lower low_latency" >> "$temp_file"
 
 function setup_serial()
 {
