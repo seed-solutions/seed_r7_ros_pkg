@@ -19,7 +19,10 @@ class UdevInstall:
 
             header = '#aero_controller\n'
             upper_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==111,MODE="666",SYMLINK+="aero_upper", RUN+="/bin/setserial /dev/aero_upper low_latency"\n'
-            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower", RUN+="/bin/setserial /dev/aero_lower low_latency"' 
+            lower_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="0403",ATTRS{idProduct}=="6001",ATTRS{serial}==123,MODE="666",SYMLINK+="aero_lower", RUN+="/bin/setserial /dev/aero_lower low_latency"\n'
+            space = '\n'
+            header_hokuyo = '#hokuyo urg\n'
+            hokuyo_string = 'SUBSYSTEMS=="usb",ATTRS{idVendor}=="15d1",ATTRS{idProduct}=="0000",MODE="666",SYMLINK+="hokuyo"'    
             
             print("Please insert upper USB to PC port")
             choice = raw_input("yes(y) or none(n) : ")
@@ -65,9 +68,12 @@ class UdevInstall:
             tf.write(header)
             tf.write(upper_string)
             tf.write(lower_string)
+            tf.write(space)
+            tf.write(header_hokuyo)
+            tf.write(hokuyo_string)
             tf.seek(0)
             print(tf.read())
-            subprocess.call(['sudo', 'cp',  self.filename, '/etc/udev/rules.d/test.rules'])
+            subprocess.call(['sudo', 'cp',  self.filename, '/etc/udev/rules.d/90-aero.rules'])
 
                   
 if __name__ == "__main__" :
