@@ -84,7 +84,6 @@ void LowerController::sendVelocity(std::vector<int16_t>& _data)
 
 void LowerController::onServo(bool _value)
 {
-
   std::vector<uint16_t> data(30);
   fill(data.begin(),data.end(),0x7FFF);
 
@@ -93,7 +92,16 @@ void LowerController::onServo(bool _value)
       lower_->onServo(wheel_aero_index_[i] + 1, _value);
     }
   }
-
-
 }
 
+float LowerController::getBatteryVoltage()
+{
+  if(is_open_) return lower_->getTemperatureVoltage(31)[0] * 0.1;
+  else return 0;
+}
+
+std::string LowerController::getFirmwareVersion()
+{
+  if(is_open_) return lower_->getVersion(0);
+  else return "";
+}

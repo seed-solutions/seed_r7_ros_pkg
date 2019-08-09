@@ -154,6 +154,14 @@ namespace robot_hardware
     registerInterface(&js_interface_);
     registerInterface(&pj_interface_);
 
+    // Battery Voltage Publisher
+    bat_vol_pub_ = robot_hw_nh.advertise<std_msgs::Float32>("voltage", 1);
+    bat_vol_timer_ = robot_hw_nh.createTimer(ros::Duration(1), &RobotHW::getBatteryVoltage,this);
+
+    // Get Robot Firmware Version
+    ROS_INFO("Upper Firmware Ver. is [ %s ]", controller_upper_->getFirmwareVersion().c_str() );
+    ROS_INFO("Lower Firmware Ver. is [ %s ]", controller_lower_->getFirmwareVersion().c_str() );
+
     return true;
   }
 
@@ -333,6 +341,17 @@ namespace robot_hardware
     mutex_lower_.lock();
     controller_lower_->onServo(_value);
     mutex_lower_.unlock();
+  }
+
+  void RobotHW::getBatteryVoltage(const ros::TimerEvent& _event)
+  {
+    //max voltage is 26[V]
+    //min voltage is 22.2[V]
+    std_msgs::Float32 voltage;
+    mutex_lower_.lock();
+    voltage.data = controller_lower_->getBatteryVoltage();
+    mutex_lower_.unlock();
+    bat_vol_pub_.publish(voltage);
   }
 
 }

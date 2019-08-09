@@ -72,3 +72,9 @@ void UpperController::runScript(uint8_t _number, uint16_t _script)
 {
     if(is_open_)upper_->runScript(_number, _script);
 }
+
+std::string UpperController::getFirmwareVersion()
+{
+  if(is_open_) return upper_->getVersion(0);
+  else return "";
+}
