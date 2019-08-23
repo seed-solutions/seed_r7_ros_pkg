@@ -12,18 +12,11 @@
 
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>sensor_msgs</depend>
-  <depend>control_msgs</depend>
-  <depend>trajectory_msgs</depend>
   <depend>tf</depend>
-  <depend>message_generation</depend>
   <depend>roslib</depend>
-  <depend>gmapping</depend>
-  <depend>message_runtime</depend>
 
   <depend>seed_r7_description</depend>
-
+  <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_smartactuator_sdk</depend>
 
   <export/>
