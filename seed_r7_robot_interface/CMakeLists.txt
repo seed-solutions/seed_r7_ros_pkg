@@ -5,9 +5,7 @@ project(seed_r7_robot_interface)
 
 # catkin ROS
 find_package(catkin REQUIRED COMPONENTS
-  rospy roscpp tf std_msgs sensor_msgs roslib
-  trajectory_msgs geometry_msgs 
-  message_generation
+  rospy roscpp tf roslib
   seed_r7_description
   seed_smartactuator_sdk
 )
@@ -29,8 +27,7 @@ endif()
 
 catkin_package(
   CATKIN_DEPENDS
-  roscpp tf std_msgs sensor_msgs roslib
-  trajectory_msgs geometry_msgs 
+  roscpp tf roslib
   seed_r7_description
   DEPENDS
   INCLUDE_DIRS include
