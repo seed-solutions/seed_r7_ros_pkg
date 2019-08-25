@@ -1,7 +1,7 @@
 # seed_r7_ros_pkg
 seed-noid meta package
 ## How to run
-### To use bring up robot_control
+### To bring up robot_control
 
 ``roslaunch seed_r7_bringup seed_r7_bringup.launch`` 
 
