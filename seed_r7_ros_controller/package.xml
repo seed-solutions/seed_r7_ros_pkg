@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>The seed_r7_ros_controller package</description>
 
-   <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
+  <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
 
   <license>BSD</license>
 
@@ -35,17 +35,12 @@
   <depend>joint_trajectory_controller</depend>
   <depend>joint_state_controller</depend>
   <depend>angles</depend>
-  <depend>pluginlib</depend>
   <depend>urdf</depend>
-
-
-  <depend>seed_r7_robot_interface</depend>
+  <depend>seed_r7_description</depend>
+  <depend>pluginlib</depend>
 
   <depend>rostest</depend>
-
   <depend>seed_smartactuator_sdk</depend>
 
-  <export>
-    <!--gazebo_ros_control plugin="${prefix}/robot_hw_sim_plugins.xml"/-->
-  </export>
+  <export/>
 </package>

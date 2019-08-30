@@ -8,16 +8,14 @@
 
   <license>BSD</license>
 
+  <author>Kazuhiro Sasabuchi</author>
+
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>roscpp</depend>
-  <depend>std_msgs</depend>
-  <depend>tf</depend>
-  <depend>roslib</depend>
+  <depend>seed_r7_ros_controller</depend>
 
-  <depend>seed_r7_description</depend>
-  <depend>seed_r7_typef_moveit_config</depend>
-  <depend>seed_smartactuator_sdk</depend>
-
-  <export/>
+  <export>
+    <seed_r7_ros_controller plugin="${prefix}/typeF/plugin_description.xml"/>
+  </export>
 </package>

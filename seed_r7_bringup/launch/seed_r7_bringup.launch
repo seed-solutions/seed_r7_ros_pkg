@@ -1,13 +1,27 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name ="robot_model" default="typeF"/>
+  <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
 
-  <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen"  >
-    <param name="port_lower" value="/dev/aero_lower" />
-    <param name="port_upper" value="/dev/aero_upper" />
-    <param name="robot_model" value="$(arg robot_model)"/>
-    <param name="controller_rate" value="50"  /> <!-- [ Hz ] ( rate of read/write cycle) -->
-    <param name="overlap_scale"   value="2.0" /> <!-- scaling of target time -->
+  <!-- parameters when using models in official package -->
+  <arg name="robot_model"         default="typeF"/>
+
+  <!-- parameters when using models in user packages -->
+  <arg name="csv_config_dir"      default="$(find seed_r7_robot_interface)/$(arg robot_model)/config/csv"/>
+  <arg name="robot_joint_config"  default="$(find seed_r7_robot_interface)/$(arg robot_model)/config/joint_settings.yaml"/>
+  <arg name="controller_settings" default="$(find seed_r7_description)/$(arg robot_model)/controller_settings.yaml"/>
+  <arg name="moveit_config_pkg"   default="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config"/>
+
+  <!-- other settings -->
+  <arg name="controller_rate"     default="50"/>
+  <arg name="overlap_scale"       default="2.0"/>
+
+  <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen">
+    <param name="port_lower" value="/dev/aero_lower"/>
+    <param name="port_upper" value="/dev/aero_upper"/>
+    <param name="csv_config_dir" value="$(arg csv_config_dir)"/>
+    <param name="robot_model_plugin" value="$(arg robot_model_plugin)"/>
+    <param name="controller_rate" value="$(arg controller_rate)"/> <!-- [ Hz ] ( rate of read/write cycle) -->
+    <param name="overlap_scale"   value="$(arg overlap_scale)"/>   <!-- scaling of target time -->
   </node>
 
   <rosparam>
@@ -17,16 +31,13 @@
   </rosparam>
 
   <!-- controller settings / load from yaml -->
-  <rosparam command="load" file="$(find seed_r7_description)/$(arg robot_model)/controller_settings.yaml" />
-  <rosparam command="load" file="$(find seed_r7_robot_interface)/config/$(arg robot_model)/joint_settings.yaml" />
+  <rosparam command="load" file="$(arg controller_settings)" />
+  <rosparam command="load" file="$(arg robot_joint_config)" />
   <rosparam command="load" file="$(find seed_r7_bringup)/config/extra_controller_settings.yaml" />
 
-  <group if="$(eval robot_model== 'typeF')">
-    <include file="$(find seed_r7_typef_moveit_config)/launch/planning_context.launch">
-      <arg name="load_robot_description" value="true"/>
-    </include>
-  </group>
-
+  <include file="$(arg moveit_config_pkg)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
 
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 

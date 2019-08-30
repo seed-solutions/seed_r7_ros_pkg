@@ -33,43 +33,47 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/*
- Author: Yohei Kakiuchi
-*/
-
-#include "seed_r7_robot_hardware.h"
-
 #include <thread>
+#include "seed_r7_ros_controller/seed_r7_robot_hardware.h"
+
 
 namespace robot_hardware
 {
 
-  bool RobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)// add joint list
+  bool RobotHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh)  // add joint list
   {
-    std::string port_upper("/dev/aero_upper");
-    std::string port_lower("/dev/aero_lower");
+    std::string port_upper;
+    std::string port_lower;
 
     // reading paramerters
-    if (robot_hw_nh.hasParam("port_upper")) robot_hw_nh.getParam("port_upper", port_upper);
-    if (robot_hw_nh.hasParam("port_lower")) robot_hw_nh.getParam("port_lower", port_lower);
-    if (robot_hw_nh.hasParam("robot_model")) robot_hw_nh.getParam("robot_model", robot_model);
-    if (robot_hw_nh.hasParam("/joint_settings/upper")) robot_hw_nh.getParam("/joint_settings/upper/name",joint_names_upper_);
-    else ROS_WARN("/joint_settings/upper read error");
-    if (robot_hw_nh.hasParam("/joint_settings/lower")) robot_hw_nh.getParam("/joint_settings/lower/name",joint_names_lower_);
-    else ROS_WARN("/joint_settings/lower read error");
+    robot_hw_nh.param<std::string>("port_upper", port_upper, "/dev/aero_upper");
+    robot_hw_nh.param<std::string>("port_lower", port_lower, "/dev/aero_lower");
+    robot_hw_nh.param<std::string>("robot_model_plugin", robot_model_plugin_,
+                                   "seed_r7_robot_interface/TypeF");
+    //
+    if (robot_hw_nh.hasParam("/joint_settings/upper"))
+      robot_hw_nh.getParam("/joint_settings/upper/joints", joint_names_upper_);
+    else
+      ROS_WARN("/joint_settings/upper read error");
+    //
+    if (robot_hw_nh.hasParam("/joint_settings/lower"))
+      robot_hw_nh.getParam("/joint_settings/lower/joints", joint_names_lower_);
+    else
+      ROS_WARN("/joint_settings/lower read error");
+    //
     if (robot_hw_nh.hasParam("controller_rate")) {
       double rate;
       robot_hw_nh.getParam("controller_rate", rate);
       CONTROL_PERIOD_US_ = (1000*1000)/rate;
     } else {
-      CONTROL_PERIOD_US_ = 50*1000; // 50ms
+      CONTROL_PERIOD_US_ = 50*1000;  // 50ms
     }
     if (robot_hw_nh.hasParam("overlap_scale")) {
       double scl;
       robot_hw_nh.getParam("overlap_scale", scl);
-      OVERLAP_SCALE_    = scl;     //
-    }  else {
-      OVERLAP_SCALE_    = 2.8;     //
+      OVERLAP_SCALE_    = scl;
+    } else {
+      OVERLAP_SCALE_    = 2.8;
     }
 
     ROS_INFO("upper_port: %s", port_upper.c_str());
@@ -77,17 +81,22 @@ namespace robot_hardware
     ROS_INFO("cycle: %f [ms], overlap_scale %f", CONTROL_PERIOD_US_*0.001, OVERLAP_SCALE_);
 
     // create controllers
-    controller_upper_.reset(new UpperController(port_upper));
-    controller_lower_.reset(new LowerController(port_lower));
-    // stroke converter
-    stroke_converter_ = new StrokeConverter(robot_hw_nh, robot_model);
+    controller_upper_.reset(new robot_hardware::UpperController(port_upper));
+    controller_lower_.reset(new robot_hardware::LowerController(port_lower));
 
-    // joint list
+    // load stroke converter
+    // converter is dependent per robot strucutre, therefore uses plugin
+    stroke_converter_ = converter_loader_.createInstance(robot_model_plugin_);
+    if (!stroke_converter_->initialize(robot_hw_nh)) {
+      ROS_ERROR("Failed to initiate stroke converter");
+      return false;
+    }
+
     number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
 
     joint_list_.resize(number_of_angles_);
-    for(int i = 0; i < number_of_angles_; i++) {
-      if(i < joint_names_upper_.size() ) joint_list_[i] = joint_names_upper_[i];
+    for (int i = 0; i < number_of_angles_; ++i) {
+      if (i < joint_names_upper_.size()) joint_list_[i] = joint_names_upper_[i];
       else joint_list_[i] = joint_names_lower_[i - joint_names_upper_.size()];
     }
 
@@ -106,15 +115,14 @@ namespace robot_hardware
     }
 
     ROS_DEBUG("read %d joints", number_of_angles_);
-    for (int i = 0; i < number_of_angles_; i++) {
+    for (int i = 0; i < number_of_angles_; ++i) {
       ROS_DEBUG("  %d: %s", i, joint_list_[i].c_str());
-      if(!model.getJoint(joint_list_[i])) {
+      if (!model.getJoint(joint_list_[i])) {
         ROS_ERROR("Joint %s does not exist in urdf model", joint_list_[i].c_str());
         return false;
       }
     }
 
-    // joint_names_.resize(number_of_angles_);
     joint_types_.resize(number_of_angles_);
     joint_control_methods_.resize(number_of_angles_);
     joint_position_.resize(number_of_angles_);
@@ -124,10 +132,10 @@ namespace robot_hardware
     joint_velocity_command_.resize(number_of_angles_);
     joint_effort_command_.resize(number_of_angles_);
 
-    readPos(ros::Time::now(), ros::Duration(0.0), true); /// initial
+    readPos(ros::Time::now(), ros::Duration(0.0), true);  // initial
 
     // Initialize values
-    for(unsigned int j = 0; j < number_of_angles_; j++) {
+    for (unsigned int j = 0; j < number_of_angles_; ++j) {
       joint_velocity_[j] = 0.0;
       joint_velocity_command_[j] = 0.0;
       joint_effort_[j]   = 0.0;  // N/m for continuous joints
@@ -135,19 +143,24 @@ namespace robot_hardware
 
       std::string jointname = joint_list_[j];
       // Create joint state interface for all joints
-      js_interface_.registerHandle(hardware_interface::JointStateHandle(jointname, &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
+      js_interface_.registerHandle
+        (hardware_interface::JointStateHandle
+         (jointname, &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
 
-      joint_control_methods_[j] = POSITION;
-      hardware_interface::JointHandle joint_handle = hardware_interface::JointHandle(js_interface_.getHandle(jointname), &joint_position_command_[j]);
+      joint_control_methods_[j] = ControlMethod::POSITION;
+      hardware_interface::JointHandle joint_handle
+        = hardware_interface::JointHandle(js_interface_.getHandle(jointname),
+                                          &joint_position_command_[j]);
       pj_interface_.registerHandle(joint_handle);
 
       joint_limits_interface::JointLimits limits;
-      const bool urdf_limits_ok = joint_limits_interface::getJointLimits(model.getJoint(jointname), limits);
+      const bool urdf_limits_ok
+        = joint_limits_interface::getJointLimits(model.getJoint(jointname), limits);
       if (!urdf_limits_ok) {
         ROS_WARN("urdf limits of joint %s is not defined", jointname.c_str());
       }
-      // Register handle in joint limits interface
-      joint_limits_interface::PositionJointSaturationHandle limits_handle(joint_handle,limits);       // Limits spec
+      // Register handle in joint limits interface (Limits spec)
+      joint_limits_interface::PositionJointSaturationHandle limits_handle(joint_handle,limits);
       pj_sat_interface_.registerHandle(limits_handle);
     }
     // Register interfaces
@@ -167,7 +180,6 @@ namespace robot_hardware
 
   void RobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
   {
-
     mutex_lower_.lock();
     mutex_upper_.lock();
     if (update) {
@@ -232,38 +244,38 @@ namespace robot_hardware
   {
     pj_sat_interface_.enforceLimits(period);
 
-    ////// convert poitions to strokes and write strokes
+    ////// convert positions to strokes and write strokes
     std::vector<double > ref_positions(number_of_angles_);
-    for(unsigned int j=0; j < number_of_angles_; j++) {
+    for (unsigned int j = 0; j < number_of_angles_; ++j) {
       switch (joint_control_methods_[j]) {
-      case POSITION:
+      case ControlMethod::POSITION:
         {
           ref_positions[j] = joint_position_command_[j];
         }
         break;
-      case VELOCITY:
+      case ControlMethod::VELOCITY:
         {
         }
         break;
-      case EFFORT:
+      case ControlMethod::EFFORT:
         {
         }
         break;
-      case POSITION_PID:
+      case ControlMethod::POSITION_PID:
         {
         }
         break;
-      case VELOCITY_PID:
+      case ControlMethod::VELOCITY_PID:
         {
         }
         break;
-      } // switch
-    } // for
+      }  // switch
+    }  // for
 
     std::vector<bool > mask_positions(number_of_angles_);
     std::fill(mask_positions.begin(), mask_positions.end(), true); // send if true
 
-    for(int i = 0; i < number_of_angles_; i++) {
+    for (int i = 0; i < number_of_angles_; ++i) {
       double tmp = ref_positions[i];
       if (tmp == prev_ref_positions_[i]) {
         mask_positions[i] = false;
@@ -271,24 +283,24 @@ namespace robot_hardware
       prev_ref_positions_[i] = tmp;
     }
 
-    //convert from angle to stroke
+    // convert from angle to stroke
     std::vector<int16_t> ref_strokes(ref_positions.size());
     stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
     
     // masking
     std::vector<int16_t> snt_strokes(ref_strokes);
-    for(size_t i = 0; i < ref_strokes.size() ; ++i){
-      if(!mask_positions[i]) snt_strokes[i] = 0x7FFF;
+    for (size_t i = 0; i < ref_strokes.size() ; ++i) {
+      if (!mask_positions[i]) snt_strokes[i] = 0x7FFF;
     }
 
     // split strokes into upper and lower
     std::vector<int16_t> upper_strokes;
     std::vector<int16_t> lower_strokes;
 
-    //remap
-    if(controller_upper_->is_open_) controller_upper_->remapRosToAero(upper_strokes,snt_strokes);
+    // remap
+    if (controller_upper_->is_open_) controller_upper_->remapRosToAero(upper_strokes,snt_strokes);
     else controller_upper_->remapRosToAero(upper_strokes,ref_strokes);
-    if(controller_lower_->is_open_) controller_lower_->remapRosToAero(lower_strokes,snt_strokes);
+    if (controller_lower_->is_open_) controller_lower_->remapRosToAero(lower_strokes,snt_strokes);
     else controller_lower_->remapRosToAero(lower_strokes,ref_strokes);
 
     uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
@@ -345,8 +357,8 @@ namespace robot_hardware
 
   void RobotHW::getBatteryVoltage(const ros::TimerEvent& _event)
   {
-    //max voltage is 26[V]
-    //min voltage is 22.2[V]
+    // max voltage is 26[V]
+    // min voltage is 22.2[V]
     std_msgs::Float32 voltage;
     mutex_lower_.lock();
     voltage.data = controller_lower_->getBatteryVoltage();

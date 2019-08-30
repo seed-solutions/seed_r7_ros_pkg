@@ -1,8 +1,9 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
-#include "seed_r7_mover_controller.h"
+#include "seed_r7_ros_controller/seed_r7_mover_controller.h"
 
 
-MoverController::MoverController(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) :
+robot_hardware::MoverController::MoverController
+(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) :
   nh_(_nh),hw_(_in_hw),
   vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0)//, base_spinner_(1, &base_queue_)
 {
@@ -46,13 +47,13 @@ MoverController::MoverController(const ros::NodeHandle& _nh, robot_hardware::Rob
 
 //////////////////////////////////////////////////
 /// @brief destructor
-MoverController::~MoverController()
+robot_hardware::MoverController::~MoverController()
 {
 }
 
 //////////////////////////////////////////////////
 /// @brief control with cmd_vel
-void MoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
+void robot_hardware::MoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_vel)
 {
   ros::Time now = ros::Time::now();
   ROS_DEBUG("cmd_vel: %f %f %f", _cmd_vel->linear.x, _cmd_vel->linear.y, _cmd_vel->angular.z);
@@ -115,7 +116,7 @@ void MoverController::cmdVelCallback(const geometry_msgs::TwistConstPtr& _cmd_ve
 //////////////////////////////////////////////////
 /// @brief safety stopper when msg is not reached
 ///  for more than `safety_duration_` [s]
-void MoverController::safetyCheckCallback(const ros::TimerEvent& _event)
+void robot_hardware::MoverController::safetyCheckCallback(const ros::TimerEvent& _event)
 {
   if((ros::Time::now() - time_stamp_).toSec() >= safety_duration_ && servo_on_) {
     std::vector<int16_t> wheel_velocity(num_of_wheels_);
@@ -134,7 +135,7 @@ void MoverController::safetyCheckCallback(const ros::TimerEvent& _event)
 
 //////////////////////////////////////////////////
 /// @brief odometry publisher
-void MoverController::calculateOdometry(const ros::TimerEvent& _event)
+void robot_hardware::MoverController::calculateOdometry(const ros::TimerEvent& _event)
 {
   current_time_ = ros::Time::now();
 
@@ -189,7 +190,8 @@ void MoverController::calculateOdometry(const ros::TimerEvent& _event)
   last_time_ = current_time_;
 }
 
-void MoverController::velocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel) 
+void robot_hardware::MoverController::velocityToWheel
+(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel) 
 {
     float dx, dy, dtheta, theta;
     float v1, v2, v3, v4;

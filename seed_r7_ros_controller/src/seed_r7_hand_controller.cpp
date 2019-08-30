@@ -1,8 +1,8 @@
-#include <seed_r7_hand_controller.h>
+#include "seed_r7_ros_controller/seed_r7_hand_controller.h"
 
 
-HandController::HandController(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw)
-:right_number_(0),left_number_(0)
+robot_hardware::HandController::HandController
+(const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) : right_number_(0),left_number_(0)
 {
   ROS_INFO("hand_control_server start");
  
@@ -21,13 +21,13 @@ HandController::HandController(const ros::NodeHandle& _nh, robot_hardware::Robot
   ROS_INFO("Initialized Handcontroller");
 }   
 
-HandController::~HandController()
+robot_hardware::HandController::~HandController()
 {
-
 }
 
-bool HandController::HandControlCallback(seed_r7_ros_controller::HandControl::Request&  _req,
-                                   seed_r7_ros_controller::HandControl::Response& _res) 
+bool robot_hardware::HandController::HandControlCallback
+(seed_r7_ros_controller::HandControl::Request&  _req,
+ seed_r7_ros_controller::HandControl::Response& _res) 
 {
   uint8_t send_number;
   uint16_t script_number;
