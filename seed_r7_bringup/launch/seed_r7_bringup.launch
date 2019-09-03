@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name ="robot_model" default="typeFCETy"/>
+  <arg name ="robot_model" default="typeF"/>
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen"  >
     <param name="port_lower" value="/dev/aero_lower" />
