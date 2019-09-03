@@ -3,10 +3,10 @@
   <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
 
   <!-- parameters when using models in official package -->
-  <arg name="robot_model"         default="typeF"/>
+  <arg name="robot_model"         default="typef"/>
 
   <!-- parameters when using models in user packages -->
-  <arg name="csv_config_dir"      default="$(find seed_r7_robot_interface)/$(arg robot_model)/config/csv"/>
+  <arg name="csv_config_dir"      default="$(find seed_r7_description)/csv"/>
   <arg name="robot_joint_config"  default="$(find seed_r7_robot_interface)/$(arg robot_model)/config/joint_settings.yaml"/>
   <arg name="controller_settings" default="$(find seed_r7_description)/$(arg robot_model)/controller_settings.yaml"/>
   <arg name="moveit_config_pkg"   default="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config"/>
@@ -14,6 +14,11 @@
   <!-- other settings -->
   <arg name="controller_rate"     default="50"/>
   <arg name="overlap_scale"       default="2.0"/>
+
+  <!-- controller settings / load from yaml -->
+  <rosparam command="load" file="$(arg controller_settings)" />
+  <rosparam command="load" file="$(arg robot_joint_config)" />
+  <rosparam command="load" file="$(find seed_r7_bringup)/config/extra_controller_settings.yaml" />
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen">
     <param name="port_lower" value="/dev/aero_lower"/>
@@ -29,11 +34,6 @@
       type: joint_state_controller/JointStateController
       publish_rate: 50
   </rosparam>
-
-  <!-- controller settings / load from yaml -->
-  <rosparam command="load" file="$(arg controller_settings)" />
-  <rosparam command="load" file="$(arg robot_joint_config)" />
-  <rosparam command="load" file="$(find seed_r7_bringup)/config/extra_controller_settings.yaml" />
 
   <include file="$(arg moveit_config_pkg)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true"/>

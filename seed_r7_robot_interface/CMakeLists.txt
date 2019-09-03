@@ -19,12 +19,12 @@ catkin_package(
   CATKIN_DEPENDS roscpp seed_r7_ros_controller
   DEPENDS
   INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES ${PROJECT_NAME}_typeF
 )
 
 include_directories(${catkin_INCLUDE_DIRS})
 
 add_definitions(-std=c++11)  # should be c++14 for melodic
 
-add_library(${PROJECT_NAME}_typeF typeF/src/stroke_converter.cpp)
+add_library(${PROJECT_NAME}_typeF typef/src/stroke_converter.cpp)
 target_link_libraries(${PROJECT_NAME}_typeF ${catkin_LIBRARIES})
