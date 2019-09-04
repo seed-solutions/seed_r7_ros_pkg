@@ -67,6 +67,41 @@ void StrokeConverter::Angle2Stroke (std::vector<int16_t>& _strokes, const std::v
     _strokes[28] = scale * setAngleToStroke(- rad2Deg * _angles[28], leg.table);  //knee
     _strokes[29] = scale * setAngleToStroke(  rad2Deg * _angles[29], leg.table);  //ankle
   }
+  else if(robot_model_ == "typeFCETy")
+  {
+       DiffJoint r_wrist = setDualAngleToStroke(rad2Deg * _angles[23], -rad2Deg * _angles[22], wrist_r.table, wrist_p.table,"pitch");
+       DiffJoint l_wrist = setDualAngleToStroke(-rad2Deg * _angles[9], rad2Deg * _angles[8], wrist_r.table, wrist_p.table, "pitch");
+       DiffJoint waist = setDualAngleToStroke(-rad2Deg * _angles[2], rad2Deg * _angles[1], waist_r.table, waist_p.table);
+       DiffJoint neck = setDualAngleToStroke(rad2Deg * _angles[16], rad2Deg * _angles[15], neck_r.table, neck_p.table);
+
+      _strokes[0] = scale * rad2Deg * _angles[0];
+      _strokes[1] = scale * waist.two;
+      _strokes[2] = scale * waist.one;
+      _strokes[3] = scale * setAngleToStroke(-rad2Deg * _angles[3], shoulder_p.table);
+      _strokes[4] = scale * setAngleToStroke(rad2Deg * _angles[4], shoulder_r.table);
+      _strokes[5] = -scale * rad2Deg * _angles[5];
+      _strokes[6] = scale * setAngleToStroke(180 + rad2Deg * _angles[6], elbow_p.table);
+      _strokes[7] = -scale * rad2Deg * _angles[7];
+      _strokes[8] = scale * l_wrist.one;
+      _strokes[9] = scale * l_wrist.two;
+      _strokes[10] = -scale * rad2Deg * _angles[10];
+      _strokes[14] = scale * (rad2Deg * _angles[14] + 50.0) * 0.18;
+      _strokes[15] = scale * rad2Deg * _angles[15];
+      _strokes[16] = scale * neck.two;
+      _strokes[17] = scale * neck.one;
+      _strokes[18] = scale * setAngleToStroke(-rad2Deg * _angles[18], shoulder_p.table);
+      _strokes[19] = scale * setAngleToStroke(-rad2Deg * _angles[19], shoulder_r.table);
+      _strokes[20] = -scale * rad2Deg * _angles[20];
+      _strokes[21] = scale * setAngleToStroke(180 + rad2Deg * _angles[21], elbow_p.table);
+      _strokes[22] = -scale * rad2Deg * _angles[22];
+      _strokes[23] = scale * r_wrist.two;
+      _strokes[24] = scale * r_wrist.one;
+      _strokes[25] = -scale * rad2Deg * _angles[25];
+      _strokes[29] = -scale * (rad2Deg * _angles[29] - 50.0) * 0.18;
+      _strokes[30] = scale * setAngleToStroke(- rad2Deg * _angles[30], leg.table);  //knee
+      _strokes[31] = scale * setAngleToStroke(  rad2Deg * _angles[31], leg.table);  //ankle
+     
+  }
   else{
     ROS_ERROR("not supported %s in stroke_converter.cpp", robot_model_.c_str());
   }
@@ -112,6 +147,40 @@ void StrokeConverter::Stroke2Angle (std::vector<double>& _angles, const std::vec
 
     _angles[28] = -deg2Rad * setStrokeToAngle(scale * _strokes[28], leg.inv_table);  //knee
     _angles[29] = deg2Rad * setStrokeToAngle(scale * _strokes[29], leg.inv_table);  //ankle
+  }
+  else if(robot_model_ == "typeFCETy"){
+    _angles[0] = deg2Rad * scale * _strokes[0];
+    _angles[1] = deg2Rad * setStrokeToAngle(scale * (_strokes[2] + _strokes[1]) * 0.5, waist_p.inv_table);
+    _angles[2] = deg2Rad * setStrokeToAngle(scale * (_strokes[2] - _strokes[1]) * 0.5, waist_r.inv_table);
+    _angles[3] = -deg2Rad * setStrokeToAngle(scale * _strokes[3], shoulder_p.inv_table);
+    _angles[4] = deg2Rad * setStrokeToAngle(scale * _strokes[4], shoulder_r.inv_table);
+    _angles[5] = -deg2Rad * scale * _strokes[5];
+    _angles[6] = - M_PI + deg2Rad * setStrokeToAngle(scale * _strokes[6], elbow_p.inv_table);
+    _angles[7] = -deg2Rad * scale * _strokes[7];
+    _angles[8] = -deg2Rad * setStrokeToAngle(scale * (_strokes[9] - _strokes[8]) * 0.5, wrist_p.inv_table);
+    _angles[9] = -deg2Rad * setStrokeToAngle(scale * (_strokes[9] + _strokes[8]) * 0.5, wrist_r.inv_table);
+    _angles[10] = -deg2Rad * scale * _strokes[10];
+    _angles[11] = -deg2Rad * (scale * _strokes[11] * 5.556 - 50.0);
+    _angles[12] = 0;
+    _angles[13] = 0;
+    _angles[14] = deg2Rad * (scale * _strokes[14] * 5.556 - 50.0);
+    _angles[15] = deg2Rad * scale * _strokes[15];
+    _angles[16] = deg2Rad * setStrokeToAngle(scale * (_strokes[17] + _strokes[16]) * 0.5, neck_p.inv_table);
+    _angles[17] = -deg2Rad * setStrokeToAngle(scale * (_strokes[17] - _strokes[16]) * 0.5, neck_r.inv_table);
+    _angles[18] = -deg2Rad * setStrokeToAngle(scale * _strokes[18], shoulder_p.inv_table);
+    _angles[19] = -deg2Rad * setStrokeToAngle(scale * _strokes[19], shoulder_r.inv_table);
+    _angles[20] = -deg2Rad * scale * _strokes[20];
+    _angles[21] = - M_PI + deg2Rad * setStrokeToAngle(scale * _strokes[21], elbow_p.inv_table);
+    _angles[22] = -deg2Rad * scale * _strokes[22];
+    _angles[23] = -deg2Rad * setStrokeToAngle(scale * (_strokes[24] - _strokes[23]) * 0.5, wrist_p.inv_table);
+    _angles[24] = deg2Rad * setStrokeToAngle(scale * (_strokes[24] + _strokes[23]) * 0.5, wrist_r.inv_table);
+    _angles[25] = -deg2Rad * scale * _strokes[25];
+    _angles[26] = deg2Rad * (scale * _strokes[26] * 5.556 - 50.0);
+    _angles[27] = 0;
+    _angles[28] = 0;
+    _angles[29] = -deg2Rad * (scale * _strokes[29] * 5.556 - 50.0);
+    _angles[30] = -deg2Rad * setStrokeToAngle(scale * _strokes[30], leg.inv_table);  //knee
+    _angles[31] = deg2Rad * setStrokeToAngle(scale * _strokes[31], leg.inv_table);  //ankle
   }
   else{
     ROS_ERROR("not supported %s in stroke_converter.cpp", robot_model_.c_str());
