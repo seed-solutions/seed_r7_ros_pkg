@@ -11,7 +11,7 @@ joint_settings:
       - l_wrist_y_joint
       - l_wrist_p_joint
       - l_wrist_r_joint
-      - l_hand_y
+      - l_hand_y_joint
       - l_indexbase_joint #passive
       - l_indexmid_joint #passive
       - l_indexend_joint #passive
@@ -26,7 +26,7 @@ joint_settings:
       - r_wrist_y_joint
       - r_wrist_p_joint
       - r_wrist_r_joint
-      - r_hand_y
+      - r_hand_y_joint
       - r_indexbase_joint #passive
       - r_indexmid_joint #passive
       - r_indexend_joint #passive
