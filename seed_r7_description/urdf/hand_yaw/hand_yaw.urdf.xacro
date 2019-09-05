@@ -6,7 +6,6 @@
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find seed_r7_description)/urdf/common.xacro" />
   <property name="M_PI" value="3.1415926535897931" />
 
   <xacro:macro name="hand_yaw" params="prefix:=r reflect:=1 hand_link disable_mesh:=false">

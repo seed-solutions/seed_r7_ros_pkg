@@ -39,6 +39,10 @@
         <group name="waist" />
         <group name="lifter" />
     </group>
+    <group name="both_arms">
+	<group name="rarm" />
+        <group name="larm" />
+    </group>
     <group name="head">
         <chain base_link="body_link" tip_link="head_link" />
     </group>
