@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
 
 <!-- XML namespaces -->
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="hand_yaw" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="M_PI" value="3.1415926535897931" />
 
   <xacro:macro name="hand_yaw" params="prefix:=r reflect:=1 hand_link disable_mesh:=false">
   <!-- ============================   hand_yaw   ============================ -->
