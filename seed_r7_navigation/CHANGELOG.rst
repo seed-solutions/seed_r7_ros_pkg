@@ -2,8 +2,8 @@
 Changelog for package seed_r7_navigation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.6 (2019-09-05)
+------------------
 * update CHANGELOG.rst
 * Merge pull request `#31 <https://github.com/hi-kondo/seed_r7_ros_pkg/issues/31>`_ from hi-kondo/master
   update_navigation
