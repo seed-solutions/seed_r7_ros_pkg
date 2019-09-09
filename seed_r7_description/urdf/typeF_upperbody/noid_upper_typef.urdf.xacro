@@ -202,6 +202,12 @@
   <xacro:gazebo_link_reference link_name="l_forearm_link" />
 
   <link name="l_wrist_center">
+  <xacro:unless value="${disable_mesh}"> <visual>
+      <origin xyz="0 0 0" rpy="0 1.57 1.57"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeF_upperbody/wrist.dae" scale="1 1 1" />
+      </geometry>
+    </visual> </xacro:unless>
     <inertial>
       <mass value="0.05" />
       <origin xyz="0 0 0" rpy="0 -0 0"/>
@@ -390,6 +396,12 @@
   <xacro:gazebo_link_reference link_name="r_forearm_link" />
 
   <link name="r_wrist_center">
+   <xacro:unless value="${disable_mesh}"> <visual>
+      <origin xyz="0 0 0" rpy="0 1.57 1.57"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeF_upperbody/wrist.dae" scale="1 1 1" />
+      </geometry>
+    </visual> </xacro:unless>
     <inertial>
       <mass value="0.05" />
       <origin xyz="0 0 0" rpy="0 -0 0"/>

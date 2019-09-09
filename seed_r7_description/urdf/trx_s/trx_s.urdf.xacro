@@ -3,31 +3,29 @@
 
 <xacro:property name="M_PI" value="3.1415926535897931" />
 <xacro:macro name="trx_s" params="prefix:=r reflect:=1 disable_mesh:=false">
-
 <!-- hand -->
   <link name="${prefix}_hand_link">
     <visual>
       <geometry>
-        <mesh filename="package://trx_s_ros_pkg/urdf/meshes/hand.DAE"/>
+        <mesh filename="package://seed_r7_description/meshes/trx_s/hand.DAE"/>
       </geometry>
-      <origin xyz="0 0 0" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
+      <origin xyz="0 0 -0.031" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
     </visual>
   </link>
 <!-- hand index base -->
   <link name="${prefix}_indexbase_link">
     <visual>
-      <geometry>"
-        <mesh filename="package://trx_s_ros_pkg/urdf/meshes/index_base.DAE"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/trx_s/index_base.DAE"/>
       </geometry>
-      <origin xyz="0 0 0" rpy="${M_PI} -0.57 ${reflect * M_PI / 2.0}"/>
+      <origin xyz="0 0 0" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
     </visual>
   </link>
-
 
   <joint name="${prefix}_indexbase_joint" type="continuous">
     <parent link="${prefix}_hand_link"/>
     <child  link="${prefix}_indexbase_link"/>
-    <origin xyz="0 0 -0.087" rpy="0 -0 0"/>
+    <origin xyz="0 ${-0.013*reflect} -0.087" rpy="0 0 0"/>
     <axis   xyz="1 0 0"/>
     <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
   </joint>
@@ -35,15 +33,15 @@
   <link name="${prefix}_indexmid_link">
     <visual>
       <geometry>
-        <mesh filename="package://trx_s_ros_pkg/urdf/meshes/index_mid.DAE"/>
+        <mesh filename="package://seed_r7_description/meshes/trx_s/index_mid.DAE"/>
       </geometry>
-      <origin xyz="0 0 0" rpy="${M_PI} -0.57 ${reflect * M_PI / 2.0}"/>
+      <origin xyz="0 0 0" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
     </visual>
   </link>
   <joint name="${prefix}_indexmid_joint" type="continuous">
     <parent link="${prefix}_indexbase_link"/>
     <child  link="${prefix}_indexmid_link"/>
-    <origin xyz="0 0 -0.045" rpy="0 0.52 0 "/>
+    <origin xyz="0 0 -0.045" rpy="${0.52*reflect} 0 0 "/>   
     <axis   xyz="1 0 0"/>
     <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
 
@@ -52,15 +50,15 @@
   <link name="${prefix}_indexend_link">
     <visual>
       <geometry>
-        <mesh filename="package://trx_s_ros_pkg/urdf/meshes/index_end.DAE"/>
+        <mesh filename="package://seed_r7_description/meshes/trx_s/index_end.DAE"/>
       </geometry>
-      <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
     </visual>
   </link>
   <joint name="${prefix}_indexend_joint" type="continuous">
     <parent link="${prefix}_indexmid_link"/>
     <child  link="${prefix}_indexend_link"/>
-    <origin xyz="-0.0 0 0.0" rpy="0 0 0 "/>
+    <origin xyz="0 ${-0.005*reflect} -0.025" rpy="${-1.13*reflect} 0 0 "/>
     <axis   xyz="1 0 0"/>
     <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
 
@@ -69,17 +67,17 @@
   <link name="${prefix}_thumb_link">
     <visual>
       <geometry>
-        <mesh filename="package://trx_s_ros_pkg/urdf/meshes/thumb.DAE"/>
+        <mesh filename="package://seed_r7_description/meshes/trx_s/thumb.DAE"/>
       </geometry>
-      <origin xyz="0 0 0" rpy="0 0 0 "/>
+      <origin xyz="0 0 0" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
     </visual>
   </link>
   <joint name="${prefix}_thumb_joint" type="revolute">
     <parent  link="${prefix}_hand_link"/>
     <child  link="${prefix}_thumb_link"/>
-    <origin xyz="0.023 0 -0.054" rpy="${M_PI} 0+1 ${reflect * M_PI / 2.0}"/>
+    <origin xyz="0 ${0.023*reflect} -0.054" rpy="${-0.08 * reflect}  0 0"/>
     <axis   xyz="1 0 0"/>
-    <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
+    <limit lower="${-1.57 * (1 + reflect)/2.0}" upper="${1.57 * (1 - reflect)/2.0}" effort="25" velocity="0.5" />
 
   </joint>
   </xacro:macro>

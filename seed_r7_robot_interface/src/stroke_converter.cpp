@@ -49,7 +49,7 @@ void StrokeConverter::Angle2Stroke (std::vector<int16_t>& _strokes, const std::v
     _strokes[7] = -scale * rad2Deg * _angles[7];
     _strokes[8] = scale * l_wrist.one;
     _strokes[9] = scale * l_wrist.two;
-    _strokes[13] = scale * (rad2Deg * _angles[13] + 50.0) * 0.18;
+    _strokes[13] = scale * (rad2Deg * _angles[13]) * 0.18;
 
     _strokes[14] = scale * rad2Deg * _angles[14];
     _strokes[15] = scale * neck.two;
@@ -62,7 +62,7 @@ void StrokeConverter::Angle2Stroke (std::vector<int16_t>& _strokes, const std::v
     _strokes[21] = -scale * rad2Deg * _angles[21];
     _strokes[22] = scale * r_wrist.two;
     _strokes[23] = scale * r_wrist.one;
-    _strokes[27] = -scale * (rad2Deg * _angles[27] - 50.0) * 0.18;
+    _strokes[27] = -scale * (rad2Deg * _angles[27]) * 0.18;
 
     _strokes[28] = scale * setAngleToStroke(- rad2Deg * _angles[28], leg.table);  //knee
     _strokes[29] = scale * setAngleToStroke(  rad2Deg * _angles[29], leg.table);  //ankle
@@ -85,7 +85,8 @@ void StrokeConverter::Angle2Stroke (std::vector<int16_t>& _strokes, const std::v
       _strokes[8] = scale * l_wrist.one;
       _strokes[9] = scale * l_wrist.two;
       _strokes[10] = -scale * rad2Deg * _angles[10];
-      _strokes[14] = scale * (rad2Deg * _angles[14] + 50.0) * 0.18;
+      //_strokes[14] = scale * (rad2Deg * _angles[14] + 50.0) * 0.18;
+      _strokes[14] = scale * (rad2Deg * _angles[14]) * 0.18;
       _strokes[15] = scale * rad2Deg * _angles[15];
       _strokes[16] = scale * neck.two;
       _strokes[17] = scale * neck.one;
@@ -97,7 +98,8 @@ void StrokeConverter::Angle2Stroke (std::vector<int16_t>& _strokes, const std::v
       _strokes[23] = scale * r_wrist.two;
       _strokes[24] = scale * r_wrist.one;
       _strokes[25] = -scale * rad2Deg * _angles[25];
-      _strokes[29] = -scale * (rad2Deg * _angles[29] - 50.0) * 0.18;
+      //_strokes[29] = -scale * (rad2Deg * _angles[29] - 50.0) * 0.18;
+      _strokes[29] = -scale * (rad2Deg * _angles[29]) * 0.18;
       _strokes[30] = scale * setAngleToStroke(- rad2Deg * _angles[30], leg.table);  //knee
       _strokes[31] = scale * setAngleToStroke(  rad2Deg * _angles[31], leg.table);  //ankle
      
@@ -124,10 +126,10 @@ void StrokeConverter::Stroke2Angle (std::vector<double>& _angles, const std::vec
     _angles[7] = -deg2Rad * scale * _strokes[7];
     _angles[8] = -deg2Rad * setStrokeToAngle(scale * (_strokes[9] - _strokes[8]) * 0.5, wrist_p.inv_table);
     _angles[9] = -deg2Rad * setStrokeToAngle(scale * (_strokes[9] + _strokes[8]) * 0.5, wrist_r.inv_table);
-    _angles[10] = -deg2Rad * (scale * _strokes[13] * 5.556 - 50.0);
+    _angles[10] = -deg2Rad * (scale * _strokes[13] * 5.556);
     _angles[11] = 0;
     _angles[12] = 0;
-    _angles[13] = deg2Rad * (scale * _strokes[13] * 5.556 - 50.0);
+    _angles[13] = deg2Rad * (scale * _strokes[13] * 5.556);
 
     _angles[14] = deg2Rad * scale * _strokes[14];
     _angles[15] = deg2Rad * setStrokeToAngle(scale * (_strokes[16] + _strokes[15]) * 0.5, neck_p.inv_table);
@@ -140,10 +142,10 @@ void StrokeConverter::Stroke2Angle (std::vector<double>& _angles, const std::vec
     _angles[21] = -deg2Rad * scale * _strokes[21];
     _angles[22] = -deg2Rad * setStrokeToAngle(scale * (_strokes[23] - _strokes[22]) * 0.5, wrist_p.inv_table);
     _angles[23] = deg2Rad * setStrokeToAngle(scale * (_strokes[23] + _strokes[22]) * 0.5, wrist_r.inv_table);
-    _angles[24] = deg2Rad * (scale * _strokes[27] * 5.556 - 50.0);
+    _angles[24] = deg2Rad * (scale * _strokes[27] * 5.556);
     _angles[25] = 0;
     _angles[26] = 0;
-    _angles[27] = -deg2Rad * (scale * _strokes[27] * 5.556 - 50.0);
+    _angles[27] = -deg2Rad * (scale * _strokes[27] * 5.556);
     _angles[28] = -deg2Rad * setStrokeToAngle(scale * _strokes[28], leg.inv_table);  //knee
     _angles[29] = deg2Rad * setStrokeToAngle(scale * _strokes[29], leg.inv_table);  //ankle
   }
@@ -160,10 +162,12 @@ void StrokeConverter::Stroke2Angle (std::vector<double>& _angles, const std::vec
     _angles[8] = -deg2Rad * setStrokeToAngle(scale * (_strokes[9] - _strokes[8]) * 0.5, wrist_p.inv_table);
     _angles[9] = -deg2Rad * setStrokeToAngle(scale * (_strokes[9] + _strokes[8]) * 0.5, wrist_r.inv_table);
     _angles[10] = -deg2Rad * scale * _strokes[10];
-    _angles[11] = -deg2Rad * (scale * _strokes[14] * 5.556 - 50.0);
+    //_angles[11] = -deg2Rad * (scale * _strokes[14] * 5.556 - 50.0);
+    _angles[11] = -deg2Rad * (scale * _strokes[14] * 5.556);
     _angles[12] = 0;
     _angles[13] = 0;
-    _angles[14] = deg2Rad * (scale * _strokes[14] * 5.556 - 50.0);
+    //_angles[14] = deg2Rad * (scale * _strokes[14] * 5.556 - 50.0);
+    _angles[14] = deg2Rad * (scale * _strokes[14] * 5.556);
     _angles[15] = deg2Rad * scale * _strokes[15];
     _angles[16] = deg2Rad * setStrokeToAngle(scale * (_strokes[17] + _strokes[16]) * 0.5, neck_p.inv_table);
     _angles[17] = -deg2Rad * setStrokeToAngle(scale * (_strokes[17] - _strokes[16]) * 0.5, neck_r.inv_table);
@@ -175,10 +179,12 @@ void StrokeConverter::Stroke2Angle (std::vector<double>& _angles, const std::vec
     _angles[23] = -deg2Rad * setStrokeToAngle(scale * (_strokes[24] - _strokes[23]) * 0.5, wrist_p.inv_table);
     _angles[24] = deg2Rad * setStrokeToAngle(scale * (_strokes[24] + _strokes[23]) * 0.5, wrist_r.inv_table);
     _angles[25] = -deg2Rad * scale * _strokes[25];
-    _angles[26] = deg2Rad * (scale * _strokes[29] * 5.556 - 50.0);
+    //_angles[26] = deg2Rad * (scale * _strokes[29] * 5.556 - 50.0);
+    _angles[26] = deg2Rad * (scale * _strokes[29] * 5.556);
     _angles[27] = 0;
     _angles[28] = 0;
-    _angles[29] = -deg2Rad * (scale * _strokes[29] * 5.556 - 50.0);
+    //_angles[29] = -deg2Rad * (scale * _strokes[29] * 5.556 - 50.0);
+    _angles[29] = -deg2Rad * (scale * _strokes[29] * 5.556);
     _angles[30] = -deg2Rad * setStrokeToAngle(scale * _strokes[30], leg.inv_table);  //knee
     _angles[31] = deg2Rad * setStrokeToAngle(scale * _strokes[31], leg.inv_table);  //ankle
   }
