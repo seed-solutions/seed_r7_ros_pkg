@@ -41,6 +41,7 @@ public:
   void makeInvTable(std::vector<StrokeMap>& _inv_table,std::vector<StrokeMap>& _table);
   float setAngleToStroke (float _angle, std::vector<StrokeMap>& _table);
   float setStrokeToAngle (float _stroke, std::vector<StrokeMap>& _inv_table);
+  std::vector<std::pair<bool,int>> diff_joint_;
 
   DiffJoint setDualAngleToStroke (float _r_angle, float _p_angle,
       std::vector<StrokeMap>& _r_table, std::vector<StrokeMap>& _p_table, std::string _diff_axis="roll");

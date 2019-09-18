@@ -20,6 +20,26 @@ StrokeConverter::StrokeConverter(ros::NodeHandle _nh, std::string _robot_model) 
 
   ROS_INFO("finish to make stroke convert table");
 
+  //set diff joint
+  diff_joint_.resize(30);  //this number is fixed array size of aero API
+  fill(diff_joint_.begin(),diff_joint_.end(),std::make_pair(false,0));
+  if(robot_model_ == "typeF"){
+    //waist
+    diff_joint_.at(1) = std::make_pair(true,2);
+    diff_joint_.at(2) = std::make_pair(true,1);
+    //left wrist
+    diff_joint_.at(8) = std::make_pair(true,9);
+    diff_joint_.at(9) = std::make_pair(true,8);
+    //neck
+    diff_joint_.at(15) = std::make_pair(true,16);
+    diff_joint_.at(16) = std::make_pair(true,15);
+    //right wrist
+    diff_joint_.at(22) = std::make_pair(true,23);
+    diff_joint_.at(23) = std::make_pair(true,22);
+  }
+  else{
+    ROS_ERROR("not supported %s in stroke_converter.cpp", robot_model_.c_str());
+  }
 }
 
 StrokeConverter::~StrokeConverter()

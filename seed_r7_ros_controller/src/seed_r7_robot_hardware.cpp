@@ -278,7 +278,10 @@ namespace robot_hardware
     // masking
     std::vector<int16_t> snt_strokes(ref_strokes);
     for(size_t i = 0; i < ref_strokes.size() ; ++i){
-      if(!mask_positions[i]) snt_strokes[i] = 0x7FFF;
+      if(stroke_converter_->diff_joint_.at(i).first == true){
+        if(!mask_positions[i] && !mask_positions[stroke_converter_->diff_joint_.at(i).second]) snt_strokes[i] = 0x7FFF;
+      }
+      else if(!mask_positions[i]) snt_strokes[i] = 0x7FFF;
     }
 
     // split strokes into upper and lower
