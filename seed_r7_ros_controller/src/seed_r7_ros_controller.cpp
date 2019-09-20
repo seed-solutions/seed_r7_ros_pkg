@@ -33,41 +33,35 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/*
- Author: Yohei Kakiuchi
-*/
-
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-#include "seed_r7_robot_hardware.h"
-#include "seed_r7_mover_controller.h"
-#include "seed_r7_hand_controller.h"
+#include "seed_r7_ros_controller/seed_r7_robot_hardware.h"
+#include "seed_r7_ros_controller/seed_r7_mover_controller.h"
+#include "seed_r7_ros_controller/seed_r7_hand_controller.h"
 
-using namespace robot_hardware;
-
-#define MAIN_THREAD_PERIOD_MS    50000 //50ms (20Hz)
 #define NSEC_PER_SEC    1000000000L
+
 
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "seed_r7_ros_controller");
 
-  RobotHW hw;
-
   ros::NodeHandle nh;
   ros::NodeHandle robot_nh("~");
 
+  robot_hardware::RobotHW hw;
   if (!hw.init(nh, robot_nh)) {
-    ROS_ERROR("Faild to initialize hardware");
+    ROS_ERROR("Failed to initialize hardware");
     exit(1);
   }
 
   //add extra controller
-  MoverController mover_node(nh, &hw);
-  HandController hand_node(robot_nh, &hw);
+  robot_hardware::MoverController mover_node(nh, &hw);
+  robot_hardware::HandController hand_node(robot_nh, &hw);
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
+
   double period = hw.getPeriod();
   controller_manager::ControllerManager cm(&hw, nh);
 
@@ -79,47 +73,47 @@ int main(int argc, char** argv)
   double max_interval = 0.0;
   double ave_interval = 0.0;
   timespec m_t;
-  clock_gettime( CLOCK_MONOTONIC, &m_t );
+  clock_gettime(CLOCK_MONOTONIC, &m_t);
 
-  ros::Rate r(1/period);
-  ros::Time tm = ros::Time::now();
+  ros::Time ros_tm = ros::Time::now();
   while (ros::ok()) {
     {
-      struct timespec tm;
+      static timespec tm;
       tm.tv_nsec = m_t.tv_nsec;
       tm.tv_sec  = m_t.tv_sec;
       tm.tv_nsec += main_thread_period_ns;
-      while( tm.tv_nsec >= NSEC_PER_SEC ){
+      while (tm.tv_nsec >= NSEC_PER_SEC) {
         tm.tv_nsec -= NSEC_PER_SEC;
-        tm.tv_sec++;
+        ++tm.tv_sec;
       }
-      clock_nanosleep( CLOCK_MONOTONIC, TIMER_ABSTIME, &tm, NULL );
+      clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tm, NULL);
 
-      if(cntr > 100) {
+      if (cntr > 100) {
         ROS_INFO("max: %f [ms], ave: %f [ms]", max_interval/1000, ave_interval/1000);
         cntr = 0;
         max_interval = 0.0;
       }
       static timespec n_t;
-      clock_gettime( CLOCK_MONOTONIC, &n_t );
-      const double measured_interval = ((n_t.tv_sec - m_t.tv_sec)*NSEC_PER_SEC + (n_t.tv_nsec - m_t.tv_nsec))/1000.0; // usec
+      clock_gettime(CLOCK_MONOTONIC, &n_t);
+      const double measured_interval
+        = ((n_t.tv_sec - m_t.tv_sec)*NSEC_PER_SEC + (n_t.tv_nsec - m_t.tv_nsec))/1000.0;  // usec
       if (measured_interval > max_interval) max_interval = measured_interval;
-      if(ave_interval == 0.0) {
+      if (ave_interval == 0.0) {
         ave_interval = measured_interval;
       } else {
         ave_interval = (measured_interval + (100 - 1)*ave_interval)/100.0;
       }
       m_t.tv_sec  = n_t.tv_sec;
       m_t.tv_nsec = n_t.tv_nsec;
-      cntr++;
+      ++cntr;
     }
-    //r.sleep();
+
     ros::Time now = ros::Time::now();
-    ros::Duration period = now - tm;
-    hw.read  (now, period);
-    cm.update(now, period);
-    hw.write (now, period);
-    tm = now;
+    ros::Duration d_period = now - ros_tm;
+    hw.read  (now, d_period);
+    cm.update(now, d_period);
+    hw.write (now, d_period);
+    ros_tm = now;
   }
 
   return 0;

@@ -49,6 +49,11 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
   <!--arg name="base_local_planner_param"
        default="$(find seed_r7_navigation)/config/TrajectoryPlanner.yaml"/-->
 
+  <arg name="costmap_common_config"
+       default="$(find seed_r7_navigation)/config/costmap_common.yaml"/>
+  <arg name="costmap_local_config"
+       default="$(find seed_r7_navigation)/config/costmap_local.yaml"/>
+
   <node pkg="move_base" type="move_base" name="move_base"
         respawn="false" output="screen">
     <!-- planner type -->
@@ -62,17 +67,14 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
     <rosparam file="$(arg map_file)" command="load"/>
 
     <!-- observation sources located in costmap_common.yaml -->
-    <rosparam
-        file="$(find seed_r7_navigation)/config/costmap_common.yaml"
-        command="load" ns="global_costmap" />
-    <rosparam
-        file="$(find seed_r7_navigation)/config/costmap_common.yaml"
-        command="load" ns="local_costmap" />
+    <rosparam file="$(arg costmap_common_config)"
+              command="load" ns="global_costmap" />
+    <rosparam file="$(arg costmap_common_config)"
+              command="load" ns="local_costmap" />
 
     <!-- local costmap, needs size -->
-    <rosparam
-        file="$(find seed_r7_navigation)/config/costmap_local.yaml"
-        command="load" ns="local_costmap" />
+    <rosparam file="$(arg costmap_local_config)"
+              command="load" ns="local_costmap" />
     <param name="local_costmap/width"  value="6.0"/>
     <param name="local_costmap/height" value="6.0"/>
 
