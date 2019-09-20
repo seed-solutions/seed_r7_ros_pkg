@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(seed_r7_ros_controller)
 
+
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -19,14 +20,23 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   angles
   urdf
-  seed_r7_robot_interface
+  tf
+  seed_r7_description
   seed_smartactuator_sdk
-
-#  pluginlib
+  pluginlib
 )
 
-## Generate services in the 'srv' folder
+# boost
+find_package(Boost REQUIRED COMPONENTS filesystem system signals thread)
+if(NOT Boost_INCLUDE_DIRS)
+  message(FATAL "boost required but not supported")
+else()
+  include_directories(include ${Boost_INCLUDE_DIRS})
+endif()
 
+
+# Generate services in the 'srv' folder
+# Below service should be removed in future
 add_service_files(
    FILES
    HandControl.srv
@@ -38,9 +48,10 @@ generate_messages(
   trajectory_msgs
 )
 
+
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES robot_interface
+  LIBRARIES seed_r7_hand_controllers
   CATKIN_DEPENDS
     roscpp
     std_msgs
@@ -57,57 +68,38 @@ catkin_package(
     joint_limits_interface
     angles
     urdf
-    seed_r7_robot_interface
-
-    #    pluginlib
+    tf
+    seed_r7_description
+    seed_smartactuator_sdk
+    pluginlib
 )
 
-find_package(Eigen3 REQUIRED)
-##find_package(Boost REQUIRED COMPONENTS thread)
+link_directories(${catkin_LIBRARY_DIRS})
 
-link_directories(
-  ${catkin_LIBRARY_DIRS}
-)
+include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 
-include_directories(include
-  ${catkin_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIR}
-)
+add_definitions(-std=c++11)  # should be c++14 for melodic
 
-# add c++ dependencies :
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c+11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX11)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-  add_definitions(-DCXX11_SUPPORTED)
-elseif(COMPILER_SUPPORTS_CXX0X)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-  add_definitions(-DCXX11_SUPPORTED)
-else()
-  message(FATAL "c++11 required but not supported")
-endif()
-
-## Library
-add_library(seed_r7_hand_controllers
-  src/seed_r7_hand_controller.cpp
-)
+# Library
+add_library(seed_r7_hand_controllers src/seed_r7_hand_controller.cpp)
+add_dependencies(seed_r7_hand_controllers ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(seed_r7_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
-## Executable
-add_executable(${PROJECT_NAME} src/seed_r7_ros_controller.cpp src/seed_r7_robot_hardware.cpp src/seed_r7_mover_controller.cpp)
-target_link_libraries(${PROJECT_NAME} seed_r7_robot_interface seed_r7_hand_controllers ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+# Executable
+add_executable(${PROJECT_NAME} src/seed_r7_ros_controller.cpp
+                               src/seed_r7_robot_hardware.cpp
+                               src/seed_r7_mover_controller.cpp
+                               src/seed_r7_upper_controller.cpp
+                               src/seed_r7_lower_controller.cpp
+                               src/stroke_converter_base.cpp
+                               )
+target_link_libraries(${PROJECT_NAME} seed_r7_hand_controllers
+                                      ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
-
-## Install
+# Install
 install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
-
-
-
-

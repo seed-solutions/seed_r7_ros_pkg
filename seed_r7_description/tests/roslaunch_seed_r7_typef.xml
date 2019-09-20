@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
   <group ns="load_typef__">
-    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find seed_r7_description)/typeF/noid.urdf.xacro'" />
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find seed_r7_description)/typef/noid.urdf.xacro'" />
   </group>
 </launch>
