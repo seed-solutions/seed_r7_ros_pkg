@@ -7,7 +7,7 @@ seed-noid meta package
 
 ### To use make_map
 
-``roslaunch seed_r7_navigation wheel_with_make_map.launch``
+``roslaunch seed_r7_navigation wheel_with_making_map.launch``
 
 ### To use map_save
 
@@ -18,7 +18,7 @@ seed-noid meta package
 
 Map file is saved in 
 
-``/home/{USER}/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_navigation/config/map.pgm``
+``/home/{USER}/ros/{distro}/src/seed_r7_ros_pkg/seed_r7_navigation/config/map.pgm``
 
 ### To use saved map
 
