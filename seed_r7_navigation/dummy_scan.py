@@ -5,7 +5,6 @@
 import rospy
 import tf
 import math
-import numpy
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import OccupancyGrid, MapMetaData
 
@@ -69,9 +68,9 @@ class DummyScan:
                 val = msg.data[x + yidx]
                 if val >= 90:
                     mx = x * map_info.resolution + map_info.origin.position.x
-                    pt = numpy.array([mx * cr - my * sr,
-                                      mx * sr + my * cr,
-                                      self.laser_height])
+                    pt = [mx * cr - my * sr,
+                          mx * sr + my * cr,
+                          self.laser_height]
                     self.mapgrid_list.append(pt)
         # if recievved once unregister
         self.sub_map.unregister()
