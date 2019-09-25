@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>seed_r7_robot_interface</name>
-  <version>0.0.0</version>
+  <version>0.2.0</version>
   <description>The seed_r7_robot_interface package</description>
 
   <maintainer email="hi.kondo@thk.co.jp">hi.kondo</maintainer>
 
   <license>BSD</license>
 
+  <author>Kazuhiro Sasabuchi</author>
+
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>roscpp</depend>
-  <depend>std_msgs</depend>
-  <depend>tf</depend>
-  <depend>roslib</depend>
+  <depend>seed_r7_ros_controller</depend>
 
-  <depend>seed_r7_description</depend>
-  <depend>seed_r7_typef_moveit_config</depend>
-  <depend>seed_smartactuator_sdk</depend>
-
-  <export/>
+  <export>
+    <seed_r7_ros_controller plugin="${prefix}/typef/plugin_description.xml"/>
+  </export>
 </package>

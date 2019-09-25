@@ -14,5 +14,5 @@ if (CATKIN_ENABLE_TESTING)
   roslaunch_add_file_check(tests/roslaunch_seed_r7_typef.xml)
 endif()
 
-install(DIRECTORY meshes urdf typeF
+install(DIRECTORY meshes urdf typef
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

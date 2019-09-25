@@ -4,6 +4,10 @@
 <robot name="hand_yaw" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:property name="M_PI" value="3.1415926535897931" />
+<<<<<<< HEAD
+=======
+  <xacro:include filename="$(find seed_r7_description)/urdf/gazebo.xacro" />
+>>>>>>> bf978caa161dd6f2bc38e5d8ef665bf3477299f2
 
   <xacro:macro name="hand_yaw" params="prefix:=r reflect:=1 hand_link disable_mesh:=false">
   <!-- ============================   hand_yaw   ============================ -->
@@ -11,9 +15,15 @@
     <!-- reflect=1 is rightside, reflect=-1 is leftside -->
   <link name="${prefix}_hand_yaw_link">
     <xacro:unless value="${disable_mesh}"> <visual>
+<<<<<<< HEAD
       <origin xyz="0.0 0 -0.03" rpy="0 3.14 3.14"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/hand_yaw/hand_yaw.dae" scale="1 1 1" />
+=======
+      <origin xyz="0.0 0 0" rpy="0 ${M_PI / 2.0} ${reflect * M_PI / 2.0}"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/hand_yaw/wrist.dae" scale="1 1 1" />
+>>>>>>> bf978caa161dd6f2bc38e5d8ef665bf3477299f2
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
@@ -40,7 +50,11 @@
   <joint name="${prefix}_hand_y_joint" type="revolute">
     <parent link="${prefix}_hand_yaw_link"/>
     <child  link="${hand_link}"/>
+<<<<<<< HEAD
     <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+=======
+    <origin xyz="0 0 -0.04" rpy="0 0 0"/>
+>>>>>>> bf978caa161dd6f2bc38e5d8ef665bf3477299f2
     <axis   xyz="0 0 1"/>
     <limit lower="-2.0" upper="2.0" effort="100" velocity="3.1" />
     <dynamics damping="0.2" friction="0" />

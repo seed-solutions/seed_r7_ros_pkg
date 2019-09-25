@@ -1,8 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-  <include file="$(find seed_r7_bringup)/launch/seed_r7_bringup.launch" />
-  <include file="$(find seed_r7_typef_moveit_config)/launch/move_group.launch" />
-  <include file="$(find seed_r7_typef_moveit_config)/launch/moveit_rviz.launch" >
+  <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
+  <arg name="robot_model" default="typef"/>
+
+  <include file="$(find seed_r7_bringup)/launch/seed_r7_bringup.launch">
+    <arg name="robot_model_plugin" value="$(arg robot_model_plugin)"/>
+    <arg name="robot_model" value="$(arg robot_model)"/>
+  </include>
+
+  <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/move_group.launch" />
+  <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit_rviz.launch" >
     <arg name="config" value="True"/>
   </include>
 </launch>
