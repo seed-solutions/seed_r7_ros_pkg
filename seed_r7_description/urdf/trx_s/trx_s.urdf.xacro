@@ -9,7 +9,7 @@
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/trx_s/hand.DAE"/>
       </geometry>
-      <origin xyz="0 0 -0.031" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
+      <origin xyz="0 0 0" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
     </visual>
   </link>
 <!-- hand index base -->
@@ -78,7 +78,15 @@
     <origin xyz="0 ${0.023*reflect} -0.054" rpy="${-0.08 * reflect}  0 0"/>
     <axis   xyz="1 0 0"/>
     <limit lower="${-1.57 * (1 + reflect)/2.0}" upper="${1.57 * (1 - reflect)/2.0}" effort="25" velocity="0.5" />
+  </joint>
 
+  <link name="${prefix}_eef_grasp_link"/>
+
+   <!-- for ik eef connector-->
+  <joint name="${prefix}_eef_grasp_joint" type="fixed">
+    <parent  link="${prefix}_hand_link"/>
+    <child link="${prefix}_eef_grasp_link"/>
+    <origin xyz="0.0 ${0.04 * reflect} -0.14" rpy="0 1.5708 0 "/>
   </joint>
   </xacro:macro>
 </robot>

@@ -1,15 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-<<<<<<< HEAD
-  <arg name ="robot_model" default="typeFCETy"/>
-
-  <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen"  >
-    <param name="port_lower" value="/dev/aero_lower" />
-    <param name="port_upper" value="/dev/aero_upper" />
-    <param name="robot_model" value="$(arg robot_model)"/>
-    <param name="controller_rate" value="50"  /> <!-- [ Hz ] ( rate of read/write cycle) -->
-    <param name="overlap_scale"   value="2.0" /> <!-- scaling of target time -->
-=======
   <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
 
   <!-- parameters when using models in official package -->
@@ -37,7 +27,6 @@
     <param name="robot_model_plugin" value="$(arg robot_model_plugin)"/>
     <param name="controller_rate" value="$(arg controller_rate)"/> <!-- [ Hz ] ( rate of read/write cycle) -->
     <param name="overlap_scale"   value="$(arg overlap_scale)"/>   <!-- scaling of target time -->
->>>>>>> bf978caa161dd6f2bc38e5d8ef665bf3477299f2
   </node>
 
   <rosparam>
@@ -46,29 +35,9 @@
       publish_rate: 50
   </rosparam>
 
-<<<<<<< HEAD
-  <!-- controller settings / load from yaml -->
-  <rosparam command="load" file="$(find seed_r7_description)/$(arg robot_model)/controller_settings.yaml" />
-  <rosparam command="load" file="$(find seed_r7_robot_interface)/config/$(arg robot_model)/joint_settings.yaml" />
-  <rosparam command="load" file="$(find seed_r7_bringup)/config/extra_controller_settings.yaml" />
-
-  <group if="$(eval robot_model== 'typeF')">
-    <include file="$(find seed_r7_typef_moveit_config)/launch/planning_context.launch">
-      <arg name="load_robot_description" value="true"/>
-    </include>
-  </group>
-  <group if="$(eval robot_model== 'typeFCETy')">
-    <include file="$(find seed_r7_typefcety_moveit_config)/launch/planning_context.launch">
-      <arg name="load_robot_description" value="true"/>
-    </include>
-  </group>
-
-
-=======
   <include file="$(arg moveit_config_pkg)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true"/>
   </include>
->>>>>>> bf978caa161dd6f2bc38e5d8ef665bf3477299f2
 
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
