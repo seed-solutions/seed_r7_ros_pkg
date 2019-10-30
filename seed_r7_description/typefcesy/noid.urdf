@@ -216,12 +216,6 @@
     <mu2>0.9</mu2>
   </gazebo>
   <link name="l_wrist_center">
-    <visual>
-      <origin rpy="0 1.57 1.57" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeF_upperbody/wrist.dae" scale="1 1 1"/>
-      </geometry>
-    </visual>
     <inertial>
       <mass value="0.05"/>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
@@ -233,6 +227,18 @@
     <mu2>0.9</mu2>
   </gazebo>
   <link name="l_wrist_top">
+    <visual>
+      <origin rpy="0 1.57 1.57" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeF_upperbody/wrist.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57 1.57" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeF_upperbody/wrist.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
     <inertial>
       <mass value="0.05"/>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
@@ -1010,11 +1016,17 @@
   <!-- reflect=1 is rightside, reflect=-1 is leftside -->
   <link name="r_hand_yaw_link">
     <visual>
-      <origin rpy="0 3.14 3.14" xyz="0.0 0 0.0"/>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0.0 0 0.0"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/hand_yaw/hand_yaw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
+    <collision>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0 -0.005"/>
+      <geometry>
+        <cylinder length="0.01" radius="0.03"/>
+      </geometry>
+    </collision>
     <inertial>
       <mass value="0.183"/>
       <!-- original version -->
@@ -1061,11 +1073,17 @@
   <!-- reflect=1 is rightside, reflect=-1 is leftside -->
   <link name="l_hand_yaw_link">
     <visual>
-      <origin rpy="0 3.14 3.14" xyz="0.0 0 0.0"/>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0.0 0 0.0"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/hand_yaw/hand_yaw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
+    <collision>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0 -0.005"/>
+      <geometry>
+        <cylinder length="0.01" radius="0.03"/>
+      </geometry>
+    </collision>
     <inertial>
       <mass value="0.183"/>
       <!-- original version -->
