@@ -20,13 +20,13 @@
   <joint name="r_hand_connector" type="fixed">
     <parent link="r_hand_yaw_link"/>
     <child link="r_hand_link"/>
-    <origin xyz="0.0 0.0 -0.02" rpy="0 0 0 "/> 
+    <origin xyz="0.0 0.0 -0.01" rpy="0 0 0 "/> 
   </joint>
 
   <joint name="l_hand_connector" type="fixed">
     <parent link="l_hand_yaw_link"/>
     <child link="l_hand_link"/>
-    <origin xyz="0.0 0.0 -0.02" rpy="0 0 0 "/> 
+    <origin xyz="0.0 0.0 -0.01" rpy="0 0 0 "/> 
   </joint>
 
   <joint name="upper_lower_connector" type="fixed">

@@ -12,11 +12,19 @@
     <!-- reflect=1 is rightside, reflect=-1 is leftside -->
   <link name="${prefix}_hand_yaw_link">
     <xacro:unless value="${disable_mesh}"> <visual>
-      <origin xyz="0.0 0 0.0" rpy="0 3.14 3.14"/>
+      <origin xyz="0.0 0 0.0" rpy="0 ${M_PI} ${M_PI}"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/hand_yaw/hand_yaw.dae" scale="1 1 1" />
       </geometry>
     </visual> </xacro:unless>
+    <xacro:unless value="${disable_mesh}">
+    <collision>
+      <origin xyz="0 0 -0.005" rpy="0 ${M_PI} ${M_PI}" />
+      <geometry>
+        <cylinder length="0.01" radius="0.03" />
+      </geometry>
+    </collision>
+    </xacro:unless>
     <inertial>
       <mass value="0.183" />
       <!-- original version -->
