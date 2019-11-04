@@ -99,7 +99,7 @@ target_link_libraries(${PROJECT_NAME} seed_r7_hand_controllers
 
 
 # Install
-install(TARGETS ${PROJECT_NAME} seed_r7_hand_controllers
+install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
