@@ -39,10 +39,6 @@
         <group name="waist" />
         <group name="lifter" />
     </group>
-    <group name="both_arms">
-        <group name="rarm" />
-        <group name="larm" />
-    </group>
     <group name="head">
         <chain base_link="body_link" tip_link="head_link" />
     </group>
@@ -53,6 +49,9 @@
         <link name="r_indexmid_link" />
         <link name="r_indexend_link" />
         <link name="r_eef_grasp_link" />
+        <link name="r_eef_pick_link" />
+        <link name="r_index_tip_link" />
+        <link name="r_thumb_tip_link" />
     </group>
     <group name="lhand">
         <link name="l_hand_link" />
@@ -61,6 +60,9 @@
         <link name="l_indexmid_link" />
         <link name="l_indexend_link" />
         <link name="l_eef_grasp_link" />
+        <link name="l_eef_pick_link" />
+        <link name="l_thumb_tip_link" />
+        <link name="l_index_tip_link" />
     </group>
     <group name="torso">
         <group name="lifter" />
