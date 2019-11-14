@@ -348,7 +348,7 @@ namespace robot_hardware
     mutex_lower_.unlock();
   }
 
-   void RobotHW::onWheelServo(bool _value)
+  void RobotHW::onWheelServo(bool _value)
   {
     mutex_lower_.lock();
     controller_lower_->onServo(_value);

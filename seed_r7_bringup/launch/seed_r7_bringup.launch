@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
+  <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeFCETy"/>
 
   <!-- parameters when using models in official package -->
-  <arg name="robot_model"         default="typef"/>
+  <arg name="robot_model"         default="typefcety"/>
 
   <!-- parameters when using models in user packages -->
   <arg name="csv_config_dir"      default="$(find seed_r7_description)/csv"/>

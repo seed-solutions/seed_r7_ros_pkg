@@ -25,11 +25,12 @@ robot_hardware::UpperController::UpperController(const std::string& _port)
 
   //make table for remap aero <-> ros
   aero_table_.resize(body_data_size);
+
   for(size_t i = 0; i < aero_table_.size() ; ++i){
     size_t index = std::distance(aero_index_.begin(), std::find(aero_index_.begin(),aero_index_.end(),i));
     if(index != aero_index_.size()) aero_table_.at(i) = std::make_pair(index,name_.at(index));
   }
-  
+
 }
 
 robot_hardware::UpperController::~UpperController()

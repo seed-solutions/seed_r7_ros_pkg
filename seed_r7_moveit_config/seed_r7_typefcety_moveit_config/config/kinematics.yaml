@@ -1,0 +1,50 @@
+rarm:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+larm:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+waist:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+lifter:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+rarm_with_waist:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+larm_with_waist:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+rarm_with_torso:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+larm_with_torso:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+head:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
+torso:
+  kinematics_solver: bio_ik/BioIKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.001
+  kinematics_solver_timeout: 0.1
+  kinematics_solver_attempts: 10
