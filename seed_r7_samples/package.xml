@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>seed_r7_samples</name>
+  <version>0.3.0</version>
+
+  <description>The seed_r7_samples package</description>
+
+  <maintainer email="y.shiigi@thk.co.jp">Yasuto Shiigi</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>seed_r7_ros_controller</depend>
+  <depend>seed_r7_robot_interface</depend>
+  <depend>seed_r7_bringup</depend>
+  <depend>seed_r7_moveit_config</depend>
+  <depend>seed_r7_typef_moveit_config</depend>
+  <depend>seed_r7_navigation</depend>
+
+</package>
