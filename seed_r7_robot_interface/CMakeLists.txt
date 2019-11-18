@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME}_typeF ${catkin_LIBRARIES})
 # Install
 install(
   DIRECTORY typef/config
-  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 # Install
