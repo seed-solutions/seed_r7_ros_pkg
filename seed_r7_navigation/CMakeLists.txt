@@ -17,7 +17,7 @@ if (CATKIN_ENABLE_TESTING)
 endif()
 
 install(
-    DIRECTORY config launch 
+    DIRECTORY config launch maps
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
