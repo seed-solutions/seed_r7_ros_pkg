@@ -1,0 +1,7 @@
+/opt/ros/kinetic/lib/pkgconfig/seed_r7_robot_interface.pc
+/opt/ros/kinetic/share/seed_r7_robot_interface/cmake/seed_r7_robot_interfaceConfig.cmake
+/opt/ros/kinetic/share/seed_r7_robot_interface/cmake/seed_r7_robot_interfaceConfig-version.cmake
+/opt/ros/kinetic/share/seed_r7_robot_interface/package.xml
+/opt/ros/kinetic/share/seed_r7_robot_interface/typef/plugin_description.xml
+/opt/ros/kinetic/share/seed_r7_robot_interface/typef/config/joint_settings.yaml
+/opt/ros/kinetic/lib/libseed_r7_robot_interface_typeF.so

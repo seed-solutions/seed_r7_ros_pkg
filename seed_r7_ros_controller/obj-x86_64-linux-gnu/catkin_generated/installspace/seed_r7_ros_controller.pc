@@ -1,0 +1,8 @@
+prefix=/opt/ros/kinetic
+
+Name: seed_r7_ros_controller
+Description: Description of seed_r7_ros_controller
+Version: 0.3.0
+Cflags: -I/opt/ros/kinetic/include
+Libs: -L/opt/ros/kinetic/lib -lseed_r7_hand_controllers
+Requires: roscpp std_msgs trajectory_msgs sensor_msgs geometry_msgs nav_msgs control_msgs move_base_msgs controller_manager control_toolbox hardware_interface transmission_interface joint_limits_interface angles urdf tf seed_r7_description seed_smartactuator_sdk pluginlib

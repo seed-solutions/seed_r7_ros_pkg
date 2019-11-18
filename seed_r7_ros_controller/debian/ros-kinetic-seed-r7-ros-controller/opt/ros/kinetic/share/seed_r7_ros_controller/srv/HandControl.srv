@@ -1,0 +1,12 @@
+uint8 position  # right or left hand
+uint8 POSITION_RIGHT = 0
+uint8 POSITION_LEFT = 1
+
+string script   # script number (string value for print)
+string SCRIPT_GRASP = grasp
+string SCRIPT_RELEASE = release
+string SCRIPT_CANCEL = cancel
+
+uint8  current  # grasping current setting[%]
+---
+string result

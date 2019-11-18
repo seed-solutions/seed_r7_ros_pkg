@@ -1,0 +1,10 @@
+Package: ros-kinetic-seed-r7-ros-controller
+Version: 0.3.0-0xenial
+Architecture: amd64
+Maintainer: hi.kondo <hi.kondo@thk.co.jp>
+Installed-Size: 616
+Depends: libboost-filesystem1.58.0, libboost-system1.58.0, libc6 (>= 2.17), libconsole-bridge0.2v5, libgcc1 (>= 1:3.0), libstdc++6 (>= 5.2), libtinyxml2-2v5 (>= 2.0.2), liburdfdom-world0.4, ros-kinetic-angles, ros-kinetic-control-msgs, ros-kinetic-control-toolbox, ros-kinetic-controller-manager, ros-kinetic-geometry-msgs, ros-kinetic-hardware-interface, ros-kinetic-joint-limits-interface, ros-kinetic-joint-state-controller, ros-kinetic-joint-trajectory-controller, ros-kinetic-message-generation, ros-kinetic-move-base-msgs, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-realtime-tools, ros-kinetic-roscpp, ros-kinetic-rostest, ros-kinetic-seed-r7-description, ros-kinetic-seed-smartactuator-sdk, ros-kinetic-sensor-msgs, ros-kinetic-std-msgs, ros-kinetic-tf, ros-kinetic-trajectory-msgs, ros-kinetic-transmission-interface, ros-kinetic-urdf
+Section: misc
+Priority: optional
+Homepage: http://ros.org/wiki/
+Description: The seed_r7_ros_controller package

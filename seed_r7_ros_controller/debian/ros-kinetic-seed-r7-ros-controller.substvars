@@ -1,0 +1,3 @@
+shlibs:Depends=libboost-filesystem1.58.0, libboost-system1.58.0, libc6 (>= 2.17), libconsole-bridge0.2v5, libgcc1 (>= 1:3.0), libstdc++6 (>= 5.2), libtinyxml2-2v5 (>= 2.0.2), liburdfdom-world0.4
+misc:Depends=
+misc:Pre-Depends=
