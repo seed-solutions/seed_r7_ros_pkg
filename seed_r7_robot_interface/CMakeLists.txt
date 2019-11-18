@@ -30,6 +30,12 @@ add_library(${PROJECT_NAME}_typeF typef/src/stroke_converter.cpp)
 target_link_libraries(${PROJECT_NAME}_typeF ${catkin_LIBRARIES})
 
 # Install
+install(
+  DIRECTORY typef/config
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+# Install
 install(TARGETS ${PROJECT_NAME}_typeF
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
