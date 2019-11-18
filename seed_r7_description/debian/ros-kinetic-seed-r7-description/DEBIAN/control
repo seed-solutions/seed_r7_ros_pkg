@@ -1,9 +1,0 @@
-Package: ros-kinetic-seed-r7-description
-Version: 0.3.0-0xenial
-Architecture: amd64
-Maintainer: hi.kondo <hi.kondo@thk.co.jp>
-Installed-Size: 38922
-Depends: ros-kinetic-xacro
-Section: misc
-Priority: optional
-Description: The seed_r7_description package

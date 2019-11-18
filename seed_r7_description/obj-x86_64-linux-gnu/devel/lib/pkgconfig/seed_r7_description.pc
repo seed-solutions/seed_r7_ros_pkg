@@ -1,8 +1,0 @@
-prefix=/home/seed/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_description/obj-x86_64-linux-gnu/devel
-
-Name: seed_r7_description
-Description: Description of seed_r7_description
-Version: 0.3.0
-Cflags: 
-Libs: -L/home/seed/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_description/obj-x86_64-linux-gnu/devel/lib 
-Requires: 

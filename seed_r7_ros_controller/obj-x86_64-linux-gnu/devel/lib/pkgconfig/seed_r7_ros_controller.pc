@@ -1,8 +1,0 @@
-prefix=/home/seed/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_ros_controller/obj-x86_64-linux-gnu/devel
-
-Name: seed_r7_ros_controller
-Description: Description of seed_r7_ros_controller
-Version: 0.3.0
-Cflags: -I/home/seed/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_ros_controller/obj-x86_64-linux-gnu/devel/include -I/home/seed/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_ros_controller/include
-Libs: -L/home/seed/ros/kinetic/src/seed_r7_ros_pkg/seed_r7_ros_controller/obj-x86_64-linux-gnu/devel/lib -lseed_r7_hand_controllers
-Requires: roscpp std_msgs trajectory_msgs sensor_msgs geometry_msgs nav_msgs control_msgs move_base_msgs controller_manager control_toolbox hardware_interface transmission_interface joint_limits_interface angles urdf tf seed_r7_description seed_smartactuator_sdk pluginlib

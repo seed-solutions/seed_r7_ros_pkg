@@ -1,8 +1,0 @@
-451c9109a2fdde101be9c1b7852bcb7f  opt/ros/kinetic/lib/libseed_r7_robot_interface_typeF.so
-c2a7ba1e54dc658d6497fa329a0f39a6  opt/ros/kinetic/lib/pkgconfig/seed_r7_robot_interface.pc
-2a63912cfe6a83b5bfe885fca63a52cf  opt/ros/kinetic/share/seed_r7_robot_interface/cmake/seed_r7_robot_interfaceConfig-version.cmake
-ae0a4503206bb7e6a69c507929fdaf71  opt/ros/kinetic/share/seed_r7_robot_interface/cmake/seed_r7_robot_interfaceConfig.cmake
-50320ae10f01bd0c55412148e33d943c  opt/ros/kinetic/share/seed_r7_robot_interface/package.xml
-dfaea0d862beb32e6f4a3b565673c939  opt/ros/kinetic/share/seed_r7_robot_interface/typef/config/joint_settings.yaml
-108d26546508259102a4ae8c5609ec71  opt/ros/kinetic/share/seed_r7_robot_interface/typef/plugin_description.xml
-ef4cf1401633bb0d5f81412a6eb0d9d7  usr/share/doc/ros-kinetic-seed-r7-robot-interface/changelog.Debian.gz

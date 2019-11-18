@@ -1,8 +1,0 @@
-prefix=/opt/ros/kinetic
-
-Name: seed_r7_robot_interface
-Description: Description of seed_r7_robot_interface
-Version: 0.3.0
-Cflags: 
-Libs: -L/opt/ros/kinetic/lib -lseed_r7_robot_interface_typeF
-Requires: roscpp seed_r7_ros_controller

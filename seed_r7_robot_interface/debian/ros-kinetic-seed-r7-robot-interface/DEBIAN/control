@@ -1,9 +1,0 @@
-Package: ros-kinetic-seed-r7-robot-interface
-Version: 0.3.0-0xenial
-Architecture: amd64
-Maintainer: hi.kondo <hi.kondo@thk.co.jp>
-Installed-Size: 63
-Depends: libboost-system1.58.0, libc6 (>= 2.14), libconsole-bridge0.2v5, libgcc1 (>= 1:3.0), libstdc++6 (>= 5.2), ros-kinetic-roscpp, ros-kinetic-seed-r7-ros-controller
-Section: misc
-Priority: optional
-Description: The seed_r7_robot_interface package
