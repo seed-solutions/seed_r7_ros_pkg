@@ -2,8 +2,8 @@
 Changelog for package seed_r7_samples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.2 (2019-11-19)
+------------------
 * Merge branch 'new-master' of https://github.com/hi-kondo/seed_r7_ros_pkg into new-master
 * Merge branch 'master' into new-master
 * Contributors: hi-kondo
