@@ -2,13 +2,22 @@
 Changelog for package seed_r7_navigation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.2 (2019-11-18)
+-----------
+* Merge pull request `#53 <https://github.com/seed-solutions/seed_r7_ros_pkg/issues/53>`_ from hi-kondo/new-master
+  added typef to CMakeLists of seed_r7_interface
+* added install tag to seed_r7_navigation
+* Merge branch 'new-master' of https://github.com/hi-kondo/seed_r7_ros_pkg into new-master
+* depends bug fixed
+* Merge branch 'master' into new-master
+* Contributors: hi-kondo
+
 0.0.6 (2019-09-05)
 ------------------
 * update CHANGELOG.rst
 * Merge pull request `#31 <https://github.com/hi-kondo/seed_r7_ros_pkg/issues/31>`_ from hi-kondo/master
   update_navigation
 * bug fixed navigation
-* bug fix
 * bug fix
 * rename from blank.yaml to dummy.yaml
 * update wheel_bringup.launch paramter
@@ -28,8 +37,6 @@ Changelog for package seed_r7_navigation
 * Merge pull request `#31 <https://github.com/hi-kondo/seed_r7_ros_pkg/issues/31>`_ from hi-kondo/master
   update_navigation
 * bug fixed navigation
-* bug fix
-* bug fix
 * rename from blank.yaml to dummy.yaml
 * update wheel_bringup.launch paramter
 * delte remap of cmd_vel
