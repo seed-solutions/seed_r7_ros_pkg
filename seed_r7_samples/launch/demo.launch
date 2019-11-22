@@ -17,7 +17,8 @@
   <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/move_group.launch" />
 
   <!-- demo program -->
-  <node pkg="seed_r7_samples" name="scenario_node" type="demo.py" output="screen" if="$(arg run_demo)"/>
+  <node pkg="seed_r7_samples" name="scenario_node" type="demo.py" output="screen" if="$(arg run_demo)"
+        launch-prefix="xterm -e" />
 
   <!-- RViz -->
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find seed_r7_samples)/rviz.rviz" required="true" />
