@@ -18,4 +18,7 @@
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_navigation</depend>
 
+  <test_depend>roslaunch</test_depend>
+  <test_depend>rostest</test_depend>
+
 </package>

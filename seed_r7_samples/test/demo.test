@@ -1,0 +1,18 @@
+<launch>
+  <include file="$(find seed_r7_samples)/launch/demo.launch" >
+    <arg name="run_demo" default="false"/>
+  </include>
+  <!-- need to run at demo.test because demo.launch uses launch-prefix" -->
+  <node pkg="seed_r7_samples" name="scenario_node" type="demo.py" output="screen" />
+  
+  <test name="state_publishtest"
+        test-name="state_publishtest"
+        pkg="rostest" type="publishtest">
+    <rosparam>
+      topics:
+        - name: /server_name/smach/container_status
+          timeout: 10
+          negative: False
+    </rosparam>
+  </test>
+</launch>
