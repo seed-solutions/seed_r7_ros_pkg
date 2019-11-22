@@ -18,5 +18,6 @@
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_navigation</depend>
   <depend>smach_ros</depend>
+  <depend>rviz_plugin_tutorials</depend>
 
 </package>
