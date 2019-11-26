@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>seed_r7_samples</name>
-  <version>0.3.0</version>
+  <version>0.3.2</version>
 
   <description>The seed_r7_samples package</description>
 
@@ -17,5 +17,7 @@
   <depend>seed_r7_moveit_config</depend>
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_navigation</depend>
+  <depend>smach_ros</depend>
+  <depend>rviz_plugin_tutorials</depend>
 
 </package>

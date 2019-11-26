@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>seed_r7_navigation</name>
-  <version>0.3.0</version>
+  <version>0.3.2</version>
 
   <description>The seed_r7_navigation package</description>
 
@@ -20,5 +20,6 @@
   <depend>gmapping</depend>
   <depend>map_server</depend>
   <depend>teb_local_planner</depend>
+  <depend>rospy</depend>
 
 </package>

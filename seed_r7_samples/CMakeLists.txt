@@ -5,6 +5,11 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
-install(DIRECTORY launch scripts
+install(DIRECTORY launch scripts config
+          DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+	  USE_SOURCE_PERMISSIONS
+ )
+
+install(FILES rviz.rviz
           DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
  )
