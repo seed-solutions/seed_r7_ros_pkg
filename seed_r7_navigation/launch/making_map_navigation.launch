@@ -4,5 +4,7 @@
   <include file="$(find seed_r7_navigation)/launch/gmapping.launch" />
 
   <!--- Run Move Base -->
-  <include file="$(find seed_r7_navigation)/launch/move_base.launch" />
+  <include file="$(find seed_r7_navigation)/launch/move_base.launch">
+    <arg name="map_topic" value="map"/>
+  </include>
 </launch>
