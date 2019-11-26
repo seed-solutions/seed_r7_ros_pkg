@@ -1,5 +1,7 @@
 global_frame: odom
 rolling_window: true
+width: 6.0
+height: 6.0
 
 plugins:
   - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
