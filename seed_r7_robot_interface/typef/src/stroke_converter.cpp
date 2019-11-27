@@ -95,10 +95,10 @@ void seed_converter::TypeF::Stroke2Angle
     = -deg2Rad * setStrokeToAngle(scale_inv*(_strokes[9] - _strokes[8])*0.5, wrist_p.inv_table);
   _angles[9]
     = -deg2Rad * setStrokeToAngle(scale_inv*(_strokes[9] + _strokes[8])*0.5, wrist_r.inv_table);
-  _angles[10] = -deg2Rad * (scale_inv * _strokes[13] * 5.556 - 50.0);
+  _angles[10] = -deg2Rad * (scale_inv * _strokes[13] * 5.556);
   _angles[11] = 0;
   _angles[12] = 0;
-  _angles[13] = deg2Rad * (scale_inv * _strokes[13] * 5.556 - 50.0);
+  _angles[13] = deg2Rad * (scale_inv * _strokes[13] * 5.556);
 
   _angles[14] = deg2Rad * scale_inv * _strokes[14];
   _angles[15]
@@ -115,11 +115,12 @@ void seed_converter::TypeF::Stroke2Angle
     = -deg2Rad * setStrokeToAngle(scale_inv*(_strokes[23] - _strokes[22])*0.5, wrist_p.inv_table);
   _angles[23]
     = deg2Rad * setStrokeToAngle(scale_inv*(_strokes[23] + _strokes[22])*0.5, wrist_r.inv_table);
-  _angles[24] = deg2Rad * (scale_inv * _strokes[27] * 5.556 - 50.0);
+  //_angles[24] = deg2Rad * (scale_inv * _strokes[27] * 5.556 - 50.0);
+  _angles[24] = deg2Rad * (scale_inv * _strokes[27] * 5.556);
   _angles[25] = 0;
   _angles[26] = 0;
-  _angles[27] = -deg2Rad * (scale_inv * _strokes[27] * 5.556 - 50.0);
-
+  _angles[27] = -deg2Rad * (scale_inv * _strokes[27] * 5.556);
+  //_angles[27] = deg2Rad * (scale_inv * _strokes[27] * 5.556 - 50.0);
   _angles[28] = -deg2Rad * setStrokeToAngle(scale_inv * _strokes[28], leg.inv_table);  // knee
   _angles[29] = deg2Rad * setStrokeToAngle(scale_inv * _strokes[29], leg.inv_table);  // ankle
 }
