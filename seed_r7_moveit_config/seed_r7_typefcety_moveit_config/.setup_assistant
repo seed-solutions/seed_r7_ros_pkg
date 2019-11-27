@@ -1,19 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
     package: seed_r7_description
-<<<<<<< HEAD
-    relative_path: typeFCETy/noid.urdf.xacro
-=======
     relative_path: typefcety/noid.urdf.xacro
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
     xacro_args: "--inorder "
   SRDF:
     relative_path: config/SEED-Noid-Mover-typeFCETy.srdf
   CONFIG:
     author_name: Yasuto Shiigi
     author_email: y.shiigi@thk.co.jp
-<<<<<<< HEAD
-    generated_timestamp: 1569907078
-=======
     generated_timestamp: 1569486135
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290

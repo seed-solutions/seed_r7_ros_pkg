@@ -10,11 +10,7 @@ larm:
   kinematics_solver_attempts: 3
 waist:
   kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
-<<<<<<< HEAD
-   kinematics_solver_search_resolution: 0.005
-=======
   kinematics_solver_search_resolution: 0.005
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
   kinematics_solver_timeout: 0.005
   kinematics_solver_attempts: 3
 lifter:

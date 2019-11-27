@@ -35,7 +35,7 @@ add_library(${PROJECT_NAME}_typeFCETy typefcety/src/stroke_converter.cpp)
 target_link_libraries(${PROJECT_NAME}_typeFCETy ${catkin_LIBRARIES})
 # Install
 install(
-  DIRECTORY typef
+  DIRECTORY typef typefcety
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

@@ -3,11 +3,7 @@
   <name>seed_r7_typefcety_moveit_config</name>
   <version>0.3.0</version>
   <description>
-<<<<<<< HEAD
-     An automatically generated package with all the configuration and launch files for using the SEED-Noid-Mover-typeFCETy with the MoveIt! Motion Planning Framework
-=======
      An automatically generated package with all the configuration and launch files for using the SEED-Noid-Mover-typeF with the MoveIt! Motion Planning Framework
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
   </description>
   <author email="y.shiigi@thk.co.jp">Yasuto Shiigi</author>
   <maintainer email="y.shiigi@thk.co.jp">Yasuto Shiigi</maintainer>

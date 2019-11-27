@@ -50,11 +50,7 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
-<<<<<<< HEAD
   <include file="$(find seed_r7_typefcety_moveit_config)/launch/move_group.launch">
-=======
-  <include file="$(find seed_r7_typef_moveit_config)/launch/move_group.launch">
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
     <arg name="allow_trajectory_execution" value="true"/>
     <arg name="fake_execution" value="false"/>
     <arg name="info" value="true"/>
@@ -62,21 +58,13 @@
   </include>  
 
   <!-- Run Rviz and load the default config to see the state of the move_group node -->
-<<<<<<< HEAD
   <include file="$(find seed_r7_typefcety_moveit_config)/launch/moveit_rviz.launch">
-=======
-  <include file="$(find seed_r7_typef_moveit_config)/launch/moveit_rviz.launch">
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
     <arg name="config" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
   <!-- If database loading was enabled, start mongodb as well -->
-<<<<<<< HEAD
   <include file="$(find seed_r7_typefcety_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)">
-=======
-  <include file="$(find seed_r7_typef_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)">
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
     <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
   </include>
 

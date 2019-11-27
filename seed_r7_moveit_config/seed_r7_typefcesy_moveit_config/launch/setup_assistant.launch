@@ -1,20 +1,6 @@
 <!-- Re-launch the MoveIt! Setup Assistant with this configuration package already loaded -->
 <launch>
 
-<<<<<<< HEAD
-    <!-- Debug Info -->
-    <arg name="debug" default="false" />
-    <arg unless="$(arg debug)" name="launch_prefix" value="" />
-    <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
-  
-    <!-- Run -->
-    <node pkg="moveit_setup_assistant" type="moveit_setup_assistant" name="moveit_setup_assistant"
-      args="--config_pkg=seed_r7_typefcesy_moveit_config"
-      launch-prefix="$(arg launch_prefix)"
-          output="screen" />
-  
-  </launch>
-=======
   <!-- Debug Info -->
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
@@ -27,4 +13,3 @@
         output="screen" />
 
 </launch>
->>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
