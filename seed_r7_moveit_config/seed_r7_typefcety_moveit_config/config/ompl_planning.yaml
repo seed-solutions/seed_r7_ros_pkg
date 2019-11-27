@@ -344,6 +344,7 @@ larm_with_torso:
     - SPARStwo
   projection_evaluator: joints(ankle_joint,ankle_joint_mimic)
   longest_valid_segment_fraction: 0.005
+<<<<<<< HEAD
 both_arms:
   default_planner_config: ""
   planner_configs:
@@ -372,6 +373,8 @@ both_arms:
     - SPARStwo
   projection_evaluator: joints(l_shoulder_p_joint,l_shoulder_r_joint)
   longest_valid_segment_fraction: 0.005
+=======
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
 head:
   default_planner_config: RRTConnect
   planner_configs:

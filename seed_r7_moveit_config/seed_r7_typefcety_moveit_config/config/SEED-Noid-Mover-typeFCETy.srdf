@@ -40,7 +40,11 @@
         <group name="lifter" />
     </group>
     <group name="both_arms">
+<<<<<<< HEAD
         <group name="rarm" />
+=======
+	    <group name="rarm" />
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
         <group name="larm" />
     </group>
     <group name="head">
@@ -60,7 +64,11 @@
         <link name="l_indexbase_link" />
         <link name="l_indexmid_link" />
         <link name="l_indexend_link" />
+<<<<<<< HEAD
         <link name="l_eef_grasp_link" />
+=======
+        <link name="l_eef_grasp_link" />    
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
     </group>
     <group name="torso">
         <group name="lifter" />
@@ -81,6 +89,7 @@
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="reset-pose" group="upper_body">
+<<<<<<< HEAD
         <joint name="l_elbow_joint" value="-2.6429" />
         <joint name="l_hand_y_joint" value="-1.57" />
         <joint name="l_shoulder_p_joint" value="-0.2443" />
@@ -100,6 +109,26 @@
         <joint name="r_wrist_p_joint" value="0" />
         <joint name="r_wrist_r_joint" value="0" />
         <joint name="r_wrist_y_joint" value="-1.57" />
+=======
+        <joint name="l_elbow_joint" value="-2.3562" />
+        <joint name="l_shoulder_p_joint" value="-0.2443" />
+        <joint name="l_shoulder_r_joint" value="0.02" />
+        <joint name="l_shoulder_y_joint" value="0.3" />
+        <joint name="l_wrist_p_joint" value="0" />        <joint name="l_wrist_r_joint" value="0" />
+        <joint name="l_wrist_y_joint" value="0" />
+        <joint name="l_hand_y_joint" value="0" />
+        <joint name="neck_p_joint" value="0" />
+        <joint name="neck_r_joint" value="0" />
+        <joint name="neck_y_joint" value="0" />
+        <joint name="r_elbow_joint" value="-2.3562" />
+        <joint name="r_shoulder_p_joint" value="-0.2443" />
+        <joint name="r_shoulder_r_joint" value="-0.02" />
+        <joint name="r_shoulder_y_joint" value="-0.3" />
+        <joint name="r_wrist_p_joint" value="0" />
+        <joint name="r_wrist_r_joint" value="0" />
+        <joint name="r_wrist_y_joint" value="0" />
+        <joint name="r_hand_y_joint" value="0" />
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
         <joint name="waist_p_joint" value="0" />
         <joint name="waist_r_joint" value="0" />
         <joint name="waist_y_joint" value="0" />
@@ -154,6 +183,7 @@
         <joint name="waist_r_joint" value="0" />
         <joint name="waist_y_joint" value="0" />
     </group_state>
+<<<<<<< HEAD
     <group_state name="pick_l_prepare" group="upper_body">
         <joint name="l_elbow_joint" value="-1.57" />
         <joint name="l_hand_y_joint" value="-1.37" />
@@ -483,6 +513,8 @@
         <joint name="waist_r_joint" value="0" />
         <joint name="waist_y_joint" value="-0.1758" />
     </group_state>
+=======
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="right_eef" parent_link="r_hand_link" group="rhand" parent_group="rarm" />
     <end_effector name="left_eef" parent_link="l_hand_link" group="lhand" parent_group="larm" />

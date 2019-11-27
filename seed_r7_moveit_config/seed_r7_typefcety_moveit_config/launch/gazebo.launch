@@ -2,7 +2,11 @@
 <launch>
   <arg name="paused" default="false"/>
   <arg name="gazebo_gui" default="true"/>
+<<<<<<< HEAD
   <arg name="urdf_path" default="$(find seed_r7_description)/typeFCETy/noid.urdf.xacro"/>
+=======
+  <arg name="urdf_path" default="$(find seed_r7_description)/typeF/noid.urdf.xacro"/>
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
 
   <!-- startup simulated world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -18,6 +22,10 @@
   <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot -x 0 -y 0 -z 0"
     respawn="false" output="screen" />
 
+<<<<<<< HEAD
   <include file="$(find seed_r7_typefcety_moveit_config)/launch/ros_controllers.launch"/>
+=======
+  <include file="$(find seed_r7_typef_moveit_config)/launch/ros_controllers.launch"/>
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
 
 </launch>

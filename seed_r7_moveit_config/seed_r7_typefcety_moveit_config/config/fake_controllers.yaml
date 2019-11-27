@@ -84,6 +84,7 @@ controller_list:
       - l_wrist_p_joint
       - l_wrist_r_joint
       - l_hand_y_joint
+<<<<<<< HEAD
   - name: fake_both_arms_controller
     joints:
       - l_shoulder_p_joint
@@ -102,6 +103,8 @@ controller_list:
       - r_wrist_p_joint
       - r_wrist_r_joint
       - r_hand_y_joint
+=======
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
   - name: fake_head_controller
     joints:
       - neck_y_joint
@@ -109,11 +112,19 @@ controller_list:
       - neck_r_joint
   - name: fake_rhand_controller
     joints:
+<<<<<<< HEAD
       - r_hand_y_joint
       - r_thumb_joint
   - name: fake_lhand_controller
     joints:
       - l_hand_y_joint
+=======
+      - r_wrist_r_joint
+      - r_thumb_joint
+  - name: fake_lhand_controller
+    joints:
+      - l_wrist_r_joint
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
       - l_thumb_joint
   - name: fake_torso_controller
     joints:
@@ -171,4 +182,8 @@ controller_list:
       - r_wrist_y_joint
       - r_wrist_p_joint
       - r_wrist_r_joint
+<<<<<<< HEAD
       - r_hand_y_joint
+=======
+      - r_hand_r_joint
+>>>>>>> c0219c946923f983aeb3c9ac25f7eb61f51a6290
