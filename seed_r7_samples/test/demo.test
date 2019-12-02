@@ -3,7 +3,7 @@
     <arg name="run_demo" default="false"/>
   </include>
   <!-- need to run at demo.test because demo.launch uses launch-prefix" -->
-  <node pkg="seed_r7_samples" name="scenario_node" type="test.py" output="screen" />
+  <node pkg="seed_r7_samples" name="scenario_node" type="demo.py" output="screen" />
   
   <test name="state_publishtest"
         test-name="state_publishtest"
