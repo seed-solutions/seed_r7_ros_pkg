@@ -20,7 +20,6 @@
   <depend>smach_ros</depend>
   <depend>smach_viewer</depend>
   <depend>moveit_simple_controller_manager</depend>
-  <depend>moveit_fake_controller_maneger</depend>
   <depend>moveit_commander</depend>
   <depend>rviz_plugin_tutorials</depend>
 
