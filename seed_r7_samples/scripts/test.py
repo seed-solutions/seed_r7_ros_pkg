@@ -157,7 +157,7 @@ class MoveitCommand:
 
     while True:
       try:
-        listener.waitForTransform('base_link', 'body_link',rospy.Time.now(), rospy.Duration(3.0))
+        #listener.waitForTransform('base_link', 'body_link',rospy.Time.now(), rospy.Duration(6.0))
         (position, quaternion) = listener.lookupTransform('base_link', 'body_link', rospy.Time(0) )
       except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
         continue
