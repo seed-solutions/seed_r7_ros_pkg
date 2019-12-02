@@ -342,42 +342,35 @@ class PLACE(State):
       if(hc.release()): return 'succeeded'
       else: return 'aborted'
     else: return 'aborted'
+class FINISH(State):
+  def __init__(self):
+    State.__init__(self, outcomes=['succeeded','aborted'])
+
+  ## @brief 遷移実行
+  # @param userdata 前のステートから引き継がれた変数。今回は使用しない
+  # @return succeededのみ
+  def execute(self, userdata):
+    print 'FINISHED'
+    return 'succeeded'
 
 #==================================
 #==================================
 if __name__ == '__main__':
-  rospy.init_node('scenario_node')
+  rospy.init_node('test_node')
 
   na = NaviAction()
   hc = HandController()
   mc = MoveitCommand()
 
-  go_to_shelf = StateMachine(outcomes=['succeeded','aborted'])
-  with go_to_shelf:
-    StateMachine.add('DOWN LIFTER', MOVE_LIFTER(0,0.6),\
-      transitions={'succeeded':'MOVE','aborted':'aborted'})
-    StateMachine.add('MOVE', GO_TO_PLACE(1),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
-  go_to_start_point = StateMachine(outcomes=['succeeded','aborted'])
-  with go_to_start_point:
-    StateMachine.add('DOWN LIFTER', MOVE_LIFTER(0,0.6),\
-      transitions={'succeeded':'MOVE','aborted':'aborted'})
-    StateMachine.add('MOVE', GO_TO_PLACE(0),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
-
   scenario_play = StateMachine(outcomes=['succeeded','aborted'])
   with scenario_play:
-    StateMachine.add('GO TO SHELF', go_to_shelf,\
-      transitions={'succeeded':'INITIALIZE','aborted':'aborted'})
-    StateMachine.add('INITIALIZE', INIT_POSE(),\
-      transitions={'succeeded':'GO TO START POINT','aborted':'aborted'})
-    StateMachine.add('GO TO START POINT', go_to_start_point,\
-     transitions={'succeeded':'GO TO SHELF','aborted':'aborted'})
-    
-
+    StateMachine.add('DOWN LIFTER', MOVE_LIFTER(0,0.6),\
+      transitions={'succeeded':'FINISH','aborted':'aborted'})
+    StateMachine.add('FINISH', FINISH(),\
+      transitions={'succeeded':'succeeded','aborted':'aborted'})
+   
   sis = smach_ros.IntrospectionServer('server_name',scenario_play,'/SEED-Noid-Mover Scenario Play')
   sis.start()
   scenario_play.execute()
+  rospy.loginfo('end')
   sis.stop()
