@@ -11,7 +11,7 @@
     <rosparam>
       topics:
         - name: /server_name/smach/container_status
-          timeout: 20
+          timeout: 30
           negative: False
     </rosparam>
   </test>

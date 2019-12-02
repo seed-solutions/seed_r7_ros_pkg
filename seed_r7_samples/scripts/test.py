@@ -372,5 +372,6 @@ if __name__ == '__main__':
   sis = smach_ros.IntrospectionServer('server_name',scenario_play,'/SEED-Noid-Mover Scenario Play')
   sis.start()
   scenario_play.execute()
+  time.sleep(0.1)
   rospy.loginfo('end')
   sis.stop()
