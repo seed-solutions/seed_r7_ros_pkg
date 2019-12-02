@@ -20,4 +20,7 @@
   <depend>smach_ros</depend>
   <depend>rviz_plugin_tutorials</depend>
 
+  <test_depend>roslaunch</test_depend>
+  <test_depend>rostest</test_depend>
+
 </package>
