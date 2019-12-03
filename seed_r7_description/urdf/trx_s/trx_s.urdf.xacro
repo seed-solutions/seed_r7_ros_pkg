@@ -57,9 +57,9 @@
   <joint name="${prefix}_indexbase_joint" type="continuous">
     <parent link="${prefix}_hand_link"/>
     <child  link="${prefix}_indexbase_link"/>
-    <origin xyz="0 ${-0.013*reflect} -0.087" rpy="${reflect * -0.3} 0 0"/>
+    <origin xyz="0 ${-0.013*reflect} -0.087" rpy="${reflect * 0.75} 0 0"/>
     <axis   xyz="1 0 0"/>
-    <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
+    <limit lower="-0.87" upper="0.87" effort="25" velocity="0.5" />
   </joint>
 <!-- hand index middle -->
   <link name="${prefix}_indexmid_link">
@@ -88,7 +88,7 @@
     <child  link="${prefix}_indexmid_link"/>
     <origin xyz="0 0 -0.045" rpy="${0.52*reflect} 0 0 "/>   
     <axis   xyz="1 0 0"/>
-    <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
+    <limit lower="-0.87" upper="0.87" effort="25" velocity="0.5" />
   </joint>
 <!-- hand index end -->
   <link name="${prefix}_indexend_link">
@@ -117,7 +117,7 @@
     <child  link="${prefix}_indexend_link"/>
     <origin xyz="0 ${-0.005*reflect} -0.025" rpy="${-1.13*reflect} 0 0 "/>
     <axis   xyz="1 0 0"/>
-    <limit lower="-3.14159" upper="3.14159" effort="25" velocity="0.5" />
+    <limit lower="-0.87" upper="0.87" effort="25" velocity="0.5" />
   </joint>
 <!-- hand finger -->
   <link name="${prefix}_thumb_link">
@@ -150,9 +150,9 @@
   <joint name="${prefix}_thumb_joint" type="revolute">
     <parent  link="${prefix}_hand_link"/>
     <child  link="${prefix}_thumb_link"/>
-    <origin xyz="0 ${0.023*reflect} -0.054" rpy="${-0.08 * reflect}  0 0"/>
+    <origin xyz="0 ${0.023*reflect} -0.054" rpy="${-0.75 * reflect}  0 0"/>
     <axis   xyz="1 0 0"/>
-    <limit lower="${-1.57 * (1 + reflect)/2.0}" upper="${1.57 * (1 - reflect)/2.0}" effort="25" velocity="0.5" />
+    <limit lower="-0.87" upper="0.87" effort="25" velocity="0.5" />
   </joint>
   <link name="${prefix}_eef_grasp_link"/>
 
