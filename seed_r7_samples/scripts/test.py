@@ -343,7 +343,7 @@ class PLACE(State):
       else: return 'aborted'
     else: return 'aborted'
 class FINISH(State):
-  def __init__(self):
+      def __init__(self):
     State.__init__(self, outcomes=['succeeded','aborted'])
 
   ## @brief 遷移実行
