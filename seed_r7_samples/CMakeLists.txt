@@ -5,11 +5,13 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
-install(DIRECTORY launch scripts config
-          DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-	  USE_SOURCE_PERMISSIONS
- )
+if (CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch/demo.launch)
+  find_package(rostest REQUIRED)
+  add_rostest(test/demo.test)
+endif()
 
-install(FILES rviz.rviz
+install(DIRECTORY launch scripts
           DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
- )
+)

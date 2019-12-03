@@ -12,4 +12,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>robot_state_publisher</depend>
+  <depend>seed_r7_typef_moveit_config</depend>
+  <depend>controller_manager</depend>
+  <depend>seed_r7_ros_controller</depend>
 </package>

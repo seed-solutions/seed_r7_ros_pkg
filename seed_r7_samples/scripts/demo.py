@@ -190,6 +190,7 @@ class MoveitCommand:
   def set_initial_pose(self):
     self.group = moveit_commander.MoveGroupCommander("upper_body")
     self.group.set_named_target("reset-pose")
+    self.group.get_current_pose()
     plan = self.group.plan()
     self.group.go()
 
