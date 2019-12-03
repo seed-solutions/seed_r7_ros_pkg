@@ -1,6 +1,7 @@
 <launch>
-  <include file="$(find seed_r7_samples)/launch/test.launch" >
+  <include file="$(find seed_r7_samples)/launch/demo.launch" >
     <arg name="run_demo" default="false"/>
+    <arg name="test_mode" default="true"/>>
   </include>
   <!-- need to run at demo.test because demo.launch uses launch-prefix" -->
   <node pkg="seed_r7_samples" name="test_node" type="test.py" output="screen" />
