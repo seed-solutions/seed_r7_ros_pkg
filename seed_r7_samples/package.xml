@@ -18,6 +18,12 @@
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_navigation</depend>
   <depend>smach_ros</depend>
+  <depend>smach_viewer</depend>
+  <depend>moveit_simple_controller_manager</depend>
+  <depend>moveit_commander</depend>
   <depend>rviz_plugin_tutorials</depend>
+
+  <test_depend>roslaunch</test_depend>
+  <test_depend>rostest</test_depend>
 
 </package>
