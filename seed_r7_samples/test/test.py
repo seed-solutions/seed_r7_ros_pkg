@@ -101,6 +101,8 @@ class HandController:
         print 'Service call failed: %s'%e
         return False
 
+
+
 ###########################################
 class MoveitCommand:
   def __init__(self):
@@ -109,43 +111,6 @@ class MoveitCommand:
 
     self.group = moveit_commander.MoveGroupCommander("rarm_with_torso")
     self.group.set_pose_reference_frame("base_link")
-
-    self.box1 = self.box_pose(0.6,-0.3,0.36)
-    self.box2 = self.box_pose(0.7,0.3,0.76)
-    self.box3 = self.box_pose(0.8,0,1.16)
-
-  def set_grasp_position(self, x, y, z, vel=1.0,direction="side"):
-    self.group = moveit_commander.MoveGroupCommander("rarm_with_torso")
-    self.group.set_pose_reference_frame("base_link")
-
-    target_pose = Pose()
-    if(direction == "side"):
-      self.group.set_end_effector_link("r_eef_grasp_link")
-      quat = tf.transformations.quaternion_from_euler(0,0,0)
-    elif(direction == "top"): 
-      self.group.set_end_effector_link("r_eef_pick_link")
-      quat = tf.transformations.quaternion_from_euler(-1.57,0.79,0)
-
-    target_pose.orientation.x = quat[0]
-    target_pose.orientation.y = quat[1]
-    target_pose.orientation.z = quat[2]
-    target_pose.orientation.w = quat[3]
-
-    target_pose.position.x = x
-    target_pose.position.y = y
-    target_pose.position.z = z
-
-    self.group.set_pose_target(target_pose)
-    self.group.set_max_velocity_scaling_factor(vel)
-    plan = self.group.plan()
-
-    if(len(plan.joint_trajectory.points)==0):
-      rospy.logwarn("IK can't be solved")
-      self.group.clear_pose_targets()
-      return 'aborted'
-    else: 
-      self.group.execute(plan)
-      return 'succeeded'
 
   def set_lifter_position(self, x, z, vel=1.0):
     self.group = moveit_commander.MoveGroupCommander("torso")
@@ -202,85 +167,6 @@ class MoveitCommand:
       self.group.execute(plan)
       return 'succeeded'
 
-  def wait_for_state_update(self, box_name,box_is_known=False, box_is_attached=False, timeout=4):
-    scene = self.scene
-
-    start = rospy.get_time()
-    seconds = rospy.get_time()
-    while (seconds - start < timeout) and not rospy.is_shutdown():
-      attached_objects = scene.get_attached_objects([box_name])
-      is_attached = len(attached_objects.keys()) > 0
-
-      is_known = box_name in scene.get_known_object_names()
-
-      if (box_is_attached == is_attached) and (box_is_known == is_known):
-        return 'succeeded'
-
-      rospy.sleep(0.1)
-      seconds = rospy.get_time()
-
-    return 'aborted'
-
-  def box_pose(self, x, y, z):
-    box_pose = geometry_msgs.msg.PoseStamped()
-    box_pose.header.frame_id = "base_link"
-    box_pose.pose.position.x = x
-    box_pose.pose.position.y = y
-    box_pose.pose.position.z = z
-    return box_pose
-
-  def add_objects(self):
-    self.scene.add_box("shelf1", self.box_pose(0.8,0,0.3), size=(0.5, 1.0, 0.01))
-    self.scene.add_box("shelf2", self.box_pose(0.8,0,0.7), size=(0.5, 1.0, 0.01))
-    self.scene.add_box("shelf3", self.box_pose(0.8,0,1.1), size=(0.5, 1.0, 0.01))
-
-    self.scene.add_box("wall1", self.box_pose(0.8,0.5,0.75), size=(0.5, 0.01, 1.5))
-    self.scene.add_box("wall2", self.box_pose(0.8,-0.5,0.75), size=(0.5, 0.01, 1.5))
-
-    self.scene.add_box("box1", self.box1, size=(0.05, 0.1, 0.1))
-    self.scene.add_box("box2", self.box2, size=(0.05, 0.05, 0.1))
-    self.scene.add_box("box3", self.box3, size=(0.05, 0.05, 0.1))
-
-    return 'succeeded'
-
-  def remove_objects(self):
-    self.scene.remove_world_object()
-    return 'succeeded'
-
-  def attach_objects(self,object_name):
-    self.group.set_end_effector_link("r_eef_pick_link")
-    eef_link = self.group.get_end_effector_link()
-    grasping_group = 'rhand'
-    touch_links = self.robot.get_link_names(group=grasping_group)
-    self.scene.attach_box(eef_link, object_name, touch_links=touch_links)
-
-    return self.wait_for_state_update(object_name,box_is_attached=True, box_is_known=False, timeout=4)
-
-  def detach_objects(self, object_name):
-    self.group.set_end_effector_link("r_eef_pick_link")
-    eef_link = self.group.get_end_effector_link()
-
-    self.scene.remove_attached_object(eef_link, name=object_name)
-
-    return self.wait_for_state_update(object_name,box_is_known=True, box_is_attached=False, timeout=4)
-
-#---------------------------------
-class MANIPULATE(State):
-  def __init__(self,x,y,z,vel=1.0,direction="side"):
-    State.__init__(self, outcomes=['succeeded','aborted'])
-    self.x = x
-    self.y = y
-    self.z = z
-    self.vel = vel
-    self.direction = direction
-
-  def execute(self, userdata):
-    print 'Manipulate at (' + str(self.x) +',' + str(self.y) + \
-      ',' +  str(self.z) +') in scale velocity ' + str(self.vel)
-    if(mc.set_grasp_position(self.x,self.y,self.z,self.vel,self.direction) 
-      == 'succeeded'):return 'succeeded'
-    else: return 'aborted'
-
 #---------------------------------
 class MOVE_LIFTER(State):
   def __init__(self,x,z,vel=1.0):
@@ -306,42 +192,7 @@ class INIT_POSE(State):
     if(mc.set_initial_pose() == 'succeeded'):return 'succeeded'
     else: return 'aborted'
 
-class UPDATE_OBJECTS(State):
-  def __init__(self,action):
-    State.__init__(self, outcomes=['succeeded','aborted'])
-    self.action = action
 
-  def execute(self, userdata):
-    if(self.action == 'add'): 
-      print('add objects')
-      if(mc.add_objects() == 'succeeded'):return 'succeeded'
-      else: return 'aborted'
-    elif(self.action == 'remove'): 
-      print('remove objects')
-      if(mc.remove_objects() == 'succeeded'):return 'succeeded'
-      else: return 'aborted'
-      
-class PICK(State):
-  def __init__(self,object_name):
-    State.__init__(self, outcomes=['succeeded','aborted'])
-    self.object_name = object_name
-
-  def execute(self, userdata):
-    if(mc.attach_objects(self.object_name) == 'succeeded'):
-      if(hc.grasp()): return 'succeeded'
-      else: return 'aborted'
-    else: return 'aborted'
-
-class PLACE(State):
-  def __init__(self,object_name):
-    State.__init__(self, outcomes=['succeeded','aborted'])
-    self.object_name = object_name
-
-  def execute(self, userdata):
-    if(mc.detach_objects(self.object_name) == 'succeeded'):
-      if(hc.release()): return 'succeeded'
-      else: return 'aborted'
-    else: return 'aborted'
 class FINISH(State):
   def __init__(self):
     State.__init__(self, outcomes=['succeeded','aborted'])
@@ -368,7 +219,7 @@ if __name__ == '__main__':
       transitions={'succeeded':'FINISH','aborted':'aborted'})
     StateMachine.add('FINISH', FINISH(),\
       transitions={'succeeded':'succeeded','aborted':'aborted'})
-   
+  
   sis = smach_ros.IntrospectionServer('server_name',scenario_play,'/SEED-Noid-Mover Scenario Play')
   sis.start()
   scenario_play.execute()
