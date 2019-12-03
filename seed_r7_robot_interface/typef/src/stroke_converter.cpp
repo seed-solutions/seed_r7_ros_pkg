@@ -51,7 +51,7 @@ void seed_converter::TypeF::Angle2Stroke
   _strokes[7] = static_cast<int16_t>(-scale * rad2Deg * _angles[7]);
   _strokes[8] = static_cast<int16_t>(scale * l_wrist.one);
   _strokes[9] = static_cast<int16_t>(scale * l_wrist.two);
-  _strokes[13] = static_cast<int16_t>(scale * (rad2Deg * _angles[13]+50.0) * 0.18);  
+  _strokes[13] = static_cast<int16_t>(scale * (rad2Deg * _angles[13]) * 0.18);  
   _strokes[14] = static_cast<int16_t>(scale * rad2Deg * _angles[14]);
   _strokes[15] = static_cast<int16_t>(scale * neck.two);
   _strokes[16] = static_cast<int16_t>(scale * neck.one);
@@ -66,7 +66,7 @@ void seed_converter::TypeF::Angle2Stroke
   _strokes[21] = static_cast<int16_t>(-scale * rad2Deg * _angles[21]);
   _strokes[22] = static_cast<int16_t>(scale * r_wrist.two);
   _strokes[23] = static_cast<int16_t>(scale * r_wrist.one);
-  _strokes[27] = static_cast<int16_t>(-scale * (rad2Deg * _angles[27]-50.0) * 0.18);
+  _strokes[27] = static_cast<int16_t>(-scale * (rad2Deg * _angles[27]) * 0.18);
 
   _strokes[28]
     = static_cast<int16_t>(scale * setAngleToStroke(- rad2Deg * _angles[28], leg.table));  //knee
@@ -119,7 +119,7 @@ void seed_converter::TypeF::Stroke2Angle
   _angles[25] = 0;
   _angles[26] = 0;
   //_angles[27] = -deg2Rad * (scale_inv * _strokes[27] * 5.556);
-  _angles[27] = -deg2Rad * (scale_inv * _strokes[27] * 5.556);
+  _angles[27] = -deg2Rad * (scale_inv * _strokes[27] * 5.556 );
   _angles[28] = -deg2Rad * setStrokeToAngle(scale_inv * _strokes[28], leg.inv_table);  // knee
   _angles[29] = deg2Rad * setStrokeToAngle(scale_inv * _strokes[29], leg.inv_table);  // ankle
 }

@@ -19,8 +19,7 @@ catkin_package(
   CATKIN_DEPENDS roscpp seed_r7_ros_controller
   DEPENDS
   INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}_typeF  
-            ${PROJECT_NAME}_typeFCETy
+  LIBRARIES ${PROJECT_NAME}_TypeF ${PROJECT_NAME}_TypeFCETy
 
 )
 
@@ -28,25 +27,46 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_definitions(-std=c++11)  # should be c++14 for melodic
 
-add_library(${PROJECT_NAME}_typeF typef/src/stroke_converter.cpp)
-target_link_libraries(${PROJECT_NAME}_typeF ${catkin_LIBRARIES})
+add_library(${PROJECT_NAME}_TypeF
+  typef/src/stroke_converter.cpp
+)
+target_link_libraries(${PROJECT_NAME}_TypeF ${catkin_LIBRARIES})
 
-add_library(${PROJECT_NAME}_typeFCETy typefcety/src/stroke_converter.cpp)
-target_link_libraries(${PROJECT_NAME}_typeFCETy ${catkin_LIBRARIES})
+
+add_library(${PROJECT_NAME}_TypeFCETy
+  typefcety/src/stroke_converter.cpp
+)
+target_link_libraries(${PROJECT_NAME}_TypeFCETy ${catkin_LIBRARIES})
+
+#add_library(${PROJECT_NAME}_TypeFCESy
+#  typefcesy/src/stroke_converter.cpp
+#)
+#target_link_libraries(${PROJECT_NAME}_TypeFCESy ${catkin_LIBRARIES})
+
+
+
 # Install
 install(
-  DIRECTORY typef typefcety
+  DIRECTORY typef typefcety typefcesy
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 # Install
-install(TARGETS ${PROJECT_NAME}_typeF
+install(TARGETS ${PROJECT_NAME}_TypeF
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
 
-install(TARGETS ${PROJECT_NAME}_typeFCETy
+# Install
+install(TARGETS ${PROJECT_NAME}_TypeFCETy
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
+
+# Install
+#install(TARGETS ${PROJECT_NAME}_TypeFCESy
+#  RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#)
+
 
