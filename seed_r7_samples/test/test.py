@@ -77,6 +77,30 @@ class GO_TO_PLACE(State):
     if(na.set_goal(self.place_) == 'succeeded'):return 'succeeded'
     else: return 'aborted' 
 
+###########################################
+class HandController:
+  def __init__(self):
+    rospy.loginfo('waiting service')
+    rospy.wait_for_service('/seed_r7_ros_controller/hand_control')
+
+  def grasp(self):
+    try:
+        service = rospy.ServiceProxy('/seed_r7_ros_controller/hand_control', HandControl)
+        response = service(0,'grasp',100)
+        return True
+    except rospy.ServiceException, e:
+        print 'Service call failed: %s'%e
+        return False
+
+  def release(self):
+    try:
+        service = rospy.ServiceProxy('/seed_r7_ros_controller/hand_control', HandControl)
+        response = service(0,'release',100)
+        return True
+    except rospy.ServiceException, e:
+        print 'Service call failed: %s'%e
+        return False
+
 
 
 ###########################################
@@ -186,6 +210,7 @@ if __name__ == '__main__':
   rospy.init_node('test_node')
 
   na = NaviAction()
+  hc = HandController()
   mc = MoveitCommand()
 
   scenario_play = StateMachine(outcomes=['succeeded','aborted'])
