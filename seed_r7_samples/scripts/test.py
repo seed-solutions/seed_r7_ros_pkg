@@ -157,6 +157,7 @@ class MoveitCommand:
 
     while True:
       try:
+        #listener.waitForTransform('base_link', 'body_link',rospy.Time.now(), rospy.Duration(6.0))
         (position, quaternion) = listener.lookupTransform('base_link', 'body_link', rospy.Time(0) )
       except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
         continue
@@ -190,7 +191,6 @@ class MoveitCommand:
   def set_initial_pose(self):
     self.group = moveit_commander.MoveGroupCommander("upper_body")
     self.group.set_named_target("reset-pose")
-    self.group.get_current_pose()
     plan = self.group.plan()
     self.group.go()
 
@@ -342,93 +342,36 @@ class PLACE(State):
       if(hc.release()): return 'succeeded'
       else: return 'aborted'
     else: return 'aborted'
+class FINISH(State):
+  def __init__(self):
+    State.__init__(self, outcomes=['succeeded','aborted'])
+
+  ## @brief 遷移実行
+  # @param userdata 前のステートから引き継がれた変数。今回は使用しない
+  # @return succeededのみ
+  def execute(self, userdata):
+    print 'FINISHED'
+    return 'succeeded'
 
 #==================================
 #==================================
 if __name__ == '__main__':
-  rospy.init_node('scenario_node')
+  rospy.init_node('test_node')
 
   na = NaviAction()
   hc = HandController()
   mc = MoveitCommand()
 
-  go_to_shelf = StateMachine(outcomes=['succeeded','aborted'])
-  with go_to_shelf:
-    StateMachine.add('DOWN LIFTER', MOVE_LIFTER(0,0.6),\
-      transitions={'succeeded':'MOVE','aborted':'aborted'})
-    StateMachine.add('MOVE', GO_TO_PLACE(1),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
-  go_to_start_point = StateMachine(outcomes=['succeeded','aborted'])
-  with go_to_start_point:
-    StateMachine.add('DOWN LIFTER', MOVE_LIFTER(0,0.6),\
-      transitions={'succeeded':'MOVE','aborted':'aborted'})
-    StateMachine.add('MOVE', GO_TO_PLACE(0),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
-  pick_place_1 = StateMachine(outcomes=['succeeded','aborted'])
-  x = mc.box1.pose.position.x
-  y = mc.box1.pose.position.y
-  z = mc.box1.pose.position.z
-  with pick_place_1:
-    StateMachine.add('PICK MOTION', MANIPULATE(x, y, z, direction="top"), \
-      transitions={'succeeded':'PICK','aborted':'aborted'})
-    StateMachine.add('PICK', PICK('box1'),\
-      transitions={'succeeded':'PLACE MOTION','aborted':'aborted'})
-    StateMachine.add('PLACE MOTION', MANIPULATE(0.6, -0.4, z + 0.4, direction="top"), \
-      transitions={'succeeded':'PLACE','aborted':'aborted'})   
-    StateMachine.add('PLACE', PLACE('box1'),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
-  pick_place_2 = StateMachine(outcomes=['succeeded','aborted'])
-  x = mc.box2.pose.position.x
-  y = mc.box2.pose.position.y
-  z = mc.box2.pose.position.z
-  with pick_place_2:
-    StateMachine.add('PICK MOTION', MANIPULATE(x, y, z), \
-      transitions={'succeeded':'PICK','aborted':'aborted'})
-    StateMachine.add('PICK', PICK('box2'),\
-      transitions={'succeeded':'PLACE MOTION','aborted':'aborted'})
-    StateMachine.add('PLACE MOTION', MANIPULATE(0.6, -0.2, z), \
-      transitions={'succeeded':'PLACE','aborted':'aborted'})    
-    StateMachine.add('PLACE', PLACE('box2'),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
-  pick_place_3 = StateMachine(outcomes=['succeeded','aborted'])
-  x = mc.box3.pose.position.x
-  y = mc.box3.pose.position.y
-  z = mc.box3.pose.position.z
-  with pick_place_3:
-    StateMachine.add('PICK MOTION', MANIPULATE(x, y, z), \
-      transitions={'succeeded':'PICK','aborted':'aborted'})
-    StateMachine.add('PICK', PICK('box3'),\
-      transitions={'succeeded':'PLACE MOTION','aborted':'aborted'})
-    StateMachine.add('PLACE MOTION', MANIPULATE(0.6, 0.0, z - 0.4), \
-      transitions={'succeeded':'PLACE','aborted':'aborted'})  
-    StateMachine.add('PLACE', PLACE('box3'),\
-      transitions={'succeeded':'succeeded','aborted':'aborted'})
-
   scenario_play = StateMachine(outcomes=['succeeded','aborted'])
   with scenario_play:
-    StateMachine.add('GO TO SHELF', go_to_shelf,\
-      transitions={'succeeded':'ADD OBJECTS','aborted':'aborted'})
-    StateMachine.add('ADD OBJECTS', UPDATE_OBJECTS('add'),\
-     transitions={'succeeded':'PICK and PLACE 1','aborted':'aborted'})
-    StateMachine.add('PICK and PLACE 1', pick_place_1,\
-      transitions={'succeeded':'PICK and PLACE 2','aborted':'aborted'})
-    StateMachine.add('PICK and PLACE 2', pick_place_2,\
-      transitions={'succeeded':'PICK and PLACE 3','aborted':'aborted'})
-    StateMachine.add('PICK and PLACE 3', pick_place_3,\
-      transitions={'succeeded':'INITIALIZE','aborted':'aborted'})
-    StateMachine.add('INITIALIZE', INIT_POSE(),\
-      transitions={'succeeded':'REMOVE OBJECTS','aborted':'aborted'})
-    StateMachine.add('REMOVE OBJECTS', UPDATE_OBJECTS('remove'),\
-     transitions={'succeeded':'GO TO START POINT','aborted':'aborted'})
-    StateMachine.add('GO TO START POINT', go_to_start_point,\
-     transitions={'succeeded':'GO TO SHELF','aborted':'aborted'})
-
+    StateMachine.add('DOWN LIFTER', MOVE_LIFTER(0,0.6),\
+      transitions={'succeeded':'FINISH','aborted':'aborted'})
+    StateMachine.add('FINISH', FINISH(),\
+      transitions={'succeeded':'succeeded','aborted':'aborted'})
+   
   sis = smach_ros.IntrospectionServer('server_name',scenario_play,'/SEED-Noid-Mover Scenario Play')
   sis.start()
   scenario_play.execute()
+  time.sleep(0.1)
+  rospy.loginfo('end')
   sis.stop()
-
