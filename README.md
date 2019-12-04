@@ -1,4 +1,4 @@
-# seed_r7_ros_pkg
+# seed_r7_ros_pkg ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
 seed-noid meta package
 ## How to run
 ### Bring up robot_control(with real robot and Simulation on rviz)
