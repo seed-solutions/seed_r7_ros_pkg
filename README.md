@@ -1,6 +1,10 @@
-# seed_r7_ros_pkg ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
+# seed_r7_ros_pkg  
 seed-noid meta package
 
+## Continuous Integration Status
+service    | Kinetic | Melodic |
+---------- | ------- | ------- |
+Travis     | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master) | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
 ## How to install
 ### 1. From Debian
 TBD
