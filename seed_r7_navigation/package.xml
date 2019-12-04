@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>seed_r7_navigation</name>
-  <version>0.3.2</version>
+  <version>0.3.3</version>
 
   <description>The seed_r7_navigation package</description>
 

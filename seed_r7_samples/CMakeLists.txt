@@ -12,6 +12,11 @@ if (CATKIN_ENABLE_TESTING)
   add_rostest(test/demo.test)
 endif()
 
-install(DIRECTORY launch scripts
-          DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+install(DIRECTORY config launch scripts 
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
+
+
+catkin_install_python(PROGRAMS scripts/demo.py
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

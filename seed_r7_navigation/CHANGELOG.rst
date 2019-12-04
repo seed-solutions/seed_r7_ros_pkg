@@ -2,6 +2,10 @@
 Changelog for package seed_r7_navigation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.3 (2019-12-04)
+------------------
+* Merge branch 'master' into add_test
+
 0.3.2 (2019-11-18)
 -----------
 * Merge pull request `#53 <https://github.com/seed-solutions/seed_r7_ros_pkg/issues/53>`_ from hi-kondo/new-master
