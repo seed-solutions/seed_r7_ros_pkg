@@ -7,11 +7,16 @@ seed-noid meta package
 
 ## Without real robot (Simulation on rviz)
 
-``roslaunch seed_r7_navigation wheel_with_dummy.launch`` 
+``roslaunch seed_r7_navigation wheel_with_dummy.launch``
+## To confirm a single axis movement of manipulator easily
 
+``` 
+sudo apt-get install ros-{distro}-rqt-joint-trajectory-controller 
+source /opt/ros/{distro}/setup.bash 
+rosrun rqt_joint_trajectory_controller rqt_joint_trajectory_controller 
+```
 
-
-## Sample code (you input only this command, so robot_controller and rviz, smach_viewer launched)
+### Sample code (you input only this command, so robot_controller and rviz, smach_viewer launched)
 
 ``roslaunch seed_r7_samples demo.launch``
 
@@ -19,6 +24,14 @@ in detail : https://github.com/seed-solutions/seed_r7_ros_pkg/blob/master/seed_r
 
 
 ## With real robot
+
+### Enviroment Setting
+1. When you connect your PC and robot main controller with USB FTDI, 
+
+``rosrun seed_r7_bringup make_udev_install.py``
+
+You need to set upper-udev-rules and lower-udev-rules.
+
 
 ### Make map with navigation
 
