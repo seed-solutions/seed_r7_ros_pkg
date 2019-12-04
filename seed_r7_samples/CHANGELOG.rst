@@ -2,8 +2,8 @@
 Changelog for package seed_r7_samples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.3 (2019-12-04)
+------------------
 * Merge pull request `#62 <https://github.com/hi-kondo/seed_r7_ros_pkg/issues/62>`_ from hi-kondo/ori-master
   rostest directory of seed_r7_samples changed
 * depend package added

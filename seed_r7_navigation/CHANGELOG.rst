@@ -2,8 +2,8 @@
 Changelog for package seed_r7_navigation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.3 (2019-12-04)
+------------------
 * Merge branch 'master' into add_test
 
 0.3.2 (2019-11-18)
