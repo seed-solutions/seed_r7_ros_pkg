@@ -21,6 +21,7 @@ rosrun rqt_joint_trajectory_controller rqt_joint_trajectory_controller
 ```
 
 ![sample2](https://i.imgur.com/PHdqmfn.png)
+![sample3](https://i.imgur.com/InP1J9Z.png)
 
 http://wiki.ros.org/rqt_joint_trajectory_controller
 
