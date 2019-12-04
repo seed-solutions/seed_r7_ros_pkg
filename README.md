@@ -8,6 +8,10 @@ seed-noid meta package
 ## Without real robot (Simulation on rviz)
 
 ``roslaunch seed_r7_navigation wheel_with_dummy.launch``
+
+``rosrun  rviz rviz ``
+
+![sample](https://i.imgur.com/ffLGv19.png)
 ## To confirm a single axis movement of manipulator easily
 
 ``` 
@@ -16,11 +20,15 @@ source /opt/ros/{distro}/setup.bash
 rosrun rqt_joint_trajectory_controller rqt_joint_trajectory_controller 
 ```
 
+![sample2](https://i.imgur.com/PHdqmfn.png)
+
+http://wiki.ros.org/rqt_joint_trajectory_controller
+
 ### Sample code (you input only this command, so robot_controller and rviz, smach_viewer launched)
 
 ``roslaunch seed_r7_samples demo.launch``
 
-in detail : https://github.com/seed-solutions/seed_r7_ros_pkg/blob/master/seed_r7_samples/README.md
+In detail : https://github.com/seed-solutions/seed_r7_ros_pkg/blob/master/seed_r7_samples/README.md
 
 
 ## With real robot
