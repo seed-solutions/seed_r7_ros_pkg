@@ -1,5 +1,23 @@
-# seed_r7_ros_pkg ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
+# seed_r7_ros_pkg  
 seed-noid meta package
+
+## Continuous Integration Status
+service    | Kinetic | Melodic |
+---------- | ------- | ------- |
+Travis     | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master) | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
+## How to install
+### 1. From Debian
+TBD
+
+### 2. From Source
+In your catkin_ws/src,
+```
+  sudo apt-get install ros-{distro}-seed-smartactuator-sdk
+  source /opt/ros/{distro}/setup.bash
+  git clone https://github.com/seed-solutions/seed_r7_ros_pkg.git
+  catkin build seed_r7_ros_pkg
+  source {your-workspace}/devel/setup.bash
+```
 ## How to run
 ### Bring up robot_control(with real robot and Simulation on rviz)
 
