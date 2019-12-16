@@ -7,7 +7,10 @@ service    | Kinetic | Melodic |
 Travis     | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master) | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
 ## How to install
 ### 1. From Debian
-TBD
+```
+  sudo apt-get update
+  sudo apt-get install ros-{distro}-seed-r7-ros-pkg
+```
 
 ### 2. From Source
 In your catkin_ws/src,
