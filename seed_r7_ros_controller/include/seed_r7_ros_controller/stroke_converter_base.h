@@ -55,7 +55,6 @@ protected:
    const bool _is_pitch=false);
 
   std::string file_path_;
-  std::vector<std::pair<bool,int>> diff_joint_;
 
 };
 
