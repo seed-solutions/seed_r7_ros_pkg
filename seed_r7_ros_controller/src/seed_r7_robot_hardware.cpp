@@ -275,6 +275,8 @@ namespace robot_hardware
     std::vector<bool > mask_positions(number_of_angles_);
     std::fill(mask_positions.begin(), mask_positions.end(), true); // send if true
 
+//old
+#if 0  
     for (int i = 0; i < number_of_angles_; ++i) {
       double tmp = ref_positions[i];
       if (tmp == prev_ref_positions_[i]) {
@@ -286,7 +288,23 @@ namespace robot_hardware
     // convert from angle to stroke
     std::vector<int16_t> ref_strokes(ref_positions.size());
     stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
-    
+#endif    
+
+//debug test code 
+#if 1  
+    // convert from angle to stroke
+    std::vector<int16_t> ref_strokes(ref_positions.size());
+    stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
+
+    for (int i = 0; i < number_of_angles_; ++i) {
+      double tmp = ref_positions[i];
+      if (tmp == prev_ref_positions_[i]) {
+        mask_positions[i] = false;
+      }
+      prev_ref_positions_[i] = tmp;
+    }
+#endif   
+
     // masking
     std::vector<int16_t> snt_strokes(ref_strokes);
     for (size_t i = 0; i < ref_strokes.size() ; ++i) {

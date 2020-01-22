@@ -49,13 +49,14 @@ protected:
   void makeInvTable(std::vector<StrokeMap>& _inv_table, const std::vector<StrokeMap>& _table);
   float setAngleToStroke(const float _angle, const std::vector<StrokeMap>& _table);
   float setStrokeToAngle(const float _stroke, const std::vector<StrokeMap>& _inv_table);
-
   DiffJoint setDualAngleToStroke
   (const float _r_angle, const float _p_angle,
    const std::vector<StrokeMap>& _r_table, const std::vector<StrokeMap>& _p_table,
    const bool _is_pitch=false);
 
   std::string file_path_;
+  std::vector<std::pair<bool,int>> diff_joint_;
+
 };
 
 }
