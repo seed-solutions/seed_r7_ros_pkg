@@ -2,9 +2,13 @@
 seed-noid meta package
 
 ## Continuous Integration Status
+service    | Master  |
+---------- | ------- |
+Travis     | [![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg/) |
+
 service    | Kinetic | Melodic |
 ---------- | ------- | ------- |
-Travis     | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master) | ![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)
+ROS Buildfarm     | [![Build Status](http://build.ros.org/job/Kbin_uX64__seed_r7_ros_pkg__ubuntu_xenial_amd64__binary/badge/icon)](http://build.ros.org/job/Kbin_uX64__seed_r7_ros_pkg__ubuntu_xenial_amd64__binary/) | [![Build Status](http://build.ros.org/job/Mbin_uB64__seed_r7_ros_pkg__ubuntu_bionic_amd64__binary/badge/icon)](http://build.ros.org/job/Mbin_uB64__seed_r7_ros_pkg__ubuntu_bionic_amd64__binary/) |
 ## How to install
 ### 1. From Debian
 ```
