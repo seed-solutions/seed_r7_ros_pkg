@@ -297,11 +297,11 @@ namespace robot_hardware
     stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
 
     for (int i = 0; i < number_of_angles_; ++i) {
-      double tmp = ref_positions[i];
-      if (tmp == prev_ref_positions_[i]) {
+      double tmp = ref_strokes[i];
+      if (tmp == prev_ref_strokes_[i]) {
         mask_positions[i] = false;
       }
-      prev_ref_positions_[i] = tmp;
+      prev_ref_strokes_[i] = tmp;
     }
 #endif   
 

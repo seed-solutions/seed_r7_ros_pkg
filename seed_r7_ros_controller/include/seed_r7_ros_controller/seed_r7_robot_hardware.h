@@ -112,6 +112,7 @@ protected:
 
 
   std::vector<double> prev_ref_positions_;
+  std::vector<double> prev_ref_strokes_;
   std::vector<int16_t> upper_act_strokes_;
   std::vector<int16_t> lower_act_strokes_;
 
