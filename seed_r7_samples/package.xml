@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>seed_r7_samples</name>
-  <version>0.3.2</version>
+  <version>0.3.4</version>
 
   <description>The seed_r7_samples package</description>
 
@@ -18,6 +18,13 @@
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_navigation</depend>
   <depend>smach_ros</depend>
+  <depend>smach_viewer</depend>
+  <depend>moveit_simple_controller_manager</depend>
+  <depend>moveit_commander</depend>
   <depend>rviz_plugin_tutorials</depend>
+  <depend>rviz</depend>
+
+  <test_depend>roslaunch</test_depend>
+  <test_depend>rostest</test_depend>
 
 </package>

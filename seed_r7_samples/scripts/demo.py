@@ -412,7 +412,7 @@ if __name__ == '__main__':
     StateMachine.add('GO TO SHELF', go_to_shelf,\
       transitions={'succeeded':'ADD OBJECTS','aborted':'aborted'})
     StateMachine.add('ADD OBJECTS', UPDATE_OBJECTS('add'),\
-     transitions={'succeeded':'PICK and PLACE 1','aborted':'aborted'})
+      transitions={'succeeded':'PICK and PLACE 1','aborted':'aborted'})
     StateMachine.add('PICK and PLACE 1', pick_place_1,\
       transitions={'succeeded':'PICK and PLACE 2','aborted':'aborted'})
     StateMachine.add('PICK and PLACE 2', pick_place_2,\
@@ -422,9 +422,9 @@ if __name__ == '__main__':
     StateMachine.add('INITIALIZE', INIT_POSE(),\
       transitions={'succeeded':'REMOVE OBJECTS','aborted':'aborted'})
     StateMachine.add('REMOVE OBJECTS', UPDATE_OBJECTS('remove'),\
-     transitions={'succeeded':'GO TO START POINT','aborted':'aborted'})
+      transitions={'succeeded':'GO TO START POINT','aborted':'aborted'})
     StateMachine.add('GO TO START POINT', go_to_start_point,\
-     transitions={'succeeded':'GO TO SHELF','aborted':'aborted'})
+      transitions={'succeeded':'GO TO SHELF','aborted':'aborted'})
 
   sis = smach_ros.IntrospectionServer('server_name',scenario_play,'/SEED-Noid-Mover Scenario Play')
   sis.start()
