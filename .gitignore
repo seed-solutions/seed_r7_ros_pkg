@@ -1,0 +1,6 @@
+*~
+*.pyc
+#*
+*.rviz
+
+.vscode
