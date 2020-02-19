@@ -21,8 +21,8 @@ env:
     - ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=amd64
 matrix:
   allow_failures:
-    - env: ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=amd64
-    #- env: ROS_DISTRO_NAME=indigo  OS_NAME=ubuntu OS_CODE_NAME=trusty ARCH=amd64
+    - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=i386
+    - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=armhf
 install:
   # install QEMU for running ARM containers
   - if [[ "$ARCH" == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
