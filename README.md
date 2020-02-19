@@ -26,6 +26,7 @@ Below is an example.
 sudo apt-get install python-wstool python-catkin-tools
 mkdir -p ~/ros/${ROS_DISTRO}
 cd ~/ros/${ROS_DISTRO}
+mkdir src
 catkin init
 catkin build
 source ~/ros/${ROS_DISTRO}/devel/setup.bash
