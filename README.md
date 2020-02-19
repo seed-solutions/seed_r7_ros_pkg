@@ -38,30 +38,30 @@ rosdep install -y -r --from-paths src --ignore-src
 catkin build seed_r7_ros_pkg
 source ~/.bashrc
 ```
-### <a name = "udev_setting"> 2. UDEV Setting (if you have a robot)   
-If your robot's USB is not registerd on your PC, you have to do it.
-(In case of registered, ``/etc/udev/rules.d/90-aero.rules`` is exist.)
+### <a name = "udev_setting"> 2. Udev Setting (if you have a robot)   
+If you still have not registered the robot's USB for your PC, you have to do it.
+(When you register that, ``/etc/udev/rules.d/90-aero.rules`` need to be exist.)
 Firstly, connect the robot's USB to your PC, and run the following command.    
 ```
 rosrun seed_r7_bringup make_udev_install.py
 ```
-Secondly, please remove and insert the USB.
-When run ``ls -l /dev/aero*``, it's OK if USB is recognized as bellow:
+Secondly, please disconnect and reconnect the USB.
+When you run ``ls -l /dev/aero*``, the follwing message will appear if USB is recognized:
 ```
 /dev/aero_upper -> ttyUSB0
 /dev/aero_lower -> ttyUSB1
 ```
-The number of ttyUSB may not be same, but it's no problem.
+The number of ttyUSB may not be same, but there is no problem.
 
 ## How to launch
 ### Bring up ros_control ( without / with real robot )
-If you use real robot, please refer [Udev Setting](#udev_setting).
+If you use real robot, please refer to [Udev Setting](#udev_setting).
 ```
 roslaunch seed_r7_bringup seed_r7_bringup.launch
 rosrun rviz rviz -d `rospack find seed_r7_bringup`/rviz.rviz
 ``` 
-In either case, you have to run this command.    
-The robot model isn't displayed on rviz at this time, because ``Fixed Frame`` is set as``map`` that does not exist. However, it will be displayed correctly in the next step.
+In either case, you have to run this command. 
+The robot model is not displayed on rviz at this time, because ``Fixed Frame`` is set as``map`` that does not exist. However, it will be displayed correctly in the next step.
 
 ### without real robot
 ```
@@ -73,7 +73,7 @@ roslaunch seed_r7_navigation wheel_with_dummy.launch
 1. make map and save it     
 make map : ``roslaunch seed_r7_navigation wheel_with_making_map.launch``    
 save map : ``roslaunch seed_r7_navigation map_saver.launch  #run after making map``    
-**Don't kill nodes of making_map before starting map_saver.launch.**      
+**Do not kill nodes of making_map before starting map_saver.launch.**      
 Map file is saved in ``~/ros/${ROS_DISTRO}/src/seed_r7_ros_pkg/seed_r7_navigation/config/map.pgm``    
 2. use saved map    
 ``roslaunch seed_r7_navigation wheel_with_static_map.launch``
@@ -93,13 +93,13 @@ Please run the following command.
 ```
 roslaunch seed_r7_samples demo.launch
 ```
-**Don't connect the robot's USB on your computer!**
-**The SEED-Mover starts moving!**
+**Do not connect the robot's USB on your computer!**
+**The SEED-Mover start to move!**
 
 The [ros_controller](http://wiki.ros.org/ros_control), [moveit](http://wiki.ros.org/moveit), [navigation](http://wiki.ros.org/navigation), [smach_viewer](http://wiki.ros.org/smach_viewer) and [rviz](http://wiki.ros.org/rviz) are launched, and [sample code](seed_r7_samples/scripts/demo.py) will be started. This code mainly includes [smach](http://wiki.ros.org/smach), [moveit_commander](http://wiki.ros.org/moveit_commander) and [actionlib](http://wiki.ros.org/actionlib).
 ![moveit](https://user-images.githubusercontent.com/12426780/68364074-455e6300-0170-11ea-82d4-ffb3afb18af1.gif)
 
-If you try more complex programming, please refer [Kinetic tutorial](http://docs.ros.org/kinetic/api/moveit_tutorials/html/index.html), [Melodic tutorial](http://docs.ros.org/melodic/api/moveit_tutorials/html/index.html) or [MoveIt Manual by TORK](https://github.com/tork-a/tork_moveit_tutorial/releases/download/0.0.5/tork_moveit_tutorial-0.0.5.pdf)(in Japanese).    
+If you want to make more complex programs, please refer to [Kinetic tutorial](http://docs.ros.org/kinetic/api/moveit_tutorials/html/index.html), [Melodic tutorial](http://docs.ros.org/melodic/api/moveit_tutorials/html/index.html) or [MoveIt Manual by TORK](https://github.com/tork-a/tork_moveit_tutorial/releases/download/0.0.5/tork_moveit_tutorial-0.0.5.pdf)(in Japanese).    
 **When using MoveIt! commands, be sure to run following launch file.**
 ```
 roslaunch seed_r7_bringup moveit.launch 
