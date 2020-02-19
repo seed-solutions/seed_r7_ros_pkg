@@ -23,6 +23,11 @@ if (CATKIN_ENABLE_TESTING)
   add_rostest(test/demo.test)
 endif()
 
+# Executable
+add_executable(moveit_sample_node src/moveit_sample.cpp)
+target_link_libraries(moveit_sample_node ${catkin_LIBRARIES} )
+
+# Install
 install(DIRECTORY config launch scripts 
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
@@ -30,11 +35,6 @@ install(DIRECTORY config launch scripts
 catkin_install_python(PROGRAMS scripts/demo.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-# Executable
-add_executable(moveit_sample_node src/moveit_sample.cpp)
-target_link_libraries(moveit_sample_node ${catkin_LIBRARIES} )
-
-# Install
 install(TARGETS moveit_sample_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
