@@ -40,7 +40,7 @@ source ~/.bashrc
 ```
 ### <a name = "udev_setting"> 2. Udev Setting (if you have a robot)   
 If you still have not registered the robot's USB for your PC, you have to do it.
-(When you register that, ``/etc/udev/rules.d/90-aero.rules`` need to be exist.)
+(If ``/etc/udev/rules.d/90-aero.rules`` already exists, you need not to do.)
 Firstly, connect the robot's USB to your PC, and run the following command.    
 ```
 rosrun seed_r7_bringup make_udev_install.py
@@ -115,4 +115,4 @@ grasp : ``rosservice call /seed_r7_ros_controller/hand_control 1 grasp 100``
 release : ``rosservice call /seed_r7_ros_controller/hand_control 1 release 100    
 ``
 
-**The last number is current setting[%]**
+**The last number is percentage of maximum current.**
