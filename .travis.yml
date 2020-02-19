@@ -22,6 +22,7 @@ env:
 matrix:
   allow_failures:
     - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=i386
+    - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=arm64
     - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=armhf
 install:
   # install QEMU for running ARM containers
