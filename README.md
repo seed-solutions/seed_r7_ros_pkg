@@ -26,6 +26,7 @@ Below is an example.
 sudo apt-get install python-wstool python-catkin-tools
 mkdir -p ~/ros/${ROS_DISTRO}
 cd ~/ros/${ROS_DISTRO}
+mkdir src
 catkin init
 catkin build
 source ~/ros/${ROS_DISTRO}/devel/setup.bash
@@ -91,6 +92,7 @@ rosrun rqt_joint_trajectory_controller rqt_joint_trajectory_controller
 ### MoveIt!
 Please run the following command.
 ```
+sudo apt install xterm #especially on melodic
 roslaunch seed_r7_samples demo.launch
 ```
 **Do not connect the robot's USB on your computer!**
