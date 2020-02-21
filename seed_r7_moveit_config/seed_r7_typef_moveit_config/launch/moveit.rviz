@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
-        - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.742560029
     Tree Height: 405
   - Class: rviz/Help
@@ -674,10 +673,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.414797008
+      Pitch: 0.509796977
       Target Frame: base_link
       Value: XYOrbit (rviz)
-      Yaw: 5.36994934
+      Yaw: 5.65994978
     Saved: ~
 Window Geometry:
   Displays:

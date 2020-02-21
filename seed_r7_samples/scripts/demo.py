@@ -153,16 +153,6 @@ class MoveitCommand:
     self.group.set_end_effector_link("body_link")
     distance_body_lifter = 1.065 - 0.92
 
-    listener = tf.TransformListener()
-
-    while True:
-      try:
-        (position, quaternion) = listener.lookupTransform('base_link', 'body_link', rospy.Time(0) )
-      except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-        continue
-      
-      if(len(position)>0): break
-
     target_pose = Pose()
 
     target_pose.orientation.x = 0

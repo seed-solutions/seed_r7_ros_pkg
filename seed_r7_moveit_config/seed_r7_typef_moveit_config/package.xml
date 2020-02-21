@@ -27,7 +27,6 @@
   <run_depend>tf</run_depend>
   <run_depend>rviz</run_depend>
 
-
   <run_depend>xacro</run_depend>
   <build_depend>seed_r7_description</build_depend>
   <run_depend>seed_r7_description</run_depend>
