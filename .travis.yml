@@ -38,6 +38,8 @@ install:
   # use the code already checked out by Travis
   - mkdir -p $JOB_PATH/ws/src
   - cp -R $TRAVIS_BUILD_DIR $JOB_PATH/ws/src/
+  # keep sdk up-to-date
+  - git clone https://github.com/seed-solutions/seed_smartactuator_sdk.git $JOB_PATH/ws/src/seed_smartactuator_sdk
   # generate the script to run a pre-release job for that target and repo
   - generate_prerelease_script.py https://raw.githubusercontent.com/ros-infrastructure/ros_buildfarm_config/production/index.yaml $ROS_DISTRO_NAME default $OS_NAME $OS_CODE_NAME $ARCH  --output-dir $JOB_PATH
   # skip build and test for ARM containers
