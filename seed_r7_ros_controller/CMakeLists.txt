@@ -40,6 +40,8 @@ endif()
 add_service_files(
    FILES
    HandControl.srv
+   LedControl.srv
+   SetInitialPose.srv
 )
 generate_messages(
   DEPENDENCIES

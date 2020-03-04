@@ -77,6 +77,10 @@ void robot_hardware::LowerController::remapRosToAero
   }
 }
 
+void robot_hardware::LowerController::runScript(uint8_t _number, uint16_t _script) 
+{
+    if(is_open_)lower_->runScript(_number, _script);
+}
 void robot_hardware::LowerController::sendVelocity(std::vector<int16_t>& _data)
 {
   std::vector<int16_t> send_data(wheel_table_.size());
@@ -96,6 +100,8 @@ void robot_hardware::LowerController::onServo(bool _value)
   if(is_open_){
     for(size_t i=0; i< wheel_aero_index_.size() ; ++i){
       lower_->onServo(wheel_aero_index_[i] + 1, _value);
+      //reset present position
+      lower_->throughCAN(wheel_aero_index_[i] + 1, 0x6F,0,1,0,0,0);
     }
   }
 }
