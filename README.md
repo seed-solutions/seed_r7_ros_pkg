@@ -92,6 +92,7 @@ rosrun rqt_joint_trajectory_controller rqt_joint_trajectory_controller
 ### MoveIt!
 Please run the following command.
 ```
+sudo apt install xterm #especially on melodic
 roslaunch seed_r7_samples demo.launch
 ```
 **Do not connect the robot's USB on your computer!**
