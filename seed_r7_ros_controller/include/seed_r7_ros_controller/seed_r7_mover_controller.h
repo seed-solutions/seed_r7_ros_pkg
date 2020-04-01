@@ -12,6 +12,10 @@
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 
+// move_base
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
+
 #include "seed_r7_ros_controller/seed_r7_lower_controller.h"
 #include "seed_r7_ros_controller/seed_r7_robot_hardware.h"
 
@@ -46,6 +50,7 @@ class MoverController
   void velocityToWheel(double _linear_x, double _linear_y, double _angular_z, std::vector<int16_t>& _wheel_vel);
   bool setInitialPoseCallback(seed_r7_ros_controller::SetInitialPose::Request& _req, seed_r7_ros_controller::SetInitialPose::Response& _res); 
   bool ledControlCallback(seed_r7_ros_controller::LedControl::Request& _req, seed_r7_ros_controller::LedControl::Response& _res);
+  void moveBaseStatusCallBack(const actionlib_msgs::GoalStatusArray::ConstPtr &status);
 
   ros::NodeHandle nh_;
   ros::Publisher odom_pub_,initialpose_pub_;
@@ -73,6 +78,9 @@ class MoverController
 
   boost::mutex base_mtx_;
   robot_hardware::RobotHW *hw_;
+
+  // move_base
+  actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> *move_base_action_;
 
 };
 

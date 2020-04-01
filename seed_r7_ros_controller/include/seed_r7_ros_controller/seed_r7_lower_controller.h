@@ -23,6 +23,7 @@ class LowerController
     void onServo(bool _value);
     float getBatteryVoltage();
     std::string getFirmwareVersion();
+    void getRobotStatus(int8_t _number);
 
     bool is_open_;
     std::vector<int16_t> raw_data_;

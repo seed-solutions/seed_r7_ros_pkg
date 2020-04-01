@@ -57,6 +57,7 @@
 #include "seed_r7_ros_controller/seed_r7_upper_controller.h"
 #include "seed_r7_ros_controller/seed_r7_lower_controller.h"
 #include "seed_r7_ros_controller/stroke_converter_base.h"
+#include "seed_r7_ros_controller/ResetRobotStatus.h"
 
 #include <mutex>
 
@@ -86,7 +87,15 @@ public:
   void onWheelServo(bool _value);
   void getBatteryVoltage(const ros::TimerEvent& _event);
   void runLedScript(uint8_t _number, uint16_t _script);
+  void setRobotStatus();
   //----------------------
+
+  //Robot Status
+  bool is_protective_stopped_;
+
+private:
+  ros::ServiceServer reset_robot_status_server_;
+  bool resetRobotStatusCallback(seed_r7_ros_controller::ResetRobotStatus::Request& _req, seed_r7_ros_controller::ResetRobotStatus::Response& _res);
 
 protected:
   // Methods used to control a joint.
