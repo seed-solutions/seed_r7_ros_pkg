@@ -1,12 +1,13 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 #include "seed_r7_ros_controller/seed_r7_mover_controller.h"
 
-
 robot_hardware::MoverController::MoverController
 (const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) :
   nh_(_nh),hw_(_in_hw),
   vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0)//, base_spinner_(1, &base_queue_)
 {
+  move_base_action_ = new actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>("/move_base", true);
+
   //--- calcurate the coefficient(k1_,k2_) for wheel FK--
   float wheel_radius,tread,wheelbase;
   nh_.getParam("/seed_r7_mover_controller/wheel_radius", wheel_radius);
@@ -50,6 +51,7 @@ robot_hardware::MoverController::MoverController
 
   set_initialpose_server_
     = nh_.advertiseService("set_initialpose", &MoverController::setInitialPoseCallback,this);
+
 }
 
 //////////////////////////////////////////////////
@@ -66,16 +68,20 @@ void robot_hardware::MoverController::cmdVelCallback(const geometry_msgs::TwistC
   ROS_DEBUG("cmd_vel: %f %f %f", _cmd_vel->linear.x, _cmd_vel->linear.y, _cmd_vel->angular.z);
 
   if (base_mtx_.try_lock()) {
-    if (_cmd_vel->linear.x == 0.0 && _cmd_vel->linear.y == 0.0 && _cmd_vel->angular.z == 0.0) {
+    if(hw_->is_protective_stopped_)
+    {
+      //move_base_action_->cancelAllGoals();  //if you want to cancel goal, use this
       vx_ = vy_ = vth_ = 0.0;
     }
-/*
+    else if (_cmd_vel->linear.x == 0.0 && _cmd_vel->linear.y == 0.0 && _cmd_vel->angular.z == 0.0) {
+      vx_ = vy_ = vth_ = 0.0;
+    }
     else{
       vx_ = _cmd_vel->linear.x;
       vy_ = _cmd_vel->linear.y;
       vth_ = _cmd_vel->angular.z;
     }
-*/
+/*
     else {
       double dt = (now - time_stamp_).toSec();
       double acc_x = (_cmd_vel->linear.x  - vx_)  / dt;
@@ -95,6 +101,7 @@ void robot_hardware::MoverController::cmdVelCallback(const geometry_msgs::TwistC
       vy_  += acc_y * dt;
       vth_ += acc_z * dt;
     }
+*/
     ROS_DEBUG("act_vel: %f %f %f", vx_, vy_, vth_);
 
     //check servo state

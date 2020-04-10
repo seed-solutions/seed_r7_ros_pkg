@@ -42,6 +42,7 @@ add_service_files(
    HandControl.srv
    LedControl.srv
    SetInitialPose.srv
+   ResetRobotStatus.srv
 )
 generate_messages(
   DEPENDENCIES
