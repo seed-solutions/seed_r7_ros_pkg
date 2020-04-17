@@ -18,10 +18,12 @@ class LowerController
     void sendPosition(uint16_t _time, std::vector<int16_t>& _data);
     void remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero);
     void remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros);
+    void runScript(uint8_t _number, uint16_t _script);
     void sendVelocity(std::vector<int16_t>& _data);
     void onServo(bool _value);
     float getBatteryVoltage();
     std::string getFirmwareVersion();
+    void getRobotStatus(int8_t _number);
 
     bool is_open_;
     std::vector<int16_t> raw_data_;

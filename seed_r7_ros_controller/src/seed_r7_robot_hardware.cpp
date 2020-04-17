@@ -175,6 +175,11 @@ namespace robot_hardware
     ROS_INFO("Upper Firmware Ver. is [ %s ]", controller_upper_->getFirmwareVersion().c_str() );
     ROS_INFO("Lower Firmware Ver. is [ %s ]", controller_lower_->getFirmwareVersion().c_str() );
 
+    //Robot Status
+    reset_robot_status_server_
+      = root_nh.advertiseService("reset_robot_status", &RobotHW::resetRobotStatusCallback,this);
+    is_protective_stopped_ = false;  
+
     return true;
   }
 
@@ -232,6 +237,12 @@ namespace robot_hardware
       initialized_flag_ = true;
     }
 
+    //check robot status flag
+    setRobotStatus();
+    //in case of error flag is high
+    if(is_protective_stopped_){
+      ROS_WARN("The robot is protective stopped, please release it.");
+    }
     return;
   }
 
@@ -364,6 +375,38 @@ namespace robot_hardware
     voltage.data = controller_lower_->getBatteryVoltage();
     mutex_lower_.unlock();
     bat_vol_pub_.publish(voltage);
+  }
+
+  void RobotHW::runLedScript(uint8_t _number, uint16_t _script)
+  {
+    mutex_lower_.lock();
+    controller_lower_->runScript(_number, _script);
+    mutex_lower_.unlock();
+  }
+  
+  void RobotHW::setRobotStatus()
+  {
+    if(((controller_lower_->raw_data_[30]>>6)&1 == 1 || (controller_lower_->raw_data_[30]>>14)&1 == 1) || 
+        ((controller_upper_->raw_data_[30]>>6)&1 == 1 || (controller_upper_->raw_data_[30]>>14)&1 == 1)){
+      is_protective_stopped_ = true ;
+    } 
+    else is_protective_stopped_ = false;
+
+  }
+
+  bool RobotHW::resetRobotStatusCallback
+    (seed_r7_ros_controller::ResetRobotStatus::Request&  _req, 
+    seed_r7_ros_controller::ResetRobotStatus::Response& _res)
+  {
+
+    ROS_WARN("reset robot status");
+    mutex_lower_.lock();
+    controller_lower_->getRobotStatus(0xFF);
+    mutex_lower_.unlock();
+
+    _res.result = "reset status succeeded";
+
+    return true;
   }
 
 }

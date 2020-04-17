@@ -1,26 +1,27 @@
 /// @author Sasabuchi Kazuhiro, Shintaro Hori, Hiroaki Yaguchi
 #include "seed_r7_ros_controller/seed_r7_mover_controller.h"
 
-
 robot_hardware::MoverController::MoverController
 (const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) :
   nh_(_nh),hw_(_in_hw),
   vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0)//, base_spinner_(1, &base_queue_)
 {
+  move_base_action_ = new actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>("/move_base", true);
+
   //--- calcurate the coefficient(k1_,k2_) for wheel FK--
   float wheel_radius,tread,wheelbase;
-  nh_.getParam("seed_r7_mover_controller/wheel_radius", wheel_radius);
-  nh_.getParam("seed_r7_mover_controller/tread", tread);
-  nh_.getParam("seed_r7_mover_controller/wheelbase", wheelbase);
+  nh_.getParam("/seed_r7_mover_controller/wheel_radius", wheel_radius);
+  nh_.getParam("/seed_r7_mover_controller/tread", tread);
+  nh_.getParam("/seed_r7_mover_controller/wheelbase", wheelbase);
 
   k1_ =  - sqrt(2) * ( sqrt( pow(tread,2)+pow(wheelbase,2) )/2 ) * sin( M_PI/4 + atan2(tread/2,wheelbase/2) ) / wheel_radius;
   k2_ = 1 / wheel_radius;
   //---------
 
-  nh_.getParam("seed_r7_mover_controller/ros_rate", ros_rate_);
-  nh_.getParam("seed_r7_mover_controller/odom_rate", odom_rate_);
-  nh_.getParam("seed_r7_mover_controller/safety_rate", safety_rate_);
-  nh_.getParam("seed_r7_mover_controller/safety_duration", safety_duration_);
+  nh_.getParam("/seed_r7_mover_controller/ros_rate", ros_rate_);
+  nh_.getParam("/seed_r7_mover_controller/odom_rate", odom_rate_);
+  nh_.getParam("/seed_r7_mover_controller/safety_rate", safety_rate_);
+  nh_.getParam("/seed_r7_mover_controller/safety_duration", safety_duration_);
   nh_.getParam("/joint_settings/wheel/aero_index", aero_index_);
 
   num_of_wheels_ = aero_index_.size();
@@ -37,12 +38,20 @@ robot_hardware::MoverController::MoverController
   base_spinner_.start();
 */
 
-  cmd_vel_sub_ = nh_.subscribe("/cmd_vel",1, &MoverController::cmdVelCallback,this);
+  cmd_vel_sub_ = nh_.subscribe("cmd_vel",1, &MoverController::cmdVelCallback,this);
   safe_timer_ = nh_.createTimer(ros::Duration(safety_rate_), &MoverController::safetyCheckCallback, this);
 
   // for odometory
   odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 1);
   odom_timer_ = nh_.createTimer(ros::Duration(odom_rate_), &MoverController::calculateOdometry, this);
+
+  initialpose_pub_ = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1);
+  led_control_server_
+    = nh_.advertiseService("led_control", &MoverController::ledControlCallback,this);
+
+  set_initialpose_server_
+    = nh_.advertiseService("set_initialpose", &MoverController::setInitialPoseCallback,this);
+
 }
 
 //////////////////////////////////////////////////
@@ -59,16 +68,20 @@ void robot_hardware::MoverController::cmdVelCallback(const geometry_msgs::TwistC
   ROS_DEBUG("cmd_vel: %f %f %f", _cmd_vel->linear.x, _cmd_vel->linear.y, _cmd_vel->angular.z);
 
   if (base_mtx_.try_lock()) {
-    if (_cmd_vel->linear.x == 0.0 && _cmd_vel->linear.y == 0.0 && _cmd_vel->angular.z == 0.0) {
+    if(hw_->is_protective_stopped_)
+    {
+      //move_base_action_->cancelAllGoals();  //if you want to cancel goal, use this
       vx_ = vy_ = vth_ = 0.0;
     }
-/*
+    else if (_cmd_vel->linear.x == 0.0 && _cmd_vel->linear.y == 0.0 && _cmd_vel->angular.z == 0.0) {
+      vx_ = vy_ = vth_ = 0.0;
+    }
     else{
       vx_ = _cmd_vel->linear.x;
       vy_ = _cmd_vel->linear.y;
       vth_ = _cmd_vel->angular.z;
     }
-*/
+/*
     else {
       double dt = (now - time_stamp_).toSec();
       double acc_x = (_cmd_vel->linear.x  - vx_)  / dt;
@@ -88,6 +101,7 @@ void robot_hardware::MoverController::cmdVelCallback(const geometry_msgs::TwistC
       vy_  += acc_y * dt;
       vth_ += acc_z * dt;
     }
+*/
     ROS_DEBUG("act_vel: %f %f %f", vx_, vy_, vth_);
 
     //check servo state
@@ -222,4 +236,34 @@ void robot_hardware::MoverController::velocityToWheel
     _wheel_vel[1] = front_right_wheel;
     _wheel_vel[2] = rear_left_wheel;
     _wheel_vel[3] = rear_right_wheel;
+}
+
+//////////////////////////////////////////////////
+bool robot_hardware::MoverController::setInitialPoseCallback
+(seed_r7_ros_controller::SetInitialPose::Request& _req,
+seed_r7_ros_controller::SetInitialPose::Response& _res)
+{
+  geometry_msgs::PoseWithCovarianceStamped initial_pose;
+  geometry_msgs::Quaternion pose_quat = tf::createQuaternionMsgFromYaw(_req.theta);
+
+  initial_pose.header.stamp = ros::Time::now();
+  initial_pose.header.frame_id = "map";
+  initial_pose.pose.pose.position.x = _req.x;
+  initial_pose.pose.pose.position.y = _req.y;
+  initial_pose.pose.pose.position.z = 0.0;
+  initial_pose.pose.pose.orientation = pose_quat;
+  initialpose_pub_.publish(initial_pose);
+
+  return "SetInitialPose succeeded";
+}
+
+bool robot_hardware::MoverController::ledControlCallback
+  (seed_r7_ros_controller::LedControl::Request&  _req,
+  seed_r7_ros_controller::LedControl::Response& _res)
+{
+  hw_->runLedScript(_req.send_number, _req.script_number);
+
+  _res.result = "LED succeeded";
+
+  return true;
 }

@@ -39,7 +39,6 @@ robot_hardware::LowerController::LowerController(const std::string& _port)
     size_t index = std::distance(wheel_aero_index_.begin(), std::find(wheel_aero_index_.begin(),wheel_aero_index_.end(),i));
     if(index != wheel_aero_index_.size()) wheel_table_.at(i) = std::make_pair(index,wheel_name_.at(index));
   } 
-
 }
 
 robot_hardware::LowerController::~LowerController()
@@ -57,6 +56,7 @@ void robot_hardware::LowerController::sendPosition(uint16_t _time, std::vector<i
 {
   if(is_open_) raw_data_ = lower_->actuateByPosition(_time, _data.data());
   else raw_data_.assign(_data.begin(), _data.end());
+
 }
 
 void robot_hardware::LowerController::remapAeroToRos
@@ -77,6 +77,10 @@ void robot_hardware::LowerController::remapRosToAero
   }
 }
 
+void robot_hardware::LowerController::runScript(uint8_t _number, uint16_t _script) 
+{
+    if(is_open_)lower_->runScript(_number, _script);
+}
 void robot_hardware::LowerController::sendVelocity(std::vector<int16_t>& _data)
 {
   std::vector<int16_t> send_data(wheel_table_.size());
@@ -96,6 +100,8 @@ void robot_hardware::LowerController::onServo(bool _value)
   if(is_open_){
     for(size_t i=0; i< wheel_aero_index_.size() ; ++i){
       lower_->onServo(wheel_aero_index_[i] + 1, _value);
+      //reset present position
+      lower_->throughCAN(wheel_aero_index_[i] + 1, 0x6F,0,1,0,0,0);
     }
   }
 }
@@ -110,4 +116,11 @@ std::string robot_hardware::LowerController::getFirmwareVersion()
 {
   if(is_open_) return lower_->getVersion(0);
   else return "";
+}
+
+void robot_hardware::LowerController::getRobotStatus(int8_t _number)
+{
+  if(is_open_)lower_->getStatus(_number);
+
+  //_number == 0xFF : reset flag
 }

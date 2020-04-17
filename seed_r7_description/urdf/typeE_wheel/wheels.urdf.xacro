@@ -204,6 +204,49 @@
       <origin xyz="0.29 0 0.1324" rpy="0 0 0"/>
     </joint>
 
+    <link name="front_camera_base_link"/>
+    <joint name="wheel_base_link_to_front_camera_base_link" type="fixed">
+      <parent  link="wheel_base_link"/>
+      <child link="front_camera_base_link"/>
+      <origin xyz="0.30065 0 0.0485" rpy="0 0 0"/>
+    </joint>
+
+    <link name="front_camera_link"/>
+    <joint name="front_camera_base_link_to_front_camera_link" type="fixed">
+      <parent  link="front_camera_base_link"/>
+      <child link="front_camera_link"/>
+      <origin xyz="0 0.0175 0.0125" rpy="0 0 0"/>
+    </joint>
+
+    <link name="front_camera_right_ir_frame"/>
+    <joint name="front_camera_link_to_front_camera_right_ir_link" type="fixed">
+      <parent  link="front_camera_link"/>
+      <child link="front_camera_right_ir_frame"/>
+      <origin xyz="0 -0.05 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="rear_camera_base_link"/>
+    <joint name="wheel_base_link_to_rear_camera_base_link" type="fixed">
+      <parent  link="wheel_base_link"/>
+      <child link="rear_camera_base_link"/>
+      <origin xyz="-0.30065 0 0.0485" rpy="0 0 3.1415926538"/>
+    </joint>
+
+    <link name="rear_camera_link"/>
+    <joint name="rear_camera_base_link_to_rear_camera_link" type="fixed">
+      <parent  link="rear_camera_base_link"/>
+      <child link="rear_camera_link"/>
+      <origin xyz="0 0.0175 0.0125" rpy="0 0 0"/>
+    </joint>
+
+    <link name="rear_camera_right_ir_frame"/>
+    <joint name="rear_camera_link_to_rear_camera_right_ir_link" type="fixed">
+      <parent  link="rear_camera_link"/>
+      <child link="rear_camera_right_ir_frame"/>
+      <origin xyz="0 -0.05 0" rpy="0 0 0"/>
+    </joint>
+
+
   </xacro:macro>
 
 </robot>
