@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
-
   <!-- parameters when using models in official package -->
   <arg name="robot_model"         default="typef"/>
+  <arg name="robot_model_plugin" default="seed_r7_robot_interface/$(arg robot_model)"/>
 
   <!-- parameters when using models in user packages -->
   <arg name="csv_config_dir"      default="$(find seed_r7_description)/csv"/>
@@ -19,6 +18,10 @@
   <rosparam command="load" file="$(arg controller_settings)" />
   <rosparam command="load" file="$(arg robot_joint_config)" />
   <rosparam command="load" file="$(find seed_r7_bringup)/config/extra_controller_settings.yaml" />
+  <rosparam command="load"
+      file="$(find seed_r7_robot_interface)/$(arg robot_model)/config/extra_controller_settings.yaml" />
+  <rosparam command="load"
+      file="$(find seed_r7_robot_interface)/$(arg robot_model)/config/csv_dir_settings.yaml" />
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen">
     <param name="port_lower" value="/dev/aero_lower"/>
