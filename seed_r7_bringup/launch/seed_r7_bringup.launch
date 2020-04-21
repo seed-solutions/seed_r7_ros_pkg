@@ -19,8 +19,6 @@
   <rosparam command="load" file="$(arg robot_joint_config)" />
   <rosparam command="load"
       file="$(find seed_r7_robot_interface)/$(arg robot_model)/config/extra_controller_settings.yaml" />
-  <rosparam command="load"
-      file="$(find seed_r7_robot_interface)/$(arg robot_model)/config/csv_dir_settings.yaml" />
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen">
     <param name="port_lower" value="/dev/aero_lower"/>

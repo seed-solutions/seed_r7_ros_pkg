@@ -4,36 +4,28 @@
 
 void seed_converter::TypeF::makeTables()
 {
-  ros::param::get("/csv_parts_dir/upper_type", upper_csv_dir);
-  ros::param::get("/csv_parts_dir/lifter_type", lifter_csv_dir);
-
   ROS_INFO("upper's csv_dir is %s", upper_csv_dir.c_str());
   ROS_INFO("lifter's csv_dir is %s", lifter_csv_dir.c_str());
 
-  upper_csv_dir.insert(0,"/");
-  upper_csv_dir.append("/");
-  lifter_csv_dir.insert(0,"/");
-  lifter_csv_dir.append("/");
-
-  if (makeTable(shoulder_p.table, upper_csv_dir + "shoulder_p.csv"))
+  if (makeTable(shoulder_p.table, upper_csv_dir + "/shoulder_p.csv"))
     makeInvTable(shoulder_p.inv_table, shoulder_p.table);
-  if (makeTable(shoulder_r.table, upper_csv_dir + "shoulder_r.csv"))
+  if (makeTable(shoulder_r.table, upper_csv_dir + "/shoulder_r.csv"))
     makeInvTable(shoulder_r.inv_table, shoulder_r.table);
-  if (makeTable(elbow_p.table, upper_csv_dir + "elbow_p.csv"))
+  if (makeTable(elbow_p.table, upper_csv_dir + "/elbow_p.csv"))
     makeInvTable(elbow_p.inv_table, elbow_p.table);
-  if (makeTable(wrist_p.table, upper_csv_dir + "wrist_p.csv"))
+  if (makeTable(wrist_p.table, upper_csv_dir + "/wrist_p.csv"))
     makeInvTable(wrist_p.inv_table, wrist_p.table);
-  if (makeTable(wrist_r.table, upper_csv_dir + "wrist_r.csv"))
+  if (makeTable(wrist_r.table, upper_csv_dir + "/wrist_r.csv"))
     makeInvTable(wrist_r.inv_table, wrist_r.table);
-  if (makeTable(neck_p.table, upper_csv_dir + "neck_p.csv"))
+  if (makeTable(neck_p.table, upper_csv_dir + "/neck_p.csv"))
     makeInvTable(neck_p.inv_table, neck_p.table);
-  if (makeTable(neck_r.table, upper_csv_dir + "neck_r.csv"))
+  if (makeTable(neck_r.table, upper_csv_dir + "/neck_r.csv"))
     makeInvTable(neck_r.inv_table, neck_r.table);
-  if (makeTable(waist_p.table, upper_csv_dir + "waist_p.csv"))
+  if (makeTable(waist_p.table, upper_csv_dir + "/waist_p.csv"))
     makeInvTable(waist_p.inv_table, waist_p.table);
-  if (makeTable(waist_r.table, upper_csv_dir + "waist_r.csv"))
+  if (makeTable(waist_r.table, upper_csv_dir + "/waist_r.csv"))
     makeInvTable(waist_r.inv_table, waist_r.table);
-  if (makeTable(leg.table, lifter_csv_dir + "leg.csv"))
+  if (makeTable(leg.table, lifter_csv_dir + "/leg.csv"))
     makeInvTable(leg.inv_table, leg.table);
 
 }
