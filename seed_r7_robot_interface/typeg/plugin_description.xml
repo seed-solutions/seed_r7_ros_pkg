@@ -1,0 +1,6 @@
+<library path="lib/libseed_r7_robot_interface_typeg">
+  <class name="seed_r7_robot_interface/typeg" type="seed_converter::TypeG"
+         base_class_type="StrokeConverter">
+    <description>TypeG stroke converter plugin.</description>
+  </class>
+</library>
