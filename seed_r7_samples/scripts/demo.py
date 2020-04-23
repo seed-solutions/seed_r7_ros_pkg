@@ -114,6 +114,8 @@ class MoveitCommand:
     self.box2 = self.box_pose(0.7,0.3,0.76)
     self.box3 = self.box_pose(0.8,0,1.16)
 
+    self.robot_model = rospy.get_param("/seed_r7_ros_controller/robot_model_plugin")
+
   def set_grasp_position(self, x, y, z, vel=1.0,direction="side"):
     self.group = moveit_commander.MoveGroupCommander("rarm_with_torso")
     self.group.set_pose_reference_frame("base_link")
@@ -151,7 +153,10 @@ class MoveitCommand:
     self.group = moveit_commander.MoveGroupCommander("torso")
     self.group.set_pose_reference_frame("base_link")
     self.group.set_end_effector_link("body_link")
-    distance_body_lifter = 1.065 - 0.92
+    if("typef" in self.robot_model):
+      distance_body_lifter = 1.065 - 0.92
+    elif("typeg" in self.robot_model):
+      distance_body_lifter = 0.994 - 0.857
 
     target_pose = Pose()
 
