@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_model_plugin" default="seed_r7_robot_interface/TypeF"/>
   <arg name="robot_model" default="typef"/>
 
   <include file="$(find seed_r7_bringup)/launch/seed_r7_bringup.launch">
-    <arg name="robot_model_plugin" value="$(arg robot_model_plugin)"/>
     <arg name="robot_model" value="$(arg robot_model)"/>
   </include>
 

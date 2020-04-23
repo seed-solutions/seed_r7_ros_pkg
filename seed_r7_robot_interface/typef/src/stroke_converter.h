@@ -16,6 +16,8 @@ public:
 
 private:
   ConvertTable shoulder_p,shoulder_r,elbow_p,wrist_p,wrist_r,neck_p,neck_r,waist_p,waist_r,leg;
+  const std::string upper_csv_dir = "/typeF_upperbody";
+  const std::string lifter_csv_dir = "/typeC_lifter";
 };
 
 }
