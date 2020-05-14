@@ -19,15 +19,15 @@
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="${joint_name}">
         <!-- dupricated in kinetic -->
-        <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-        <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+        <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="${joint_name}_motor">
         <!-- dupricated in kinetic -->
-        <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-        <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+        <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -39,6 +39,7 @@
       <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
         <robotNamespace>${namespace}</robotNamespace>
         <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>true</legacyModeNS>
       </plugin>
     </gazebo>
   </xacro:macro>
