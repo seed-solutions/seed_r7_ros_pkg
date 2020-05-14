@@ -4,7 +4,7 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="SEED-Noid-Mover-typeG" xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- ============================   typeF_upper   ============================ -->
+  <!-- ============================   typeG_upper   ============================ -->
   <link name="waist_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -36,9 +36,10 @@
       </geometry>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0.132"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_sphere_link.dae" scale="1 1 1"/>
+        <!-- <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_sphere_link.dae" scale="1 1 1" /> -->
+        <sphere radius="0.05"/>
       </geometry>
     </collision>
     <inertial>
@@ -63,7 +64,8 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_center_link.dae" scale="1 1 1"/>
+        <!-- <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_center_link.dae" scale="1 1 1" /> -->
+        <sphere radius="0.05"/>
       </geometry>
     </collision>
     <inertial>
@@ -153,13 +155,13 @@
     <visual>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/l_upperarm_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/upperarm_link.dae" scale="1 1 1"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/l_upperarm_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/upperarm_link.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -175,17 +177,62 @@
     <mu1>0.9</mu1>
     <mu2>0.9</mu2>
   </gazebo>
-  <link name="l_elbow_link">
+  <link name="l_elbow_virtual_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+  <gazebo reference="l_elbow_virtual_link">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+  </gazebo>
+  <link name="l_elbow_virtual_link_dummy">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+  <gazebo reference="l_elbow_virtual_link_dummy">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+  </gazebo>
+  <link name="l_elbow_middle_link">
     <visual>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/l_elbow_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_middle_link.dae" scale="1 1 1"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/l_elbow_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_middle_link.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.162"/>
+      <origin rpy="0 -0 0" xyz="-0.014 0 -0.032"/>
+      <inertia ixx="0.00178" ixy="0" ixz="0" iyy="0.00179" iyz="0" izz="0.0035"/>
+    </inertial>
+  </link>
+  <gazebo reference="l_elbow_middle_link">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+  </gazebo>
+  <link name="l_elbow_link">
+    <visual>
+      <origin rpy="0 -0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_link.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 -0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_link.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -394,13 +441,13 @@
     <visual>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/r_upperarm_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/upperarm_link.dae" scale="1 1 1"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/r_upperarm_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/upperarm_link.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -416,17 +463,62 @@
     <mu1>0.9</mu1>
     <mu2>0.9</mu2>
   </gazebo>
-  <link name="r_elbow_link">
+  <link name="r_elbow_virtual_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+  <gazebo reference="r_elbow_virtual_link">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+  </gazebo>
+  <link name="r_elbow_virtual_link_dummy">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+  <gazebo reference="r_elbow_virtual_link_dummy">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+  </gazebo>
+  <link name="r_elbow_middle_link">
     <visual>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/r_elbow_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_middle_link.dae" scale="1 1 1"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 -0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/r_elbow_link.dae" scale="1 1 1"/>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_middle_link.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.162"/>
+      <origin rpy="0 -0 0" xyz="-0.014 0 -0.032"/>
+      <inertia ixx="0.00178" ixy="0" ixz="0" iyy="0.00179" iyz="0" izz="0.0035"/>
+    </inertial>
+  </link>
+  <gazebo reference="r_elbow_middle_link">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+  </gazebo>
+  <link name="r_elbow_link">
+    <visual>
+      <origin rpy="0 -0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_link.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 -0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/elbow_link.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -518,22 +610,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 0.005"/>
     <axis xyz="0 0 1"/>
     <!-- from -120 to 120 degrees-->
-    <limit effort="500" lower="-2.09" upper="2.09" velocity="1.7"/>
+    <limit effort="500" lower="-2.09" upper="2.09" velocity="0.6"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="waist_y_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="waist_y_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="waist_y_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -546,22 +638,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 0.132"/>
     <axis xyz="0 1 0"/>
     <!-- from -10 to 40 degrees-->
-    <limit effort="2000" lower="-0.17" upper="0.69" velocity="1.6"/>
+    <limit effort="500" lower="-0.17" upper="0.69" velocity="0.4"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="waist_p_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="waist_p_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="waist_p_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -574,22 +666,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
     <!-- from -7 to 7 degrees-->
-    <limit effort="2000" lower="-0.12" upper="0.12" velocity="1.3"/>
+    <limit effort="500" lower="-0.12" upper="0.12" velocity="0.3"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="waist_r_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="waist_r_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="waist_r_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -602,22 +694,22 @@
     <origin rpy="0 0 0 " xyz="-0.018 0.134202 0.251871"/>
     <axis xyz="0 0.984808 -0.173648"/>
     <!-- from -89 to 17 degrees-->
-    <limit effort="200" lower="-1.55" upper="0.29" velocity="0.6"/>
+    <limit effort="200" lower="-1.55" upper="0.29" velocity="0.4"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="l_shoulder_p_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_shoulder_p_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_shoulder_p_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -630,22 +722,22 @@
     <origin rpy="0 0 0 " xyz="0 0.064702 0.027177"/>
     <axis xyz="1 0 0"/>
     <!-- from -5 to 90 degrees-->
-    <limit effort="100" lower="-0.08" upper="1.57" velocity="1.0"/>
+    <limit effort="100" lower="-0.08" upper="1.57" velocity="0.5"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="l_shoulder_r_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_shoulder_r_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_shoulder_r_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -658,78 +750,50 @@
     <origin rpy="0 -0 0 " xyz="0 -0.01 -0.0455"/>
     <axis xyz="0 0 1"/>
     <!-- from -90 to 90 degrees-->
-    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.7"/>
+    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.1"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="l_shoulder_y_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_shoulder_y_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_shoulder_y_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <gazebo reference="l_shoulder_y_joint">
     <implicitSpringDamper>0</implicitSpringDamper>
   </gazebo>
-  <joint name="l_elbow_joint" type="revolute">
-    <parent link="l_upperarm_link"/>
-    <child link="l_elbow_link"/>
-    <origin rpy="0 -0 0 " xyz="0.02803 0 -0.229460"/>
-    <axis xyz="0 1 0"/>
-    <!-- from -170 to 0 degrees-->
-    <limit effort="100" lower="-2.96" upper="0" velocity="4.4"/>
-    <dynamics damping="0.2" friction="0"/>
-  </joint>
-  <transmission name="l_elbow_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="l_elbow_joint">
-      <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="l_elbow_joint_motor">
-      <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-  <gazebo reference="l_elbow_joint">
-    <implicitSpringDamper>0</implicitSpringDamper>
-  </gazebo>
   <joint name="l_wrist_y_joint" type="revolute">
     <parent link="l_elbow_link"/>
     <child link="l_forearm_link"/>
-    <origin rpy="0 -0 0 " xyz="-0.02096 0 -0.137530"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 -0.1095"/>
     <axis xyz="0 0 1"/>
     <!-- from -90 to 90 degrees-->
-    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.9"/>
+    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.2"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="l_wrist_y_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_wrist_y_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_wrist_y_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -742,22 +806,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 -0.124"/>
     <axis xyz="0 1 0"/>
     <!-- from -7 to 7 degrees-->
-    <limit effort="100" lower="-0.12" upper="0.12" velocity="1.7"/>
+    <limit effort="100" lower="-0.12" upper="0.12" velocity="0.8"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="l_wrist_p_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_wrist_p_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_wrist_p_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -770,26 +834,26 @@
     <origin rpy="0 -0 0 " xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
     <!-- from -90 to 20 degrees-->
-    <limit effort="100" lower="-1.57" upper="0.34" velocity="3.4"/>
+    <limit effort="100" lower="-1.57" upper="0.34" velocity="1.8"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
-  <transmission name="r_wrist_r_joint_trans">
+  <transmission name="l_wrist_r_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="r_wrist_r_joint">
+    <joint name="l_wrist_r_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
-    <actuator name="r_wrist_r_joint_motor">
+    <actuator name="l_wrist_r_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-  <gazebo reference="r_wrist_r_joint">
+  <gazebo reference="l_wrist_r_joint">
     <implicitSpringDamper>0</implicitSpringDamper>
   </gazebo>
   <joint name="l_wrist_to_hand_connector" type="fixed">
@@ -797,25 +861,7 @@
     <child link="l_hand_link"/>
     <origin rpy="0 0 0 " xyz="0 0 -0.003"/>
   </joint>
-  <transmission name="r_wrist_r_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="r_wrist_r_joint">
-      <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="r_wrist_r_joint_motor">
-      <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-  <gazebo reference="r_wrist_r_joint">
-    <implicitSpringDamper>0</implicitSpringDamper>
-  </gazebo>
+  <!-- <xacro:gazebo_transmission joint_name="l_wrist_to_hand_connector" /> -->
   <joint name="neck_y_joint" type="revolute">
     <parent link="body_link"/>
     <child link="neck_link"/>
@@ -829,15 +875,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="neck_y_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="neck_y_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -851,22 +897,22 @@
     <origin rpy="0 -0 0 " xyz="0.0 0 0.0265"/>
     <axis xyz="0 1 0"/>
     <!-- from -20 to 30 degrees-->
-    <limit effort="100" lower="-0.34" upper="0.52" velocity="4.0"/>
+    <limit effort="100" lower="-0.34" upper="0.52" velocity="2.1"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="neck_p_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="neck_p_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="neck_p_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -879,22 +925,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
     <!-- from -20 to 20 degrees-->
-    <limit effort="100" lower="-0.34" upper="0.34" velocity="1.6"/>
+    <limit effort="100" lower="-0.34" upper="0.34" velocity="0.8"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="neck_r_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="neck_r_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="neck_r_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -907,22 +953,22 @@
     <origin rpy="0 -0 0 " xyz="-0.018 -0.134202 0.251871"/>
     <axis xyz="0 0.984808 0.173648"/>
     <!-- from -89 to 17 degrees-->
-    <limit effort="200" lower="-1.55" upper="0.29" velocity="0.6"/>
+    <limit effort="200" lower="-1.55" upper="0.29" velocity="0.4"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="r_shoulder_p_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_shoulder_p_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_shoulder_p_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -935,22 +981,22 @@
     <origin rpy="0 -0 0 " xyz="0 -0.064702 0.027177"/>
     <axis xyz="1 0 0"/>
     <!-- from -90 to 5 degrees-->
-    <limit effort="100" lower="-1.57" upper="0.08" velocity="1.0"/>
+    <limit effort="100" lower="-1.57" upper="0.08" velocity="0.5"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="r_shoulder_r_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_shoulder_r_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_shoulder_r_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -963,78 +1009,50 @@
     <origin rpy="0 -0 0 " xyz="0 0.01 -0.0455"/>
     <axis xyz="0 0 1"/>
     <!-- from -180 to 180 degrees-->
-    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.7"/>
+    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.1"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="r_shoulder_y_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_shoulder_y_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_shoulder_y_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <gazebo reference="r_shoulder_y_joint">
     <implicitSpringDamper>0</implicitSpringDamper>
   </gazebo>
-  <joint name="r_elbow_joint" type="revolute">
-    <parent link="r_upperarm_link"/>
-    <child link="r_elbow_link"/>
-    <origin rpy="0 -0 0 " xyz="0.02803 0 -0.229460"/>
-    <axis xyz="0 1 0"/>
-    <!-- from -170 to 0 degrees-->
-    <limit effort="100" lower="-2.96" upper="0" velocity="4.4"/>
-    <dynamics damping="0.2" friction="0"/>
-  </joint>
-  <transmission name="r_elbow_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="r_elbow_joint">
-      <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="r_elbow_joint_motor">
-      <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-  <gazebo reference="r_elbow_joint">
-    <implicitSpringDamper>0</implicitSpringDamper>
-  </gazebo>
   <joint name="r_wrist_y_joint" type="revolute">
     <parent link="r_elbow_link"/>
     <child link="r_forearm_link"/>
-    <origin rpy="0 -0 0 " xyz="-0.02096 0 -0.137530"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 -0.1095"/>
     <axis xyz="0 0 1"/>
     <!-- from -90 to 90 degrees-->
-    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.9"/>
+    <limit effort="100" lower="-1.57" upper="1.57" velocity="1.2"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="r_wrist_y_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_wrist_y_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_wrist_y_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1047,22 +1065,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 -0.124"/>
     <axis xyz="0 1 0"/>
     <!-- from -7 to 7 degrees-->
-    <limit effort="100" lower="-0.12" upper="0.12" velocity="1.7"/>
+    <limit effort="100" lower="-0.12" upper="0.12" velocity="0.8"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="r_wrist_p_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_wrist_p_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_wrist_p_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1075,22 +1093,22 @@
     <origin rpy="0 -0 0 " xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
     <!-- from -20 to 90 degrees-->
-    <limit effort="100" lower="-0.34" upper="1.57" velocity="3.4"/>
+    <limit effort="100" lower="-0.34" upper="1.57" velocity="1.8"/>
     <dynamics damping="0.2" friction="0"/>
   </joint>
   <transmission name="r_wrist_r_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_wrist_r_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_wrist_r_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1102,25 +1120,118 @@
     <child link="r_hand_link"/>
     <origin rpy="0 0 0 " xyz="0 0 -0.003"/>
   </joint>
-  <transmission name="r_wrist_r_joint_trans">
+  <!-- <xacro:gazebo_transmission joint_name="r_wrist_to_hand_connector" /> -->
+  <joint name="r_elbow_joint" type="revolute">
+    <parent link="r_upperarm_link"/>
+    <child link="r_elbow_virtual_link"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 -0.2085"/>
+    <axis xyz="0 1 0"/>
+    <!-- from -170 to 0 degrees-->
+    <limit effort="100" lower="-3.0" upper="0" velocity="1.1"/>
+    <dynamics damping="0.2" friction="0.1"/>
+  </joint>
+  <transmission name="r_elbow_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="r_wrist_r_joint">
+    <joint name="r_elbow_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
-    <actuator name="r_wrist_r_joint_motor">
+    <actuator name="r_elbow_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-  <gazebo reference="r_wrist_r_joint">
+  <gazebo reference="r_elbow_joint">
     <implicitSpringDamper>0</implicitSpringDamper>
   </gazebo>
+  <joint name="r_elbow_joint_mimic" type="continuous">
+    <parent link="r_elbow_virtual_link"/>
+    <child link="r_elbow_virtual_link_dummy"/>
+    <origin rpy="0 0 0 " xyz="0.0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <mimic joint="r_elbow_joint" multiplier="-1" offset="0"/>
+  </joint>
+  <joint name="r_elbow_middle_joint" type="continuous">
+    <parent link="r_elbow_virtual_link_dummy"/>
+    <child link="r_elbow_middle_link"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <mimic joint="r_elbow_joint" multiplier="0.591222" offset="0"/>
+  </joint>
+  <joint name="r_elbow_middle_joint_mimic" type="continuous">
+    <parent link="r_elbow_middle_link"/>
+    <child link="r_elbow_link"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 -0.07"/>
+    <axis xyz="0 1 0"/>
+    <mimic joint="r_elbow_joint" multiplier="0.408778" offset="0"/>
+  </joint>
+  <joint name="l_elbow_joint" type="revolute">
+    <parent link="l_upperarm_link"/>
+    <child link="l_elbow_virtual_link"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 -0.2085"/>
+    <axis xyz="0 1 0"/>
+    <!-- from -170 to 0 degrees-->
+    <limit effort="100" lower="-3.0" upper="0" velocity="1.1"/>
+    <dynamics damping="0.2" friction="0.1"/>
+  </joint>
+  <transmission name="l_elbow_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="l_elbow_joint">
+      <!-- dupricated in kinetic -->
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="l_elbow_joint_motor">
+      <!-- dupricated in kinetic -->
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <gazebo reference="l_elbow_joint">
+    <implicitSpringDamper>0</implicitSpringDamper>
+  </gazebo>
+  <joint name="l_elbow_joint_mimic" type="continuous">
+    <parent link="l_elbow_virtual_link"/>
+    <child link="l_elbow_virtual_link_dummy"/>
+    <origin rpy="0 0 0 " xyz="0.0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <mimic joint="l_elbow_joint" multiplier="-1" offset="0"/>
+  </joint>
+  <joint name="l_elbow_middle_joint" type="continuous">
+    <parent link="l_elbow_virtual_link_dummy"/>
+    <child link="l_elbow_middle_link"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <mimic joint="l_elbow_joint" multiplier="0.591222" offset="0"/>
+  </joint>
+  <joint name="l_elbow_middle_joint_mimic" type="continuous">
+    <parent link="l_elbow_middle_link"/>
+    <child link="l_elbow_link"/>
+    <origin rpy="0 -0 0 " xyz="0.0 0 -0.07"/>
+    <axis xyz="0 1 0"/>
+    <mimic joint="l_elbow_joint" multiplier="0.408778" offset="0"/>
+  </joint>
+  <link name="chest_camera_link"/>
+  <joint name="body_link_to_chest_camera_link" type="fixed">
+    <parent link="body_link"/>
+    <child link="chest_camera_link"/>
+    <origin rpy="0 0.698132 0" xyz="0.058198 0.0 0.273087"/>
+  </joint>
+  <link name="chest_camera_right_ir_frame"/>
+  <joint name="chest_camera_link_to_chest_camera_right_ir_link" type="fixed">
+    <parent link="chest_camera_link"/>
+    <child link="chest_camera_right_ir_frame"/>
+    <origin rpy="0 0 0" xyz="0 -0.055 0"/>
+    <!-- realsense d415-->
+  </joint>
   <!-- ============================   Hand(trx_s)   ============================ -->
   <!-- prefix is "r" or "l" -->
   <!-- reflect=1 is rightside, reflect=-1 is leftside -->
@@ -1266,15 +1377,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_indexbase_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_indexbase_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1293,15 +1404,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_indexmid_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_indexmid_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1320,15 +1431,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_indexend_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_indexend_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1347,15 +1458,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="r_thumb_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="r_thumb_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1535,15 +1646,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_indexbase_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_indexbase_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1562,15 +1673,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_indexmid_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_indexmid_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1589,15 +1700,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_indexend_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_indexend_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1616,15 +1727,15 @@
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="l_thumb_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="l_thumb_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -1863,13 +1974,13 @@
   <joint name="wheels_body_to_base_laser_connector" type="fixed">
     <parent link="wheel_base_link"/>
     <child link="wheels_base_laser_link"/>
-    <origin rpy="0 0 0" xyz="0.308 0 0.0994"/>
+    <origin rpy="0 0 0" xyz="0.308 0 0.1014"/>
   </joint>
   <link name="front_camera_base_link"/>
   <joint name="wheel_base_link_to_front_camera_base_link" type="fixed">
     <parent link="wheel_base_link"/>
     <child link="front_camera_base_link"/>
-    <origin rpy="0 0 0" xyz="0.31815 0 0.0165"/>
+    <origin rpy="0 0 0" xyz="0.31815 0 0.0185"/>
   </joint>
   <link name="front_camera_link"/>
   <joint name="front_camera_base_link_to_front_camera_link" type="fixed">
@@ -1887,7 +1998,7 @@
   <joint name="wheel_base_link_to_rear_camera_base_link" type="fixed">
     <parent link="wheel_base_link"/>
     <child link="rear_camera_base_link"/>
-    <origin rpy="0 0 3.1415926538" xyz="-0.31815 0 0.0165"/>
+    <origin rpy="0 0 3.1415926538" xyz="-0.31815 0 0.0185"/>
   </joint>
   <link name="rear_camera_link"/>
   <joint name="rear_camera_base_link_to_rear_camera_link" type="fixed">
@@ -2012,7 +2123,7 @@
       </geometry>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.05"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/typeG_lifter/leg_base_link.dae" scale="1 1 1"/>
       </geometry>
@@ -2053,20 +2164,21 @@
     <origin rpy="0 0 0" xyz="0 0 0.12"/>
     <axis xyz="0 -1 0"/>
     <limit effort="10000" lower="-1.5707" upper="0" velocity="0.5"/>
+    <dynamics damping="0.5" friction="0.1"/>
   </joint>
   <transmission name="knee_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="knee_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="knee_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -2079,21 +2191,21 @@
     <origin rpy="0 0 0" xyz="-0.012 0 0.035"/>
     <axis xyz="0 -1 0"/>
     <limit effort="10000" lower="0" upper="1.5707" velocity="0.5"/>
-    <dynamics damping="0.2" friction="0"/>
+    <dynamics damping="0.5" friction="0.1"/>
   </joint>
   <transmission name="ankle_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="ankle_joint">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="ankle_joint_motor">
       <!-- dupricated in kinetic -->
-      <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+      <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -2156,63 +2268,177 @@
   </joint>
   <!-- gazebo settings -->
   <!-- camera -->
-  <link name="camera_frame"/>
-  <link name="camera_optical_frame"/>
-  <joint name="camera_setting" type="fixed">
-    <parent link="head_link"/>
-    <child link="camera_frame"/>
-    <origin rpy="0 0.15 0" xyz="0 0.035 0.09"/>
+  <!--
+ <link name="camera_frame" />
+ <link name="camera_optical_frame" />
+ <joint name="camera_setting" type="fixed" >
+   <parent link="head_link" />
+   <child  link="camera_frame" />
+   <origin xyz="0 0.035 0.09" rpy="0 0.15 0" />
+ </joint>
+ <joint name="camera_optical" type="fixed" >
+   <parent link="camera_frame" />
+   <child  link="camera_optical_frame" />
+   <origin xyz="0 0 0" rpy="-1.570796326795 0 -1.570796326795" />
+ </joint>
+ -->
+  <!--
+ <xacro:gazebo_camera link_name="camera_frame"
+                      frame_name="camera_optical_frame" />
+-->
+  <link name="front_camera_depth_optical_frame"/>
+  <joint name="front_camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="front_camera_link"/>
+    <child link="front_camera_depth_optical_frame"/>
   </joint>
-  <joint name="camera_optical" type="fixed">
-    <parent link="camera_frame"/>
-    <child link="camera_optical_frame"/>
-    <origin rpy="-1.570796326795 0 -1.570796326795" xyz="0 0 0"/>
-  </joint>
-  <!-- camera -->
-  <gazebo reference="camera_frame">
-    <sensor name="camera1" type="camera">
-      <update_rate>15.0</update_rate>
+  <gazebo reference="front_camera_link">
+    <sensor name="camera1" type="depth">
+      <update_rate>1</update_rate>
       <camera name="head">
+        <!--
+               <noise>
+               <type>gaussian</type>
+               <mean>0.0</mean>
+               <stddev>0.007</stddev>
+               </noise>
+          -->
         <horizontal_fov>1.7</horizontal_fov>
-        <!-- -->
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>640</width>
+          <height>480</height>
           <format>R8G8B8</format>
         </image>
         <clip>
           <near>0.15</near>
           <far>300</far>
         </clip>
-        <noise>
-          <type>gaussian</type>
-          <!--Noise is sampled independently per pixel on each frame.
-                 That pixel's noise value is added to each of its color
-                 channels, which at that point lie in the range [0,1]. -->
-          <mean>0.0</mean>
-          <stddev>0.007</stddev>
-        </noise>
       </camera>
-      <plugin filename="libgazebo_ros_camera.so" name="camera_controller">
+      <plugin filename="libgazebo_ros_depth_camera.so" name="camera_controller">
         <alwaysOn>true</alwaysOn>
+        <!-- Keep this zero, update_rate will control the frame rate -->
         <updateRate>0.0</updateRate>
-        <cameraName>camera</cameraName>
+        <cameraName>front_camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-        <frameName>camera_optical_frame</frameName>
-        <!--setting hackBaseline to anything but 0.0 will cause a misalignment
-               between the gazebo sensor image and the frame it is supposed to
-               be attached to-->
-        <hackBaseline>0.0</hackBaseline>
+        <depthImageTopicName>depth/image_raw</depthImageTopicName>
+        <!-- neither camera info is getting published, frame_id is empty
+               in points and both image headers -->
+        <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+        <pointCloudTopicName>points</pointCloudTopicName>
+        <frameName>front_camera_depth_optical_frame</frameName>
+        <!-- TODO(lucasw) is this used by depth camera at all? -->
+        <hackBaseline>0.07</hackBaseline>
+        <pointCloudCutoff>0.001</pointCloudCutoff>
         <distortionK1>0.0</distortionK1>
         <distortionK2>0.0</distortionK2>
         <distortionK3>0.0</distortionK3>
         <distortionT1>0.0</distortionT1>
         <distortionT2>0.0</distortionT2>
-        <CxPrime>0</CxPrime>
-        <Cx>0.0</Cx>
-        <Cy>0.0</Cy>
-        <focalLength>0.0</focalLength>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <link name="rear_camera_depth_optical_frame"/>
+  <joint name="rear_camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="rear_camera_link"/>
+    <child link="rear_camera_depth_optical_frame"/>
+  </joint>
+  <gazebo reference="rear_camera_link">
+    <sensor name="camera1" type="depth">
+      <update_rate>1</update_rate>
+      <camera name="head">
+        <!--
+               <noise>
+               <type>gaussian</type>
+               <mean>0.0</mean>
+               <stddev>0.007</stddev>
+               </noise>
+          -->
+        <horizontal_fov>1.7</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.15</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <plugin filename="libgazebo_ros_depth_camera.so" name="camera_controller">
+        <alwaysOn>true</alwaysOn>
+        <!-- Keep this zero, update_rate will control the frame rate -->
+        <updateRate>0.0</updateRate>
+        <cameraName>rear_camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <depthImageTopicName>depth/image_raw</depthImageTopicName>
+        <!-- neither camera info is getting published, frame_id is empty
+               in points and both image headers -->
+        <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+        <pointCloudTopicName>points</pointCloudTopicName>
+        <frameName>rear_camera_depth_optical_frame</frameName>
+        <!-- TODO(lucasw) is this used by depth camera at all? -->
+        <hackBaseline>0.07</hackBaseline>
+        <pointCloudCutoff>0.001</pointCloudCutoff>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <link name="chest_camera_depth_optical_frame"/>
+  <joint name="chest_camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="chest_camera_link"/>
+    <child link="chest_camera_depth_optical_frame"/>
+  </joint>
+  <gazebo reference="chest_camera_link">
+    <sensor name="camera1" type="depth">
+      <update_rate>1</update_rate>
+      <camera name="head">
+        <!--
+               <noise>
+               <type>gaussian</type>
+               <mean>0.0</mean>
+               <stddev>0.007</stddev>
+               </noise>
+          -->
+        <horizontal_fov>1.7</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.15</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <plugin filename="libgazebo_ros_depth_camera.so" name="camera_controller">
+        <alwaysOn>true</alwaysOn>
+        <!-- Keep this zero, update_rate will control the frame rate -->
+        <updateRate>0.0</updateRate>
+        <cameraName>chest_camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <depthImageTopicName>depth/image_raw</depthImageTopicName>
+        <!-- neither camera info is getting published, frame_id is empty
+               in points and both image headers -->
+        <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+        <pointCloudTopicName>points</pointCloudTopicName>
+        <frameName>chest_camera_depth_optical_frame</frameName>
+        <!-- TODO(lucasw) is this used by depth camera at all? -->
+        <hackBaseline>0.07</hackBaseline>
+        <pointCloudCutoff>0.001</pointCloudCutoff>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
       </plugin>
     </sensor>
   </gazebo>
@@ -2258,6 +2484,7 @@
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <robotNamespace>/</robotNamespace>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <legacyModeNS>true</legacyModeNS>
     </plugin>
   </gazebo>
   <!-- Base control -->
@@ -2280,159 +2507,59 @@
   <gazebo>
     <plugin filename="libmimic_plugin.so" name="mimic_updater">
       <!-- lifter -->
-      <mimic D="80" I="0.1" P="4000" command_max="2000" command_min="-2000" i_max="500" i_min="-500" joint="knee_joint" multiplier="-1.0" offset="0.0">
-        
+      <mimic D="10" I="0.1" P="100" command_max="2000" command_min="-2000" i_max="500" i_min="-500" joint="knee_joint" multiplier="-1.0" offset="0.0" velocity="true">
        knee_joint_mimic
-       
-        <joint> knee_joint </joint>
-        <offset> 0.0 </offset>
-        <multiplier> -1.0 </multiplier>
-        <P> 4000 </P>
-        <I> 0.1 </I>
-        <D> 80 </D>
-        <i_max>  500 </i_max>
-        <i_min> -500 </i_min>
-        <command_max>  2000 </command_max>
-        <command_min> -2000 </command_min>
-      </mimic>
-      <mimic D="80" I="0.1" P="4000" command_max="2000" command_min="-2000" i_max="500" i_min="-500" joint="ankle_joint" multiplier="-1.0" offset="0.0">
-        
+     </mimic>
+      <mimic D="10" I="0.1" P="100" command_max="2000" command_min="-2000" i_max="500" i_min="-500" joint="ankle_joint" multiplier="-1.0" offset="0.0" velocity="true">
        ankle_joint_mimic
-       
-        <joint> ankle_joint </joint>
-        <offset> 0.0 </offset>
-        <multiplier> -1.0 </multiplier>
-        <P> 4000 </P>
-        <I> 0.1 </I>
-        <D> 80 </D>
-        <i_max>  500 </i_max>
-        <i_min> -500 </i_min>
-        <command_max>  2000 </command_max>
-        <command_min> -2000 </command_min>
-      </mimic>
+     </mimic>
       <!-- lifter(dummy) -->
-      <mimic D="1" I="0.0" P="1000" command_max="200" command_min="-200" i_max="0" i_min="0" joint="knee_joint" multiplier="-1.0" offset="0.0">
-        
+      <mimic D="10" I="0.0" P="100" command_max="200" command_min="-200" i_max="0" i_min="0" joint="knee_joint" multiplier="-1.0" offset="0.0" velocity="true">
        knee_joint_dummy
-       
-        <joint> knee_joint </joint>
-        <offset> 0.0 </offset>
-        <multiplier> -1.0 </multiplier>
-        <P> 1000 </P>
-        <I> 0.0 </I>
-        <D> 1 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  200 </command_max>
-        <command_min> -200 </command_min>
-      </mimic>
-      <mimic D="1" I="0.0" P="1000" command_max="200" command_min="-200" i_max="0" i_min="0" joint="ankle_joint" multiplier="1.0" offset="0.0">
-        
+     </mimic>
+      <mimic D="10" I="0.0" P="100" command_max="200" command_min="-200" i_max="0" i_min="0" joint="ankle_joint" multiplier="1.0" offset="0.0" velocity="true">
        ankle_joint_dummy
-       
-        <joint> ankle_joint </joint>
-        <offset> 0.0 </offset>
-        <multiplier> 1.0 </multiplier>
-        <P> 1000 </P>
-        <I> 0.0 </I>
-        <D> 1 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  200 </command_max>
-        <command_min> -200 </command_min>
-      </mimic>
+     </mimic>
       <!-- lhand -->
       <mimic D="0.03" I="0.0" P="30" command_max="50" command_min="-50" i_max="0" i_min="0" joint="l_thumb_joint" multiplier="-1.0" offset="0.0">
-        
        l_indexbase_joint
-       
-        <joint> l_thumb_joint </joint>
-        <offset> 0.0 </offset>
-        <multiplier> -1.0 </multiplier>
-        <P> 30 </P>
-        <I> 0.0 </I>
-        <D> 0.03 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  50 </command_max>
-        <command_min> -50 </command_min>
-      </mimic>
+     </mimic>
       <mimic D="0.03" I="0.0" P="30" command_max="50" command_min="-50" i_max="0" i_min="0" joint="l_thumb_joint" multiplier="-0.3" offset="-0.2">
-        
        l_indexmid_joint
-       
-        <joint> l_thumb_joint </joint>
-        <offset> -0.2 </offset>
-        <multiplier> -0.3 </multiplier>
-        <P> 30 </P>
-        <I> 0.0 </I>
-        <D> 0.03 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  50 </command_max>
-        <command_min> -50 </command_min>
-      </mimic>
+     </mimic>
       <mimic D="0.03" I="0.0" P="30" command_max="50" command_min="-50" i_max="0" i_min="0" joint="l_thumb_joint" multiplier="-0.3" offset="-0.2">
-        
        l_indexend_joint
-       
-        <joint> l_thumb_joint </joint>
-        <offset> -0.2 </offset>
-        <multiplier> -0.3 </multiplier>
-        <P> 30 </P>
-        <I> 0.0 </I>
-        <D> 0.03 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  50 </command_max>
-        <command_min> -50 </command_min>
-      </mimic>
+     </mimic>
       <!-- rhand -->
       <mimic D="0.03" I="0.0" P="30" command_max="50" command_min="-50" i_max="0" i_min="0" joint="r_thumb_joint" multiplier="-1.0" offset="0.0">
-        
        r_indexbase_joint
-       
-        <joint> r_thumb_joint </joint>
-        <offset> 0.0 </offset>
-        <multiplier> -1.0 </multiplier>
-        <P> 30 </P>
-        <I> 0.0 </I>
-        <D> 0.03 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  50 </command_max>
-        <command_min> -50 </command_min>
-      </mimic>
+     </mimic>
       <mimic D="0.03" I="0.0" P="30" command_max="50" command_min="-50" i_max="0" i_min="0" joint="r_thumb_joint" multiplier="-0.3" offset="0.2">
-        
        r_indexmid_joint
-       
-        <joint> r_thumb_joint </joint>
-        <offset> 0.2 </offset>
-        <multiplier> -0.3 </multiplier>
-        <P> 30 </P>
-        <I> 0.0 </I>
-        <D> 0.03 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  50 </command_max>
-        <command_min> -50 </command_min>
-      </mimic>
+     </mimic>
       <mimic D="0.03" I="0.0" P="30" command_max="50" command_min="-50" i_max="0" i_min="0" joint="r_thumb_joint" multiplier="-0.3" offset="0.2">
-        
        r_indexend_joint
-       
-        <joint> r_thumb_joint </joint>
-        <offset> 0.2 </offset>
-        <multiplier> -0.3 </multiplier>
-        <P> 30 </P>
-        <I> 0.0 </I>
-        <D> 0.03 </D>
-        <i_max>  0 </i_max>
-        <i_min> -0 </i_min>
-        <command_max>  50 </command_max>
-        <command_min> -50 </command_min>
-      </mimic>
+     </mimic>
+      <!-- r_elbow -->
+      <mimic D="10" I="0.01" P="100" command_max="50" command_min="-50" i_max="0" i_min="-0" joint="r_elbow_joint" multiplier="-1.0" offset="0.0" velocity="true">
+       r_elbow_joint_mimic
+     </mimic>
+      <mimic D="10" I="0.01" P="100" command_max="50" command_min="-50" i_max="0" i_min="-0" joint="r_elbow_joint" multiplier="0.591" offset="0.0" velocity="true">
+       r_elbow_middle_joint
+     </mimic>
+      <mimic D="10" I="0.01" P="100" command_max="50" command_min="-50" i_max="0" i_min="-0" joint="r_elbow_joint" multiplier="0.409" offset="0.0" velocity="true">
+       r_elbow_middle_joint_mimic
+     </mimic>
+      <!-- l_elbow -->
+      <mimic D="10" I="0.01" P="100" command_max="50" command_min="-50" i_max="0" i_min="-0" joint="l_elbow_joint" multiplier="-1.0" offset="0.0" velocity="true">
+       l_elbow_joint_mimic
+     </mimic>
+      <mimic D="10" I="0.01" P="100" command_max="50" command_min="-50" i_max="0" i_min="-0" joint="l_elbow_joint" multiplier="0.591" offset="0.0" velocity="true">
+       l_elbow_middle_joint
+     </mimic>
+      <mimic D="10" I="0.01" P="100" command_max="50" command_min="-50" i_max="0" i_min="-0" joint="l_elbow_joint" multiplier="0.409" offset="0.0" velocity="true">
+       l_elbow_middle_joint_mimic
+     </mimic>
     </plugin>
   </gazebo>
 </robot>

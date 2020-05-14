@@ -104,7 +104,7 @@
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://seed_r7_description/meshes/typeG_lifter/leg_base_link.dae" scale="1 1 1" />
         </geometry>
@@ -141,6 +141,7 @@
       <origin xyz="0 0 0.12" rpy="0 0 0"/>
       <axis xyz="0 -1 0"/>
       <limit effort="10000" lower="-1.5707" upper="0" velocity="0.5"/>
+      <dynamics damping="0.5" friction="0.1" />
     </joint>
     <xacro:gazebo_transmission joint_name="knee_joint" />
 
@@ -150,7 +151,7 @@
       <origin xyz="-0.012 0 0.035" rpy="0 0 0"/>
       <axis   xyz="0 -1 0"/>
       <limit effort="10000" lower="0" upper="1.5707" velocity="0.5" />
-      <dynamics damping="0.2" friction="0" />
+      <dynamics damping="0.5" friction="0.1" />
     </joint>
     <xacro:gazebo_transmission joint_name="ankle_joint" />
 
