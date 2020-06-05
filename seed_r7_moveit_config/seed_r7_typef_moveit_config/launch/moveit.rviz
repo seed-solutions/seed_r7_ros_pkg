@@ -87,6 +87,26 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          chest_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          chest_camera_right_ir_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          front_camera_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          front_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          front_camera_right_ir_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           head_base_link:
             Alpha: 1
             Show Axes: false
@@ -119,6 +139,19 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          l_elbow_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_elbow_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          l_elbow_virtual_link_dummy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           l_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -234,6 +267,19 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          r_elbow_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_elbow_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          r_elbow_virtual_link_dummy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           r_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -288,6 +334,18 @@ Visualization Manager:
             Show Trail: false
             Value: true
           r_wrist_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          rear_camera_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          rear_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          rear_camera_right_ir_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -393,6 +451,26 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          chest_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          chest_camera_right_ir_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          front_camera_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          front_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          front_camera_right_ir_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           head_base_link:
             Alpha: 1
             Show Axes: false
@@ -425,6 +503,19 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          l_elbow_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_elbow_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          l_elbow_virtual_link_dummy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           l_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -540,6 +631,19 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          r_elbow_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_elbow_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          r_elbow_virtual_link_dummy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           r_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -594,6 +698,18 @@ Visualization Manager:
             Show Trail: false
             Value: true
           r_wrist_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          rear_camera_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          rear_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          rear_camera_right_ir_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -694,5 +810,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1828
-  X: 92
-  Y: 24
+  X: 81
+  Y: 59
