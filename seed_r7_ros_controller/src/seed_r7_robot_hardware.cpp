@@ -178,7 +178,11 @@ namespace robot_hardware
     //Robot Status
     reset_robot_status_server_
       = root_nh.advertiseService("reset_robot_status", &RobotHW::resetRobotStatusCallback,this);
-    is_protective_stopped_ = false;  
+    robot_status_.p_stopped_err_ = false;
+
+    //robot status view
+    diagnostic_updater_.setHardwareID("SEED-Noid-Mover");
+    diagnostic_updater_.add("RobotStatus",this,&RobotHW::setDiagnostics);
 
     return true;
   }
@@ -239,8 +243,9 @@ namespace robot_hardware
 
     //check robot status flag
     setRobotStatus();
+
     //in case of error flag is high
-    if(is_protective_stopped_){
+    if(robot_status_.p_stopped_err_){
       ROS_WARN("The robot is protective stopped, please release it.");
     }
     return;
@@ -383,14 +388,78 @@ namespace robot_hardware
     controller_lower_->runScript(_number, _script);
     mutex_lower_.unlock();
   }
-  
+
   void RobotHW::setRobotStatus()
   {
-    if(((controller_lower_->raw_data_[30]>>6)&1 == 1 || (controller_lower_->raw_data_[30]>>14)&1 == 1) || 
-        ((controller_upper_->raw_data_[30]>>6)&1 == 1 || (controller_upper_->raw_data_[30]>>14)&1 == 1)){
-      is_protective_stopped_ = true ;
-    } 
-    else is_protective_stopped_ = false;
+    comm_err_ = controller_lower_->comm_err_ || controller_upper_->comm_err_;
+
+    robot_status_.connection_err_ = controller_lower_->robot_status_.connection_err_ ||
+      controller_upper_->robot_status_.connection_err_;
+
+    robot_status_.calib_err_ = controller_lower_->robot_status_.calib_err_ ||
+      controller_upper_->robot_status_.calib_err_;
+
+    robot_status_.motor_err_ = controller_lower_->robot_status_.motor_err_ ||
+      controller_upper_->robot_status_.motor_err_;
+
+    robot_status_.temp_err_ = controller_lower_->robot_status_.temp_err_ ||
+      controller_upper_->robot_status_.temp_err_;
+
+    robot_status_.res_err_ = controller_lower_->robot_status_.res_err_ ||
+      controller_upper_->robot_status_.res_err_;
+
+    robot_status_.step_out_err_ = controller_lower_->robot_status_.step_out_err_ ||
+      controller_upper_->robot_status_.step_out_err_;
+
+    robot_status_.p_stopped_err_ = controller_lower_->robot_status_.p_stopped_err_ ||
+      controller_upper_->robot_status_.p_stopped_err_;
+
+    robot_status_.power_err_ = controller_lower_->robot_status_.power_err_ ||
+      controller_upper_->robot_status_.power_err_;
+
+    diagnostic_updater_.update();
+
+  }
+
+  void RobotHW::setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper& stat)
+  {
+    if(comm_err_ ){
+      stat.summary(2,"E-Stop switch is pushed or the USB cable is plugged out");
+    }
+    else if(robot_status_.power_err_ ){
+      stat.summary(2,"Power failed, pleae check the battery");
+    }
+    else if(robot_status_.p_stopped_err_){
+      stat.summary(2,"Protective stopped, please release it");
+    }
+    else if(robot_status_.calib_err_ ){
+      stat.summary(2,"Calibration error occurred, please recalibration");
+    }
+    else if( robot_status_.temp_err_ ){
+      stat.summary(2,"Motor driver is high temperature, please reboot the robot");
+    }
+    else if(robot_status_.connection_err_){
+      stat.summary(2,"Connection error occurred, please check the cable");
+    }
+    else if(robot_status_.step_out_err_ ){
+      stat.summary(1,"Step-out has occurred");
+    }
+    else if( robot_status_.res_err_ ){
+      stat.summary(1,"Response error has occurred");
+    }
+    else{
+      stat.summary(0,"System all green");
+    }
+
+    stat.add("Communication Error", comm_err_);
+    stat.add("Connection Error",robot_status_.connection_err_);
+    stat.add("Calibration Error",robot_status_.calib_err_);
+    stat.add("Motor Servo OFF",robot_status_.motor_err_);
+    stat.add("Temperature Error",robot_status_.temp_err_);
+    stat.add("Response Error",robot_status_.res_err_);
+    stat.add("Step Out Occurred",robot_status_.step_out_err_);
+    stat.add("Protective Stopped",robot_status_.p_stopped_err_);
+    stat.add("Power Failed",robot_status_.power_err_);
 
   }
 

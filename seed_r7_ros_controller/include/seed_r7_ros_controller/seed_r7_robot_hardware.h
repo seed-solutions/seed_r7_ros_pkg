@@ -61,6 +61,9 @@
 
 #include <mutex>
 
+//for robot status view
+#include <std_msgs/String.h>
+#include <diagnostic_updater/diagnostic_updater.h>
 
 namespace robot_hardware
 {
@@ -88,10 +91,20 @@ public:
   void getBatteryVoltage(const ros::TimerEvent& _event);
   void runLedScript(uint8_t _number, uint16_t _script);
   void setRobotStatus();
+  void setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper& stat);
   //----------------------
 
-  //Robot Status
-  bool is_protective_stopped_;
+  bool comm_err_;
+  struct RobotStatus {
+      bool connection_err_;
+      bool calib_err_;
+      bool motor_err_;
+      bool temp_err_;
+      bool res_err_;
+      bool step_out_err_;
+      bool p_stopped_err_;
+      bool power_err_;
+    } robot_status_;
 
 private:
   ros::ServiceServer reset_robot_status_server_;
@@ -147,6 +160,9 @@ protected:
 
   pluginlib::ClassLoader<seed_converter::StrokeConverter> converter_loader_;
   boost::shared_ptr<seed_converter::StrokeConverter> stroke_converter_;
+
+  //for robot status view
+  diagnostic_updater::Updater diagnostic_updater_;
 };
 
 }
