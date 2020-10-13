@@ -424,22 +424,22 @@ namespace robot_hardware
   void RobotHW::setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper& stat)
   {
     if(comm_err_ ){
-      stat.summary(2,"E-Stop switch is pushed or the USB cable is plugged out");
+      stat.summary(2,"Now calibrating, or the USB cable is plugged out");
     }
     else if(robot_status_.power_err_ ){
       stat.summary(2,"Power failed, pleae check the battery");
+    }
+    else if(robot_status_.connection_err_){
+      stat.summary(2,"Connection error occurred, please check the cable");
+    }
+    else if( robot_status_.temp_err_ ){
+      stat.summary(2,"Motor driver is high temperature, please reboot the robot");
     }
     else if(robot_status_.p_stopped_err_){
       stat.summary(2,"Protective stopped, please release it");
     }
     else if(robot_status_.calib_err_ ){
       stat.summary(2,"Calibration error occurred, please recalibration");
-    }
-    else if( robot_status_.temp_err_ ){
-      stat.summary(2,"Motor driver is high temperature, please reboot the robot");
-    }
-    else if(robot_status_.connection_err_){
-      stat.summary(2,"Connection error occurred, please check the cable");
     }
     else if(robot_status_.step_out_err_ ){
       stat.summary(1,"Step-out has occurred");
@@ -451,14 +451,19 @@ namespace robot_hardware
       stat.summary(0,"System all green");
     }
 
+    if(robot_status_.connection_err_ && robot_status_.calib_err_ ){
+      stat.summary(2,"E-Stop switch is pushed, please release it");
+    }
+
     stat.add("Communication Error", comm_err_);
+    stat.add("Emergency Stopped", robot_status_.connection_err_ && robot_status_.calib_err_ );
+    stat.add("Protective Stopped",robot_status_.p_stopped_err_);
     stat.add("Connection Error",robot_status_.connection_err_);
     stat.add("Calibration Error",robot_status_.calib_err_);
     stat.add("Motor Servo OFF",robot_status_.motor_err_);
     stat.add("Temperature Error",robot_status_.temp_err_);
     stat.add("Response Error",robot_status_.res_err_);
     stat.add("Step Out Occurred",robot_status_.step_out_err_);
-    stat.add("Protective Stopped",robot_status_.p_stopped_err_);
     stat.add("Power Failed",robot_status_.power_err_);
 
   }
