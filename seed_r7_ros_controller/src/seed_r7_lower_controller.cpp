@@ -135,6 +135,7 @@ void robot_hardware::LowerController::checkRobotStatus()
   int16_t status_bit = raw_data_.back();
   int8_t max_bit_size = 16;
 
+  if(!is_open_) status_bit = 0;
   robot_status_.connection_err_ = (status_bit >> error_bit_t::can1_connection)&1 ||
     (status_bit >> error_bit_t::can2_connection)&1;
 
