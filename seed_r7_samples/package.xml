@@ -16,6 +16,7 @@
   <depend>seed_r7_bringup</depend>
   <depend>seed_r7_moveit_config</depend>
   <depend>seed_r7_typef_moveit_config</depend>
+  <depend>seed_r7_typefcety_moveit_config</depend>
   <depend>seed_r7_typeg_moveit_config</depend>
   <depend>seed_r7_navigation</depend>
   <depend>smach_ros</depend>

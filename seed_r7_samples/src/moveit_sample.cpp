@@ -40,6 +40,7 @@ int main(int argc, char** argv)
 
   bool success = (move_group_right.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   if(success)move_group_right.execute(my_plan);
+  else ROS_ERROR("%s", "1 plan_failed");
   //-----------------------
 
   //--- left arm without waist ---
@@ -55,6 +56,8 @@ int main(int argc, char** argv)
 
   success = (move_group_left.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   if(success)move_group_left.execute(my_plan);
+  else ROS_ERROR("%s", "2 plan_failed");
+
   //-----------------------
 
   //--- with both arms ---
@@ -66,6 +69,8 @@ int main(int argc, char** argv)
 
   success = (move_group_arms.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   if(success)move_group_arms.execute(my_plan);
+  else ROS_ERROR("%s", "3 plan_failed");
+
   //-----------------------
 
   //--- set registerd position ---

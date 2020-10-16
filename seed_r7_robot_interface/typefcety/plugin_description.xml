@@ -1,0 +1,6 @@
+<library path="lib/libseed_r7_robot_interface_typefcety">
+  <class name="seed_r7_robot_interface/typefcety" type="seed_converter::TypeFCETy"
+         base_class_type="StrokeConverter">
+    <description>TypeFCETy stroke converter plugin.</description>
+  </class>
+</library>
