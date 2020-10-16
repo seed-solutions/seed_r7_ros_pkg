@@ -38,7 +38,7 @@ robot_hardware::LowerController::LowerController(const std::string& _port)
  for(size_t i = 0; i < wheel_table_.size() ; ++i){
     size_t index = std::distance(wheel_aero_index_.begin(), std::find(wheel_aero_index_.begin(),wheel_aero_index_.end(),i));
     if(index != wheel_aero_index_.size()) wheel_table_.at(i) = std::make_pair(index,wheel_name_.at(index));
-  }
+  } 
 }
 
 robot_hardware::LowerController::~LowerController()
@@ -50,7 +50,6 @@ void robot_hardware::LowerController::getPosition()
 {
   if(is_open_) raw_data_ = lower_->getPosition(0);
 
-  checkRobotStatus();
 }
 
 void robot_hardware::LowerController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
@@ -58,7 +57,6 @@ void robot_hardware::LowerController::sendPosition(uint16_t _time, std::vector<i
   if(is_open_) raw_data_ = lower_->actuateByPosition(_time, _data.data());
   else raw_data_.assign(_data.begin(), _data.end());
 
-  checkRobotStatus();
 }
 
 void robot_hardware::LowerController::remapAeroToRos
@@ -125,38 +123,4 @@ void robot_hardware::LowerController::getRobotStatus(int8_t _number)
   if(is_open_)lower_->getStatus(_number);
 
   //_number == 0xFF : reset flag
-}
-
-void robot_hardware::LowerController::checkRobotStatus()
-{
-  if(is_open_) comm_err_ = lower_->comm_err_;
-  else comm_err_ = false;
-
-  int16_t status_bit = raw_data_.back();
-  int8_t max_bit_size = 16;
-
-  robot_status_.connection_err_ = (status_bit >> error_bit_t::can1_connection)&1 ||
-    (status_bit >> error_bit_t::can2_connection)&1;
-
-  robot_status_.calib_err_ = (status_bit >> error_bit_t::can1_calibration)&1 ||
-    (status_bit >> error_bit_t::can2_calibration)&1;
-
-  robot_status_.motor_err_ = (status_bit >> error_bit_t::can1_motor_status)&1 ||
-    (status_bit >> error_bit_t::can2_motor_status)&1;
-
-  robot_status_.temp_err_ = (status_bit >> error_bit_t::can1_temperature)&1 ||
-    (status_bit >> error_bit_t::can2_temperature)&1;
-
-  robot_status_.res_err_ = (status_bit >> error_bit_t::can1_response)&1 ||
-    (status_bit >> error_bit_t::can2_response)&1;
-
-  robot_status_.step_out_err_ = (status_bit >> error_bit_t::can1_step_out)&1 ||
-    (status_bit >> error_bit_t::can2_step_out)&1;
-
-  robot_status_.p_stopped_err_ = (status_bit >> error_bit_t::can1_protective_stopped)&1 ||
-    (status_bit >> error_bit_t::can2_protective_stopped)&1;
-
-  robot_status_.power_err_ = (status_bit >> error_bit_t::can1_power)&1 ||
-    (status_bit >> error_bit_t::can2_power)&1;
-
 }

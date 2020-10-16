@@ -139,7 +139,9 @@ class MoveitCommand:
 
     self.group.set_pose_target(target_pose)
     self.group.set_max_velocity_scaling_factor(vel)
+    #self.group.set_goal_tolerance(2.0)
     plan = self.group.plan()
+    print('plan:', plan)
 
     if(len(plan.joint_trajectory.points)==0):
       rospy.logwarn("IK can't be solved")
@@ -147,6 +149,7 @@ class MoveitCommand:
       return 'aborted'
     else: 
       self.group.execute(plan)
+      print ('success')
       return 'succeeded'
 
   def set_lifter_position(self, x, z, vel=1.0):
@@ -154,6 +157,8 @@ class MoveitCommand:
     self.group.set_pose_reference_frame("base_link")
     self.group.set_end_effector_link("body_link")
     if("typef" in self.robot_model):
+      distance_body_lifter = 1.065 - 0.92
+    elif("typefcety" in self.robot_model):
       distance_body_lifter = 1.065 - 0.92
     elif("typeg" in self.robot_model):
       distance_body_lifter = 0.994 - 0.857
