@@ -27,7 +27,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 # boost
-find_package(Boost REQUIRED COMPONENTS filesystem system thread)
+find_package(Boost REQUIRED COMPONENTS thread)
 if(NOT Boost_INCLUDE_DIRS)
   message(FATAL "boost required but not supported")
 else()
