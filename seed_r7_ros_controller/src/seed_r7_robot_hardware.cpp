@@ -100,7 +100,7 @@ namespace robot_hardware
       else joint_list_[i] = joint_names_lower_[i - joint_names_upper_.size()];
     }
 
-    prev_ref_positions_.resize(number_of_angles_);
+    prev_ref_strokes_.resize(number_of_angles_);
     initialized_flag_ = false;
 
     std::string model_str;
@@ -235,7 +235,7 @@ namespace robot_hardware
 
     if (!initialized_flag_) {
       for(unsigned int j = 0; j < number_of_angles_; j++) {
-        joint_position_command_[j] = prev_ref_positions_[j] = joint_position_[j];
+        joint_position_command_[j] = joint_position_[j];
         ROS_DEBUG("%d: %s - %f", j, joint_list_[j].c_str(), joint_position_command_[j]);
       }
       initialized_flag_ = true;
@@ -291,17 +291,17 @@ namespace robot_hardware
     std::vector<bool > mask_positions(number_of_angles_);
     std::fill(mask_positions.begin(), mask_positions.end(), true); // send if true
 
-    for (int i = 0; i < number_of_angles_; ++i) {
-      double tmp = ref_positions[i];
-      if (tmp == prev_ref_positions_[i]) {
-        mask_positions[i] = false;
-      }
-      prev_ref_positions_[i] = tmp;
-    }
-
     // convert from angle to stroke
     std::vector<int16_t> ref_strokes(ref_positions.size());
     stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
+
+    for (int i = 0; i < number_of_angles_; ++i) {
+      double tmp = ref_strokes[i];
+      if (tmp == prev_ref_strokes_[i]) {
+        mask_positions[i] = false;
+      }
+      prev_ref_strokes_[i] = tmp;
+    }
     
     // masking
     std::vector<int16_t> snt_strokes(ref_strokes);
