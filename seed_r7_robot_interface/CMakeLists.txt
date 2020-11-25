@@ -19,7 +19,7 @@ catkin_package(
   CATKIN_DEPENDS roscpp seed_r7_ros_controller
   DEPENDS
   INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}_typef ${PROJECT_NAME}_typefcety ${PROJECT_NAME}_typeg
+  LIBRARIES ${PROJECT_NAME}_typef ${PROJECT_NAME}_typefcety ${PROJECT_NAME}_typefcesy ${PROJECT_NAME}_typeg
 )
 
 include_directories(${catkin_INCLUDE_DIRS})
@@ -35,6 +35,9 @@ target_link_libraries(${PROJECT_NAME}_typeg ${catkin_LIBRARIES})
 add_library(${PROJECT_NAME}_typefcety typefcety/src/stroke_converter.cpp)
 target_link_libraries(${PROJECT_NAME}_typefcety ${catkin_LIBRARIES})
 
+add_library(${PROJECT_NAME}_typefcesy typefcesy/src/stroke_converter.cpp)
+target_link_libraries(${PROJECT_NAME}_typefcesy ${catkin_LIBRARIES})
+
 # Install
 install(
   DIRECTORY typef
@@ -49,13 +52,20 @@ install(
 )
 
 install(
+  DIRECTORY typefcesy
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  PATTERN "typefcesy/src" EXCLUDE
+)
+
+
+install(
   DIRECTORY typeg
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   PATTERN "typeg/src" EXCLUDE
 )
 
 # Install
-install(TARGETS ${PROJECT_NAME}_typef  ${PROJECT_NAME}_typefcety ${PROJECT_NAME}_typeg
+install(TARGETS ${PROJECT_NAME}_typef  ${PROJECT_NAME}_typefcety ${PROJECT_NAME}_typefcesy ${PROJECT_NAME}_typeg
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )

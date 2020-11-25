@@ -1,0 +1,9 @@
+seed_r7_mover_controller:
+  ros_rate: 0.05
+  odom_rate: 0.02
+  safety_rate: 0.5
+  safety_duration: 1.0
+
+  wheel_radius: 0.0762
+  tread: 0.39
+  wheelbase: 0.453
