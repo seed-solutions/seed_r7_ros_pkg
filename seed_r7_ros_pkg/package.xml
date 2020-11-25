@@ -13,6 +13,7 @@
   <depend>seed_r7_description</depend>
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_typefcety_moveit_config</depend>
+  <depend>seed_r7_typefcesy_moveit_config</depend>
   <depend>seed_r7_typeg_moveit_config</depend>
   <depend>seed_r7_moveit_config</depend>
   <depend>seed_r7_robot_interface</depend>
