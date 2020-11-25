@@ -82,3 +82,37 @@ std::string robot_hardware::UpperController::getFirmwareVersion()
   if(is_open_) return upper_->getVersion(0);
   else return "";
 }
+
+void robot_hardware::UpperController::checkRobotStatus()
+{
+  if(is_open_) comm_err_ = upper_->comm_err_;
+  else comm_err_ = false;
+
+  int16_t status_bit = raw_data_.back();
+  int8_t max_bit_size = 16;
+
+  if(!is_open_) status_bit = 0;
+  robot_status_.connection_err_ = (status_bit >> error_bit_t::can1_connection)&1 ||
+    (status_bit >> error_bit_t::can2_connection)&1;
+
+  robot_status_.calib_err_ = (status_bit >> error_bit_t::can1_calibration)&1 ||
+    (status_bit >> error_bit_t::can2_calibration)&1;
+
+  robot_status_.motor_err_ = (status_bit >> error_bit_t::can1_motor_status)&1 ||
+    (status_bit >> error_bit_t::can2_motor_status)&1;
+
+  robot_status_.temp_err_ = (status_bit >> error_bit_t::can1_temperature)&1 ||
+    (status_bit >> error_bit_t::can2_temperature)&1;
+
+  robot_status_.res_err_ = (status_bit >> error_bit_t::can1_response)&1 ||
+    (status_bit >> error_bit_t::can2_response)&1;
+
+  robot_status_.step_out_err_ = (status_bit >> error_bit_t::can1_step_out)&1 ||
+    (status_bit >> error_bit_t::can2_step_out)&1;
+
+  robot_status_.p_stopped_err_ = (status_bit >> error_bit_t::can1_protective_stopped)&1 ||
+    (status_bit >> error_bit_t::can2_protective_stopped)&1;
+
+  robot_status_.power_err_ = (status_bit >> error_bit_t::can1_power)&1 ||
+    (status_bit >> error_bit_t::can2_power)&1;
+}
