@@ -41,11 +41,11 @@ lhand_controller:
   type: position_controllers/JointTrajectoryController
   joints:
     - l_thumb_joint
-    - l_index_base_joint
+    - l_indexbase_joint
 rhand_controller:
   type: position_controllers/JointTrajectoryController
   joints:
     - r_thumb_joint
-    - r_index_base_joint
+    - r_indexbase_joint
 
 robot_interface_controllers: ['rarm', 'larm', 'waist', 'lifter', 'head']
