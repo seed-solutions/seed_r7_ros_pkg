@@ -80,7 +80,7 @@
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
-      <origin xyz="0 0 -0.0225" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
+      <origin xyz="0 0 -0.0325" rpy="${M_PI} 0 ${reflect * M_PI / 2.0}"/>
       <geometry>
         <!--mesh filename="package://seed_r7_description/meshes/seed_hand/RARM_INDEX_LINK3_mesh.dae" scale="1 1 1" /-->
         <box size="0.020 0.0596 0.065" />
