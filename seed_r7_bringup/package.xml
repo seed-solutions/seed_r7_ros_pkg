@@ -15,6 +15,7 @@
   <depend>robot_state_publisher</depend>
   <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_typefcety_moveit_config</depend>
+  <depend>seed_r7_typefcesy_moveit_config</depend>
   <depend>seed_r7_typeg_moveit_config</depend>
   <depend>controller_manager</depend>
   <depend>seed_r7_ros_controller</depend>
