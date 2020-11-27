@@ -4,7 +4,7 @@
   <arg name="test_mode" default="false"/>
 
   <!-- manin controller -->
-  <arg name="robot_model" default="typefcety"/>
+  <arg name="robot_model" default="typefcesy"/>
   <include file="$(find seed_r7_bringup)/launch/seed_r7_bringup.launch">
     <arg name="robot_model" value="$(arg robot_model)"/>
   </include>
