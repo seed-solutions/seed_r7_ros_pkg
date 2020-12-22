@@ -74,7 +74,7 @@ void robot_hardware::LowerController::remapRosToAero
 (std::vector<int16_t>& _aero, std::vector<int16_t>& _ros)
 {
   _aero.resize(aero_table_.size());
-  for(size_t i = 0; i < _ros.size(); ++i){
+  for(size_t i = 0; i < _aero.size(); ++i){
     _aero.at(i) = _ros.at(upper_name_.size() + aero_table_.at(i).first);
   }
 }
