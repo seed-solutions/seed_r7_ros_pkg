@@ -16,9 +16,6 @@ joint_settings:
       - l_wrist_y_joint
       - l_wrist_p_joint
       - l_wrist_r_joint
-      - l_indexbase_joint #passive
-      - l_indexmid_joint #passive
-      - l_indexend_joint #passive
       - l_thumb_joint
       - neck_y_joint
       - neck_p_joint
@@ -30,11 +27,8 @@ joint_settings:
       - r_wrist_y_joint
       - r_wrist_p_joint
       - r_wrist_r_joint
-      - r_indexbase_joint #passive
-      - r_indexmid_joint #passive
-      - r_indexend_joint #passive
       - r_thumb_joint
-    aero_index: [15,25,10,18,19,20,21,22,23,24,-1,-1,-1,26,0,1,2,3,4,5,6,7,8,9,-1,-1,-1,11] #passive = -1
+    aero_index: [15,25,10,18,19,20,21,22,23,24,26,0,1,2,3,4,5,6,7,8,9,11]
 
   hand:
     right_number: 12  #11+1
