@@ -64,7 +64,7 @@ class NaviAction:
       return 'aborted'
 
   def shutdown(self):
-    rospy.loginfo("The robot was terminated")
+    #rospy.loginfo("The robot was terminated")
     self.ac.cancel_goal()
 #--------------------------------
 class GO_TO_PLACE(State):
@@ -119,6 +119,8 @@ class MoveitCommand:
   def set_grasp_position(self, x, y, z, vel=1.0,direction="side"):
     self.group = moveit_commander.MoveGroupCommander("rarm_with_torso")
     self.group.set_pose_reference_frame("base_link")
+    self.group.set_planner_id( "RRTConnectkConfigDefault" )
+    self.group.allow_replanning( True )
 
     target_pose = Pose()
     if(direction == "side"):

@@ -19,15 +19,15 @@
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="${joint_name}">
         <!-- dupricated in kinetic -->
-        <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <!-- <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface> -->
       </joint>
       <actuator name="${joint_name}_motor">
         <!-- dupricated in kinetic -->
-        <!-- <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <!-- <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface> -->
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -69,7 +69,7 @@
       <sensor type="ray" name="head_hokuyo_sensor">
         <pose>0 0 0 0 0 0</pose>
         <visualize>false</visualize>
-        <update_rate>40</update_rate>
+        <update_rate>10</update_rate>
         <ray>
           <scan>
             <horizontal>
@@ -81,8 +81,8 @@
           </scan>
 
           <range>
-            <min>0.5</min>
-            <max>30.0</max>
+            <min>0.08</min>
+            <max>20.0</max>
             <resolution>0.01</resolution>
           </range>
 
@@ -110,8 +110,8 @@
                params="link_name frame_name camera_name:=camera" >
     <gazebo reference="${link_name}">
       <sensor type="depth" name="camera1">
-        <update_rate>1</update_rate>
-        <camera name="head">
+        <update_rate>0.0</update_rate>
+        <camera name="camera_ir">
           <!--
                <noise>
                <type>gaussian</type>
@@ -123,7 +123,7 @@
           <image>
             <width>640</width>
             <height>480</height>
-            <format>R8G8B8</format>
+            <format>B8G8R8</format>
           </image>
           <clip>
             <near>0.15</near>
@@ -145,7 +145,8 @@
           <frameName>${frame_name}</frameName>
           <!-- TODO(lucasw) is this used by depth camera at all? -->
           <hackBaseline>0.07</hackBaseline>
-          <pointCloudCutoff>0.001</pointCloudCutoff>
+          <pointCloudCutoff>0.5</pointCloudCutoff>
+          <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
           <distortionK1>0.0</distortionK1>
           <distortionK2>0.0</distortionK2>
           <distortionK3>0.0</distortionK3>

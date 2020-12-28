@@ -8,8 +8,8 @@ joint_limits:
     has_acceleration_limits: false
     max_acceleration: 0
   ankle_joint_mimic:
-    has_velocity_limits: true
-    max_velocity: 0.5
+    has_velocity_limits: false
+    max_velocity: 0
     has_acceleration_limits: false
     max_acceleration: 0
   knee_joint:
@@ -18,8 +18,8 @@ joint_limits:
     has_acceleration_limits: false
     max_acceleration: 0
   knee_joint_mimic:
-    has_velocity_limits: true
-    max_velocity: 0.5
+    has_velocity_limits: false
+    max_velocity: 0
     has_acceleration_limits: false
     max_acceleration: 0
   l_elbow_joint:
@@ -28,18 +28,8 @@ joint_limits:
     has_acceleration_limits: false
     max_acceleration: 0
   l_indexbase_joint:
-    has_velocity_limits: true
-    max_velocity: 0.5
-    has_acceleration_limits: false
-    max_acceleration: 0
-  l_indexend_joint:
-    has_velocity_limits: true
-    max_velocity: 0.5
-    has_acceleration_limits: false
-    max_acceleration: 0
-  l_indexmid_joint:
-    has_velocity_limits: true
-    max_velocity: 0.5
+    has_velocity_limits: false
+    max_velocity: 0
     has_acceleration_limits: false
     max_acceleration: 0
   l_shoulder_p_joint:
@@ -98,18 +88,8 @@ joint_limits:
     has_acceleration_limits: false
     max_acceleration: 0
   r_indexbase_joint:
-    has_velocity_limits: true
-    max_velocity: 0.5
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r_indexend_joint:
-    has_velocity_limits: true
-    max_velocity: 0.5
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r_indexmid_joint:
-    has_velocity_limits: true
-    max_velocity: 0.5
+    has_velocity_limits: false
+    max_velocity: 0
     has_acceleration_limits: false
     max_acceleration: 0
   r_shoulder_p_joint:

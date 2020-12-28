@@ -8,6 +8,6 @@
 
   <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/move_group.launch" />
   <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit_rviz.launch" >
-    <arg name="config" value="True"/>
+    <arg name="rviz_config" value="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit.rviz"/>
   </include>
 </launch>
