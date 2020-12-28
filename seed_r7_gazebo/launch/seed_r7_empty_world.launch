@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- parameters when using models in official package -->
+  <arg name="robot_model"         default="typef"/>
+  <arg name="moveit_config_pkg"   default="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config"/>
+  <arg name="init_position_x"     default="0"/>
+  <arg name="init_position_y"     default="0"/>
+
+  <!-- this launch provides almost the same robot API in gazebo world
+       as seed_r7_bringup/seed_r7_bringup.launch -->
+  <!-- these are the arguments you can pass this launch file, for example PAUSED:=true -->
+  <arg name="GUI"      default="true"/>
+  <arg name="HEADLESS" default="false"/>
+  <arg name="PAUSED"   default="false"/>
+  <arg name="WORLD_FILE" default="$(find seed_r7_gazebo)/worlds/empty.world"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="debug" default="false"/>
+
+<!--
+  <env name="GAZEBO_MODEL_PATH" value="$(find aero_gazebo)/gazebo_models" />
+-->
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="world_name" value="$(arg WORLD_FILE)"/>
+    <arg name="gui"    value="$(arg GUI)" />
+    <arg name="paused" value="$(arg PAUSED)"/>
+    <arg name="headless" value="$(arg HEADLESS)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="debug"  value="$(arg debug)" />
+  </include>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro 
+              $(find seed_r7_description)/$(arg robot_model)/noid.urdf.xacro --inorder"/>
+
+  <!-- MoveIt! -->
+  <include file="$(arg moveit_config_pkg)/launch/move_group.launch" />
+  <include file="$(arg moveit_config_pkg)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        respawn="false" output="screen"
+        args="-x $(arg init_position_x) -y $(arg init_position_y) -urdf
+              -model seed_r7 -param robot_description"/>
+
+  <!-- load gazebo controller settings(pids.yaml is not used, but to avoid Error) -->
+  <rosparam file="$(find seed_r7_gazebo)/config/gazebo_controller.yaml"
+            command="load" />
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        respawn="false" output="screen" ns="/"
+        args="joint_state_controller head_controller waist_controller
+              lifter_controller larm_controller rarm_controller
+              lhand_controller rhand_controller" />
+
+  <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+
+
+</launch>

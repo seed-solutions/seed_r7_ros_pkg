@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Run bringup -->
+  <include file="$(find seed_r7_gazebo)/launch/navigation/wheel_bringup.launch" />
+
+  <!--- Run making map -->
+  <include file="$(find seed_r7_navigation)/launch/making_map_navigation.launch" />
+
+</launch>

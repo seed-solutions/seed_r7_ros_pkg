@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="map_name" default="map" />
+  
+  <node name="map_saver" pkg="map_server" type="map_saver"
+	args="-f $(find seed_r7_gazebo)/config/maps/$(arg map_name)" output="screen"/>
+</launch>

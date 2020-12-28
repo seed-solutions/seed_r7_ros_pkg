@@ -1,0 +1,156 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+  <model name="shelf3">
+    <static>true</static>
+    <link name="shelving_uprights">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.156 0 0.545 0 0 0</pose>
+        <mass>12.1</mass>
+        <inertia>
+          <ixx>3.7396</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.3568</ixz>
+          <iyy>2.9636</iyy>
+          <iyz>0.0</iyz>
+          <izz>1.3356</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_uprights.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_uprights.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="shelving_brackets1">
+      <pose>0 0 0.3 0 0 0</pose>
+      <inertial>
+        <pose>-0.027 0 0.015 0 0 0</pose>
+        <mass>3.2</mass>
+        <inertia>
+          <ixx>0.247</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0001</ixz>
+          <iyy>0.05</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2966</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="shelving_brackets2">
+      <pose>0 0 0.6 0 0 0</pose>
+      <inertial>
+        <pose>-0.027 0 0.015 0 0 0</pose>
+        <mass>3.2</mass>
+        <inertia>
+          <ixx>0.247</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0001</ixz>
+          <iyy>0.05</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2966</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="shelving_brackets3">
+      <pose>0 0 0.9 0 0 0</pose>
+      <inertial>
+        <pose>-0.027 0 0.015 0 0 0</pose>
+        <mass>3.2</mass>
+        <inertia>
+          <ixx>0.247</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0001</ixz>
+          <iyy>0.05</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2966</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="shelving_brackets4">
+      <pose>0 0 1.2 0 0 0</pose>
+      <inertial>
+        <pose>-0.027 0 0.015 0 0 0</pose>
+        <mass>3.2</mass>
+        <inertia>
+          <ixx>0.247</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0001</ixz>
+          <iyy>0.05</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2966</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://shelf/shelving_brackets.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+  </model>
+</sdf>

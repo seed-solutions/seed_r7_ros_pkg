@@ -19,4 +19,5 @@
   <depend>seed_r7_bringup</depend>
   <depend>seed_r7_navigation</depend>
   <depend>seed_r7_samples</depend>
+  <depend>seed_r7_gazebo</depend>
 </package>

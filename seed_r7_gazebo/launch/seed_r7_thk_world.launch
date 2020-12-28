@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- parameters when using models in official package -->
+  <arg name="robot_model"       default="typef"/>
+  <arg name="WORLD_FILE"        default="$(find seed_r7_gazebo)/worlds/thk.world"/>
+  <arg name="GUI"               default="true"/>
+
+  <arg name="init_position_x"   default="0"/>
+  <arg name="init_position_y"   default="0"/>
+
+  <include file="$(find seed_r7_gazebo)/launch/seed_r7_empty_world.launch">
+    <arg name="robot_model"     value="$(arg robot_model)"/>
+    <arg name="WORLD_FILE"      value="$(arg WORLD_FILE)"/>
+    <arg name="GUI"             value="$(arg GUI)"/>
+    <arg name="init_position_x" value="$(arg init_position_x)"/>
+    <arg name="init_position_y" value="$(arg init_position_y)"/>
+  </include>
+
+</launch>

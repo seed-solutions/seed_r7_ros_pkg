@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+<model name="front">
+  <pose>0 0 0 0 0 0</pose>
+    <link name="link">
+      <inertial>
+        <pose>0.187 0.198 0.703 0 0 0</pose>
+        <mass>133</mass>
+        <inertia>
+          <ixx>34.1709</ixx>
+          <ixy>10.5012</ixy>
+          <ixz>1.4704</ixz>
+          <iyy>59.0873</iyy>
+          <iyz>1.5080</iyz>
+          <izz>66.3799</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://front/front.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://front/front.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
