@@ -142,3 +142,14 @@ controller_list:
       - r_wrist_y_joint
       - r_wrist_p_joint
       - r_wrist_r_joint
+initial:  # Define initial robot poses.
+  - group: rarm
+    pose: reset-pose-rarm
+  - group: larm
+    pose: reset-pose-larm
+  - group: waist
+    pose: reset-pose-waist
+  - group: head
+    pose: reset-pose-head
+  - group: upper_body
+    pose: reset-pose

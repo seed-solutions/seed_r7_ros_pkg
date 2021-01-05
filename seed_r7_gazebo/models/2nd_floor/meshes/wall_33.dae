@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author/>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments/>
+    </contributor>
+    <created>2020-04-28T07:49:38Z</created>
+    <keywords/>
+    <modified>2020-04-28T07:49:38Z</modified>
+    <revision/>
+    <subject/>
+    <title/>
+    <unit meter="1.000000" name="centimeter"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="MaterialFBXASC032FBXASC03527" name="MaterialFBXASC032FBXASC03527">
+      <instance_effect url="#MaterialFBXASC032FBXASC03527-fx"/>
+    </material>
+    <material id="MaterialFBXASC032FBXASC03528" name="MaterialFBXASC032FBXASC03528">
+      <instance_effect url="#MaterialFBXASC032FBXASC03528-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="MaterialFBXASC032FBXASC03527-fx" name="MaterialFBXASC032FBXASC03527">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.749020  0.749020 0.749020 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.749020  0.749020 0.749020 1.000000</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">1.000000</float>
+            </shininess>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="MaterialFBXASC032FBXASC03528-fx" name="MaterialFBXASC032FBXASC03528">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000  0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.000000  0.000000 0.000000 1.000000</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">1.000000</float>
+            </shininess>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-lib" name="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371Mesh">
+      <mesh>
+        <source id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION">
+          <float_array id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION-array" count="24">
+172.244095 2.952756 -49.212597
+172.244095 -2.952756 -49.212597
+-172.244095 -2.952756 -49.212597
+-172.244095 2.952756 -49.212597
+172.244095 -2.952756 49.212597
+-172.244095 -2.952756 49.212597
+-172.244095 2.952756 49.212597
+172.244095 2.952756 49.212597
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0">
+          <float_array id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0-array" count="108">
+0.000000 0.000000 -2.540000
+0.000000 0.000000 -2.540000
+0.000000 0.000000 -2.540000
+0.000000 0.000000 -2.540000
+0.000000 0.000000 -2.540000
+0.000000 0.000000 -2.540000
+0.000000 -2.540000 0.000000
+0.000000 -2.540000 0.000000
+0.000000 -2.540000 0.000000
+0.000000 -2.540000 0.000000
+0.000000 -2.540000 0.000000
+0.000000 -2.540000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-0.000000 2.540000 0.000000
+-0.000000 2.540000 0.000000
+-0.000000 2.540000 0.000000
+-0.000000 2.540000 0.000000
+-0.000000 2.540000 0.000000
+-0.000000 2.540000 0.000000
+2.540000 0.000000 0.000000
+2.540000 0.000000 0.000000
+2.540000 0.000000 0.000000
+2.540000 0.000000 0.000000
+2.540000 0.000000 0.000000
+2.540000 0.000000 0.000000
+0.000000 0.000000 2.540000
+0.000000 0.000000 2.540000
+0.000000 0.000000 2.540000
+0.000000 0.000000 2.540000
+0.000000 0.000000 2.540000
+0.000000 0.000000 2.540000
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0-array" count="36" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-UV0">
+          <float_array id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-UV0-array" count="48">
+-437.500000 -7.500000
+437.500000 -7.500000
+-437.500000 7.500000
+437.500000 7.500000
+875.000000 125.000000
+0.000000 125.000000
+875.000000 -125.000000
+0.000000 -125.000000
+15.000000 125.000000
+0.000000 125.000000
+15.000000 -125.000000
+0.000000 -125.000000
+875.000000 125.000000
+0.000000 125.000000
+875.000000 -125.000000
+-0.000000 -125.000000
+15.000000 125.000000
+0.000000 125.000000
+15.000000 -125.000000
+0.000000 -125.000000
+437.500000 7.500000
+-437.500000 7.500000
+437.500000 -7.500000
+-437.500000 -7.500000
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-UV0-array" count="24" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-VERTEX">
+          <input semantic="POSITION" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION"/>
+        </vertices>
+        <triangles count="10" material="MaterialFBXASC032FBXASC03527">
+          <input semantic="VERTEX" offset="0" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-UV0"/>
+          <p> 1 0 0 2 1 1 0 2 2 0 3 2 2 4 1 3 5 3 4 6 4 5 7 5 1 8 6 1 9 6 5 10 5 2 11 7 5 12 8 6 13 9 2 14 10 2 15 10 6 16 9 3 17 11 7 24 16 4 25 17 0 26 18 0 27 18 4 28 17 1 29 19 7 30 20 6 31 21 4 32 22 4 33 22 6 34 21 5 35 23</p>
+        </triangles>
+        <triangles count="2" material="MaterialFBXASC032FBXASC03528">
+          <input semantic="VERTEX" offset="0" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-UV0"/>
+          <p> 6 18 12 7 19 13 3 20 14 3 21 14 7 22 13 0 23 15</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="wall_33" name="wall_33">
+      <node name="wall_33" id="wall_33" sid="wall_33">
+        <matrix sid="matrix">0.025400 0.000000 0.000000 0.000000 0.000000 0.025400 0.000000 0.000000 0.000000 0.000000 0.025400 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <extra>
+          <technique profile="FCOLLADA">
+            <visibility>1.000000</visibility>
+          </technique>
+        </extra>
+        <node name="wall_33_ncl1_1" id="wall_33_ncl1_1" sid="wall_33_ncl1_1">
+          <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+          <extra>
+            <technique profile="FCOLLADA">
+              <visibility>1.000000</visibility>
+            </technique>
+          </extra>
+          <node name="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371" id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371" sid="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371">
+            <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+            <instance_geometry url="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-lib">
+              <bind_material>
+                <technique_common>
+                  <instance_material symbol="MaterialFBXASC032FBXASC03527" target="#MaterialFBXASC032FBXASC03527"/>
+                  <instance_material symbol="MaterialFBXASC032FBXASC03528" target="#MaterialFBXASC032FBXASC03528"/>
+                </technique_common>
+              </bind_material>
+            </instance_geometry>
+            <extra>
+              <technique profile="FCOLLADA">
+                <visibility>1.000000</visibility>
+              </technique>
+            </extra>
+          </node>
+        </node>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30.000000</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0.000000</start_time>
+          <end_time>3.333333</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#wall_33"/>
+  </scene>
+</COLLADA>

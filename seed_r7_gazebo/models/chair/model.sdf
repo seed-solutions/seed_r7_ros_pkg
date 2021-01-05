@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+<model name="chair">
+  <pose>0 0 0 0 0 0</pose>
+    <link name="chair_link">
+      <inertial>
+        <pose>-0.084 0 0.572 0 0 0</pose>
+        <mass>3.5</mass>
+        <inertia>
+          <ixx>1.4596</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.2280</ixz>
+          <iyy>1.4595</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2478</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://chair/chair.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://chair/chair.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

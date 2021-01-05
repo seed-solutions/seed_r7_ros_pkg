@@ -1,0 +1,95 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+  <model name="half_table_set">
+    <self_collide>true</self_collide>
+    <link name="long_table1">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.087 0 0.587 0 0 0</pose>
+        <mass>9.1</mass>
+        <inertia>
+          <ixx>2.7818</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0766</ixz>
+          <iyy>0.4542</iyy>
+          <iyz>0.0</iyz>
+          <izz>2.9349</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://long_table/long_table.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://long_table/long_table.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="chair_link1">
+      <pose>-0.4 -0.5 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.084 0 0.572 0 0 0</pose>
+        <mass>3.5</mass>
+        <inertia>
+          <ixx>1.4596</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.2280</ixz>
+          <iyy>1.4595</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2478</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://chair/chair.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://chair/chair.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="chair_link2">
+      <pose>-0.4 0.5 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.084 0 0.572 0 0 0</pose>
+        <mass>3.5</mass>
+        <inertia>
+          <ixx>1.4596</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.2280</ixz>
+          <iyy>1.4595</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.2478</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://chair/chair.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://chair/chair.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

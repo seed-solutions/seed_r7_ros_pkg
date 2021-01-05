@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="localization_map_name" default="map"/>
+  <arg name="keepout_map_name" default="$(arg localization_map_name)" />
+  
+  <!--- Run bringup -->
+  <include file="$(find seed_r7_gazebo)/launch/navigation/wheel_bringup.launch" />
+
+  <!--- Run making map -->
+  <include file="$(find seed_r7_navigation)/launch/wheel_with_static_map.launch">
+    <arg name="RUN_BRINGUP" default="false" />
+    <arg name="map_localization_file" value="$(find seed_r7_gazebo)/config/maps/$(arg localization_map_name).yaml"/>
+    <arg name="map_keepout_file" value="$(find seed_r7_gazebo)/config/maps/$(arg keepout_map_name).yaml"/>
+  </include>
+
+</launch>

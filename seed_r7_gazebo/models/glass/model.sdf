@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+ <model name="glass1">
+  <static>true</static>
+  <pose>7 2 1 0 0 0</pose>
+  <link name="link">
+    <collision name="visual">
+       <laser_retro>0.5</laser_retro>
+       <geometry><box><size>0.1 2 2</size></box></geometry>
+    </collision>
+    <visual name="visual1">
+       <transparency>1</transparency>
+       <geometry><box><size>0.1 2 2</size></box></geometry>
+            <material>
+            <script><name>Gazebo/RedTransparent</name></script>
+           </material>
+    </visual>
+  </link>
+  </model>
+</sdf>

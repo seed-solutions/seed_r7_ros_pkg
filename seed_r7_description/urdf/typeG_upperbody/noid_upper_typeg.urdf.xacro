@@ -38,36 +38,33 @@
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
+<!--
       <origin xyz="0 0 0.132" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_sphere_link.dae" scale="1 1 1" /> -->
+        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_sphere_link.dae" scale="1 1 1" />
         <sphere radius="0.05"/>
+      </geometry>
+ -->
+      <origin  xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.09" radius="0.06"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin  xyz="0 0 0.12" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.078"/>
       </geometry>
     </collision> </xacro:unless>
     <inertial>
       <mass value="1.257" />
       <origin xyz="0 0 0.042" rpy="0 -0 0"/>
-      <!-- inertia ixx="0.034" ixy="0" ixz="0" iyy="0.034" iyz="0" izz="0.018"/ -->
-      <!-- just fixed for gazebo / reduce inertia-->
       <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.007"/>
     </inertial>
   </link>
   <xacro:gazebo_link_reference link_name="hip_sphere_link" />
 
   <link name="hip_center">
-    <xacro:unless value="${disable_mesh}"> <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_center_link.dae" scale="1 1 1" />
-      </geometry>
-    </visual> </xacro:unless>
-    <xacro:unless value="${disable_mesh}"> <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <!-- <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/hip_center_link.dae" scale="1 1 1" /> -->
-        <sphere radius="0.05"/>
-      </geometry>
-    </collision> </xacro:unless>
     <inertial>
       <mass value="0.1" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -112,9 +109,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.242" />
-      <!--origin xyz="0 0.02 0" rpy="0 -0 0"/>
-      <inertia ixx="0.000228" ixy="0" ixz="0" iyy="0.000148" iyz="0" izz="0.000263"/-->
-      <!-- just fixed for gazebo / increase inertia-->
       <origin xyz="0 0.02 0.015" rpy="0 -0 0"/>
       <inertia ixx="0.00133" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.00133"/>
     </inertial>
@@ -136,7 +130,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.744" />
-      <!--origin xyz="0 0.01 0" rpy="0 -0 0"/-->
       <origin xyz="0 -0.01 -0.06" rpy="0 -0 0"/>
       <inertia ixx="0.000841" ixy="0" ixz="0" iyy="0.000835" iyz="0" izz="0.000304"/>
     </inertial>
@@ -158,9 +151,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.574" />
-      <!--origin xyz="0.005 0 -0.0654" rpy="0 -0 0"/>
-      <inertia ixx="0.00114" ixy="0" ixz="0" iyy="0.00117" iyz="0" izz="0.000269"/-->
-      <!-- fix for gazebo -->
       <origin xyz="0.005 0 -0.0654" rpy="0 -0 0"/>
       <inertia ixx="0.00214" ixy="0" ixz="0" iyy="0.00217" iyz="0" izz="0.003"/>
     </inertial>
@@ -221,9 +211,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.711" />
-      <!--origin xyz="0.0047 0 -0.0546" rpy="0 -0 0"/>
-      <inertia ixx="0.00178" ixy="0" ixz="0" iyy="0.00179" iyz="0" izz="0.000273"/-->
-      <!-- fix for gazebo -->
       <origin xyz="-0.03 0 -0.0546" rpy="0 -0 0"/>
       <inertia ixx="0.00178" ixy="0" ixz="0" iyy="0.00179" iyz="0" izz="0.0035"/>
     </inertial>
@@ -238,6 +225,7 @@
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
+
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/l_forearm_link.dae" scale="1 1 1" />
@@ -246,7 +234,6 @@
     <inertial>
       <mass value="0.132" />
       <origin xyz="0.006 0 -0.0738" rpy="0 -0 0"/>
-      <!--inertia ixx="0.00276" ixy="0" ixz="0" iyy="0.00286" iyz="0" izz="0.004"/-->
       <inertia ixx="0.0007" ixy="0" ixz="0" iyy="0.0007" iyz="0" izz="0.0004"/>
     </inertial>
   </link>
@@ -310,7 +297,6 @@
     <inertial>
       <mass value="0.341" />
       <origin xyz="0 0 0.0595" rpy="0 -0 0"/>
-      <!--inertia ixx="1.64186e-35" ixy="0" ixz="0" iyy="1.64186e-35" iyz="0" izz="0"/-->
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.002"/>
     </inertial>
   </link>
@@ -373,8 +359,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.242" />
-      <!--origin xyz="0 -0.02 0" rpy="0 -0 0"/>
-      <inertia ixx="0.000228" ixy="0" ixz="0" iyy="0.000148" iyz="0" izz="0.000263"/-->
       <origin xyz="0 -0.02 0.015" rpy="0 -0 0"/>
       <inertia ixx="0.00133" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.00133"/>
     </inertial>
@@ -396,7 +380,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.744" />
-      <!--origin xyz="0 -0.01 0" rpy="0 -0 0"/-->
       <origin xyz="0 0.01 -0.06" rpy="0 -0 0"/>
       <inertia ixx="0.000841" ixy="0" ixz="0" iyy="0.000835" iyz="0" izz="0.000305"/>
     </inertial>
@@ -418,9 +401,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.574" />
-      <!--origin xyz="0.005 0 -0.0654" rpy="0 -0 0"/>
-      <inertia ixx="0.00114" ixy="0" ixz="0" iyy="0.00117" iyz="0" izz="0.000269"/-->
-      <!-- fix for gazebo -->
       <origin xyz="0.005 0 -0.0654" rpy="0 -0 0"/>
       <inertia ixx="0.00214" ixy="0" ixz="0" iyy="0.00217" iyz="0" izz="0.003"/>
     </inertial>
@@ -481,9 +461,6 @@
     </collision> </xacro:unless>
     <inertial>
       <mass value="0.711" />
-      <!--origin xyz="0.0047 0 -0.0546" rpy="0 -0 0"/>
-      <inertia ixx="0.00178" ixy="0" ixz="0" iyy="0.00179" iyz="0" izz="0.000273"/-->
-      <!-- fix for gazebo -->
       <origin xyz="-0.03 0 -0.0546" rpy="0 -0 0"/>
       <inertia ixx="0.00178" ixy="0" ixz="0" iyy="0.00179" iyz="0" izz="0.0035"/>
     </inertial>
@@ -498,6 +475,7 @@
       </geometry>
     </visual> </xacro:unless>
     <xacro:unless value="${disable_mesh}"> <collision>
+
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://seed_r7_description/meshes/typeG_upperbody/r_forearm_link.dae" scale="1 1 1" />
@@ -506,7 +484,6 @@
     <inertial>
       <mass value="0.132" />
       <origin xyz="0.006 0 -0.0738" rpy="0 -0 0"/>
-      <!--inertia ixx="0.00276" ixy="0" ixz="0" iyy="0.00286" iyz="0" izz="0.004"/-->
       <inertia ixx="0.0007" ixy="0" ixz="0" iyy="0.0007" iyz="0" izz="0.0004"/>
     </inertial>
   </link>
@@ -560,7 +537,7 @@
     <origin xyz="0 0 0.005" rpy="0 -0 0 "/>
     <axis   xyz="0 0 1"/>
     <!-- from -120 to 120 degrees-->
-    <limit lower="-2.09" upper="2.09" effort="500" velocity="0.6" />
+    <limit lower="-2.09" upper="2.09" effort="10" velocity="0.6" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="waist_y_joint" />
@@ -571,7 +548,7 @@
     <origin xyz="0 0 0.132" rpy="0 -0 0 "/>
     <axis   xyz="0 1 0"/>
     <!-- from -10 to 40 degrees-->
-    <limit lower="-0.17" upper="0.69" effort="500" velocity="0.4" />
+    <limit lower="-0.17" upper="0.69" effort="10" velocity="0.4" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="waist_p_joint" />
@@ -582,7 +559,7 @@
     <origin xyz="0 0 0" rpy="0 -0 0 "/>
     <axis   xyz="1 0 0"/>
     <!-- from -7 to 7 degrees-->
-    <limit lower="-0.12" upper="0.12" effort="500" velocity="0.3" />
+    <limit lower="-0.12" upper="0.12" effort="10" velocity="0.3" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="waist_r_joint" />
@@ -593,7 +570,7 @@
     <origin xyz="-0.018 0.134202 0.251871" rpy="0 0 0 "/>
     <axis   xyz="0 0.984808 -0.173648"/>
     <!-- from -89 to 17 degrees-->
-    <limit lower="-1.55" upper="0.29" effort="200" velocity="0.4" />
+    <limit lower="-1.55" upper="0.29" effort="10" velocity="0.4" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_shoulder_p_joint" />
@@ -604,7 +581,7 @@
     <origin xyz="0 0.064702 0.027177" rpy="0 0 0 "/>
     <axis   xyz="1 0 0"/>
     <!-- from -5 to 90 degrees-->
-    <limit lower="-0.08" upper="1.57" effort="100" velocity="0.5" />
+    <limit lower="-0.08" upper="1.57" effort="10" velocity="0.5" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_shoulder_r_joint" />
@@ -615,7 +592,7 @@
     <origin xyz="0 -0.01 -0.0455" rpy="0 -0 0 "/>
     <axis   xyz="0 0 1"/>
     <!-- from -90 to 90 degrees-->
-    <limit lower="-1.57" upper="1.57" effort="100" velocity="1.1" />
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.1" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_shoulder_y_joint" />
@@ -626,7 +603,7 @@
     <origin xyz="0.0 0 -0.1095" rpy="0 -0 0 "/>
     <axis   xyz="0 0 1"/>
     <!-- from -90 to 90 degrees-->
-    <limit lower="-1.57" upper="1.57" effort="100" velocity="1.2" />
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.2" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_wrist_y_joint" />
@@ -637,7 +614,7 @@
     <origin xyz="0 0 -0.124" rpy="0 -0 0 "/>
     <axis   xyz="0 1 0"/>
     <!-- from -7 to 7 degrees-->
-    <limit lower="-0.12" upper="0.12" effort="100" velocity="0.8" />
+    <limit lower="-0.12" upper="0.12" effort="10" velocity="0.8" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_wrist_p_joint" />
@@ -648,7 +625,7 @@
     <origin xyz="0 0 0" rpy="0 -0 0 "/>
     <axis   xyz="1 0 0"/>
     <!-- from -90 to 20 degrees-->
-    <limit lower="-1.57" upper="0.34" effort="100" velocity="1.8" />
+    <limit lower="-1.57" upper="0.34" effort="10" velocity="1.8" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_wrist_r_joint" />
@@ -666,7 +643,7 @@
     <origin xyz="0.002 0 0.377" rpy="0 -0 0 "/>
     <axis   xyz="0 0 1"/>
     <!-- from -120 to 120 degrees-->
-    <limit lower="-2.09" upper="2.09" effort="100" velocity="1.7" />
+    <limit lower="-2.09" upper="2.09" effort="10" velocity="1.7" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="neck_y_joint" />
@@ -678,7 +655,7 @@
     <origin xyz="0.0 0 0.0265" rpy="0 -0 0 "/>
     <axis   xyz="0 1 0"/>
     <!-- from -20 to 30 degrees-->
-    <limit lower="-0.34" upper="0.52" effort="100" velocity="2.1" />
+    <limit lower="-0.34" upper="0.52" effort="10" velocity="2.1" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="neck_p_joint" />
@@ -689,7 +666,7 @@
     <origin xyz="0 0 0" rpy="0 -0 0 "/>
     <axis   xyz="1 0 0"/>
     <!-- from -20 to 20 degrees-->
-    <limit lower="-0.34" upper="0.34" effort="100" velocity="0.8" />
+    <limit lower="-0.34" upper="0.34" effort="10" velocity="0.8" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="neck_r_joint" />
@@ -700,7 +677,7 @@
     <origin xyz="-0.018 -0.134202 0.251871" rpy="0 -0 0 "/>
     <axis   xyz="0 0.984808 0.173648"/>
     <!-- from -89 to 17 degrees-->
-    <limit lower="-1.55" upper="0.29" effort="200" velocity="0.4" />
+    <limit lower="-1.55" upper="0.29" effort="10" velocity="0.4" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_shoulder_p_joint" />
@@ -711,7 +688,7 @@
     <origin xyz="0 -0.064702 0.027177" rpy="0 -0 0 "/>
     <axis   xyz="1 0 0"/>
     <!-- from -90 to 5 degrees-->
-    <limit lower="-1.57" upper="0.08" effort="100" velocity="0.5" />
+    <limit lower="-1.57" upper="0.08" effort="10" velocity="0.5" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_shoulder_r_joint" />
@@ -722,7 +699,7 @@
     <origin xyz="0 0.01 -0.0455" rpy="0 -0 0 "/>
     <axis   xyz="0 0 1"/>
     <!-- from -180 to 180 degrees-->
-    <limit lower="-1.57" upper="1.57" effort="100" velocity="1.1" />
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.1" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_shoulder_y_joint" />
@@ -733,7 +710,7 @@
     <origin xyz="0.0 0 -0.1095" rpy="0 -0 0 "/>
     <axis   xyz="0 0 1"/>
     <!-- from -90 to 90 degrees-->
-    <limit lower="-1.57" upper="1.57" effort="100" velocity="1.2" />
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.2" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_wrist_y_joint" />
@@ -744,7 +721,7 @@
     <origin xyz="0 0 -0.124" rpy="0 -0 0 "/>
     <axis   xyz="0 1 0"/>
     <!-- from -7 to 7 degrees-->
-    <limit lower="-0.12" upper="0.12" effort="100" velocity="0.8" />
+    <limit lower="-0.12" upper="0.12" effort="10" velocity="0.8" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_wrist_p_joint" />
@@ -755,7 +732,7 @@
     <origin xyz="0 0 0" rpy="0 -0 0 "/>
     <axis   xyz="1 0 0"/>
     <!-- from -20 to 90 degrees-->
-    <limit lower="-0.34" upper="1.57" effort="100" velocity="1.8" />
+    <limit lower="-0.34" upper="1.57" effort="10" velocity="1.8" />
     <dynamics damping="0.2" friction="0" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_wrist_r_joint" />
@@ -773,7 +750,7 @@
     <origin xyz="0.0 0 -0.2085" rpy="0 -0 0 "/>
     <axis   xyz="0 1 0"/>
     <!-- from -170 to 0 degrees-->
-    <limit lower="-3.0" upper="0" effort="100" velocity="1.1" />
+    <limit lower="-3.0" upper="0" effort="10" velocity="1.1" />
     <dynamics damping="0.2" friction="0.1" />
   </joint>
   <xacro:gazebo_transmission joint_name="r_elbow_joint" />
@@ -808,7 +785,7 @@
     <origin xyz="0.0 0 -0.2085" rpy="0 -0 0 "/>
     <axis   xyz="0 1 0"/>
     <!-- from -170 to 0 degrees-->
-    <limit lower="-3.0" upper="0" effort="100" velocity="1.1" />
+    <limit lower="-3.0" upper="0" effort="10" velocity="1.1" />
     <dynamics damping="0.2" friction="0.1" />
   </joint>
   <xacro:gazebo_transmission joint_name="l_elbow_joint" />

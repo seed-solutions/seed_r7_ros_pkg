@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+<model name="meeting_table">
+  <pose>0 0 0 0 0 0</pose>
+    <link name="link">
+      <inertial>
+        <pose>0 0 0.854 0 0 0</pose>
+        <mass>21</mass>
+        <inertia>
+          <ixx>13.3713</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>2.5473</iyy>
+          <iyz>0.0</iyz>
+          <izz>14.8151</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://meeting_table/meeting_table.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://meeting_table/meeting_table.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

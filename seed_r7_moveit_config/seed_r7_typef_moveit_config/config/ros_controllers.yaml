@@ -1,6 +1,6 @@
 # Simulation settings for using moveit_sim_controllers
 moveit_sim_hw_interface:
-  joint_model_group: rarm
+  joint_model_group: upper_body
   joint_model_group_pose: reset-pose
 # Settings for ros_control_boilerplate control loop
 generic_hw_control_loop:
