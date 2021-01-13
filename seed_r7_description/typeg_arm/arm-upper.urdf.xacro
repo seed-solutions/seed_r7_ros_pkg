@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- XML namespaces -->
+<robot name="arm-upper" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find seed_r7_description)/urdf/typeG_arm/typeg_arm.urdf.xacro" />
+  <xacro:include filename="$(find seed_r7_description)/urdf/trx_s/trx_s.urdf.xacro" />
+
+  <xacro:macro name="arm-upper" params="disable_mesh:=false">
+
+  <xacro:arm_upper base_link="waist_link" r_hand_link="r_hand_link" disable_mesh="${disable_mesh}"/>
+
+  <xacro:trx_s prefix="r" reflect="1" disable_mesh="${disable_mesh}"/>
+
+  <joint name="upper_lower_connector" type="fixed">
+    <parent link="lifter_top_link"/>
+    <child link="waist_link"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0 "/> 
+  </joint>
+
+  </xacro:macro>
+
+</robot>
