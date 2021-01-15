@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author/>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments/>
+    </contributor>
+    <created>2020-10-30T04:43:34Z</created>
+    <keywords/>
+    <modified>2020-10-30T04:43:34Z</modified>
+    <revision/>
+    <subject/>
+    <title/>
+    <unit meter="1.000000" name="centimeter"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="MaterialFBXASC032FBXASC03525" name="MaterialFBXASC032FBXASC03525">
+      <instance_effect url="#MaterialFBXASC032FBXASC03525-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="MaterialFBXASC032FBXASC03525-fx" name="MaterialFBXASC032FBXASC03525">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.749020  0.749020 0.749020 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.749020  0.749020 0.749020 1.000000</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">2.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent opaque="RGB_ZERO">
+              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-lib" name="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371Mesh">
+      <mesh>
+        <source id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION">
+          <float_array id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION-array" count="48">
+0.157480 0.492126 0.492126
+-0.157480 -0.492126 0.492126
+0.157480 -0.492126 -0.492126
+-0.236220 0.413386 -0.492126
+0.236220 0.413386 -0.492126
+-0.157480 0.492126 0.492126
+-0.157480 -0.492126 -0.492126
+0.236220 -0.413386 0.492126
+-0.157480 0.492126 -0.492126
+0.236220 0.413386 0.492126
+-0.236220 -0.413386 0.492126
+-0.236220 -0.413386 -0.492126
+0.157480 -0.492126 0.492126
+0.236220 -0.413386 -0.492126
+-0.236220 0.413386 0.492126
+0.157480 0.492126 -0.492126
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0">
+          <float_array id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0-array" count="252">
+2.540000 -0.000000 -0.000000
+2.540000 -0.000000 -0.000000
+2.540000 -0.000000 -0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+2.540000 -0.000000 -0.000000
+2.540000 -0.000000 -0.000000
+2.540000 -0.000000 -0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+-2.540000 0.000000 0.000000
+0.000000 2.540000 0.000000
+0.000000 2.540000 0.000000
+0.000000 2.540000 0.000000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+0.000000 2.540000 0.000000
+0.000000 2.540000 0.000000
+0.000000 2.540000 0.000000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 -2.540000 -0.000000
+-0.000000 -2.540000 -0.000000
+-0.000000 -2.540000 -0.000000
+-0.000000 -2.540000 -0.000000
+-0.000000 -2.540000 -0.000000
+-0.000000 -2.540000 -0.000000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+-1.796051 1.796051 0.000000
+-1.796051 1.796051 0.000000
+-1.796051 1.796051 0.000000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+1.796051 1.796051 0.000000
+1.796051 1.796051 0.000000
+1.796051 1.796051 0.000000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+-1.796051 -1.796051 -0.000000
+-1.796051 -1.796051 -0.000000
+-1.796051 -1.796051 -0.000000
+-1.796051 -1.796051 -0.000000
+-1.796051 -1.796051 -0.000000
+-1.796051 -1.796051 -0.000000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+1.796051 -1.796051 -0.000000
+1.796051 -1.796051 -0.000000
+1.796051 -1.796051 -0.000000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+1.796051 -1.796051 -0.000000
+1.796051 -1.796051 -0.000000
+1.796051 -1.796051 -0.000000
+-1.796051 1.796051 0.000000
+-1.796051 1.796051 0.000000
+-1.796051 1.796051 0.000000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+0.000000 -0.000000 2.540000
+1.796051 1.796051 0.000000
+1.796051 1.796051 0.000000
+1.796051 1.796051 0.000000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+-0.000000 0.000000 -2.540000
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0-array" count="84" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-VERTEX">
+          <input semantic="POSITION" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-POSITION"/>
+        </vertices>
+        <triangles count="28" material="MaterialFBXASC032FBXASC03525">
+          <input semantic="VERTEX" offset="0" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-Normal0"/>
+          <p> 7 0 13 1 9 2 11 3 10 4 14 5 9 6 13 7 4 8 3 9 11 10 14 11 15 12 8 13 0 14 15 15 2 16 8 17 8 18 5 19 0 20 5 21 1 22 0 23 3 24 2 25 11 26 12 27 6 28 2 29 1 30 6 31 12 32 9 33 1 34 7 35 8 36 3 37 5 38 8 39 2 40 3 41 0 42 1 43 9 44 4 45 0 46 9 47 10 48 1 49 5 50 6 51 1 52 10 53 11 54 6 55 10 56 2 57 6 58 11 59 2 60 7 61 12 62 1 63 12 64 7 65 13 66 2 67 4 68 13 69 7 70 2 71 3 72 14 73 5 74 14 75 10 76 5 77 15 78 0 79 4 80 4 81 2 82 15 83</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="wrist_r_link" name="wrist_r_link">
+      <node name="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371" id="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371" sid="FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371">
+        <matrix sid="matrix">0.025400 0.000000 0.000000 0.000000 0.000000 0.025400 0.000000 0.000000 0.000000 0.000000 0.025400 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#FBXASC227FBXASC130FBXASC189FBXASC227FBXASC131FBXASC170FBXASC227FBXASC131FBXASC131FBXASC227FBXASC131FBXASC1371-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="MaterialFBXASC032FBXASC03525" target="#MaterialFBXASC032FBXASC03525"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+        <extra>
+          <technique profile="FCOLLADA">
+            <visibility>1.000000</visibility>
+          </technique>
+        </extra>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30.000000</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0.000000</start_time>
+          <end_time>3.333333</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#wrist_r_link"/>
+  </scene>
+</COLLADA>

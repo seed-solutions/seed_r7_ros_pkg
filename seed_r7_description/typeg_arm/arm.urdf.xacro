@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="SEED-Arm-Mover-typeG" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- The following included files set up definitions of parts of the robot body -->
+  <!-- wraps upperbody and hand-->
+  <xacro:include filename="$(find seed_r7_description)/typeg_arm/arm-upper.urdf.xacro" />
+  <!-- wraps lifter and wheels-->
+  <xacro:include filename="$(find seed_r7_description)/typeg/noid-wheels.urdf.xacro" />
+ 
+ <!-- Now we can start using the macros included above to define the actual robot -->
+ <xacro:arm-upper/>
+ <xacro:noid-wheels base_link="base_link"/>
+</robot>

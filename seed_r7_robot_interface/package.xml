@@ -18,5 +18,6 @@
   <export>
     <seed_r7_ros_controller plugin="${prefix}/typef/plugin_description.xml"/>
     <seed_r7_ros_controller plugin="${prefix}/typeg/plugin_description.xml"/>
+    <seed_r7_ros_controller plugin="${prefix}/typeg_arm/plugin_description.xml"/>
   </export>
 </package>

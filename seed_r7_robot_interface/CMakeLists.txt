@@ -19,7 +19,7 @@ catkin_package(
   CATKIN_DEPENDS roscpp seed_r7_ros_controller
   DEPENDS
   INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}_typef ${PROJECT_NAME}_typeg
+  LIBRARIES ${PROJECT_NAME}_typef ${PROJECT_NAME}_typeg ${PROJECT_NAME}_typeg_arm
 )
 
 include_directories(${catkin_INCLUDE_DIRS})
@@ -32,6 +32,9 @@ target_link_libraries(${PROJECT_NAME}_typef ${catkin_LIBRARIES})
 add_library(${PROJECT_NAME}_typeg typeg/src/stroke_converter.cpp)
 target_link_libraries(${PROJECT_NAME}_typeg ${catkin_LIBRARIES})
 
+add_library(${PROJECT_NAME}_typeg_arm typeg_arm/src/stroke_converter.cpp)
+target_link_libraries(${PROJECT_NAME}_typeg_arm ${catkin_LIBRARIES})
+
 # Install
 install(
   DIRECTORY typef
@@ -43,9 +46,15 @@ install(
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   PATTERN "typeg/src" EXCLUDE
 )
+install(
+  DIRECTORY typeg_arm
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  PATTERN "typeg_arm/src" EXCLUDE
+)
 
 # Install
 install(TARGETS ${PROJECT_NAME}_typef ${PROJECT_NAME}_typeg
+  ${PROJECT_NAME}_typeg_arm
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
