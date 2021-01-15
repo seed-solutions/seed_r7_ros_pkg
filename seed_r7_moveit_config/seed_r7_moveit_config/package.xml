@@ -34,5 +34,6 @@
 
   <build_depend>seed_r7_typef_moveit_config</build_depend>
   <build_depend>seed_r7_typeg_moveit_config</build_depend>
+  <build_depend>seed_r7_typeg_arm_moveit_config</build_depend>
 
 </package>
