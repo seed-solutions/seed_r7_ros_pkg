@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="robot_model" default="typef"/>
-
-  <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit_rviz.launch" >
-    <arg name="rviz_config" value="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit.rviz"/>
-  </include>
-</launch>

@@ -205,7 +205,6 @@ arm_with_torso:
   projection_evaluator: joints(ankle_joint,ankle_joint_mimic)
   longest_valid_segment_fraction: 0.005
 hand:
-  default_planner_config: ""
   planner_configs:
     - SBL
     - EST

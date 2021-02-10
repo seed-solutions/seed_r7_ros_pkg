@@ -42,6 +42,21 @@
         <joint name="wrist_r_joint" value="0" />
         <joint name="wrist_y_joint" value="0" />
     </group_state>
+    <group_state name="initial" group="arm_with_torso">
+        <joint name="ankle_joint" value="0.7376" />
+        <joint name="ankle_joint_mimic" value="0" />
+        <joint name="elbow_joint" value="0" />
+        <joint name="elbow_joint_mimic" value="0" />
+        <joint name="elbow_middle_joint" value="0" />
+        <joint name="elbow_middle_joint_mimic" value="0" />
+        <joint name="knee_joint" value="-0.7984" />
+        <joint name="knee_joint_mimic" value="0" />
+        <joint name="shoulder_p_joint" value="0" />
+        <joint name="shoulder_y_joint" value="0" />
+        <joint name="wrist_p_joint" value="0" />
+        <joint name="wrist_r_joint" value="0" />
+        <joint name="wrist_y_joint" value="0" />
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="eef_hand" parent_link="r_hand_link" group="hand" parent_group="arm" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
