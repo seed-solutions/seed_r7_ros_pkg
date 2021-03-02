@@ -6,7 +6,7 @@ Panels:
       Expanded:
         - /MotionPlanning1
       Splitter Ratio: 0.7425600290298462
-    Tree Height: 350
+    Tree Height: 359
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -47,7 +47,6 @@ Visualization Manager:
       MoveIt_Allow_External_Program: false
       MoveIt_Allow_Replanning: false
       MoveIt_Allow_Sensor_Positioning: false
-      MoveIt_Goal_Tolerance: 0
       MoveIt_Planning_Attempts: 10
       MoveIt_Planning_Time: 5
       MoveIt_Use_Cartesian_Path: false
@@ -82,23 +81,15 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          chest_camera_depth_optical_frame:
+          camera_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          chest_camera_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          chest_camera_right_ir_frame:
+          camera_optical_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
           front_camera_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          front_camera_depth_optical_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -142,19 +133,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          l_elbow_middle_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          l_elbow_virtual_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          l_elbow_virtual_link_dummy:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           l_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -212,12 +190,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
-          l_wrist_r_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           leg_base_link:
             Alpha: 1
             Show Axes: false
@@ -257,6 +229,7 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+            Value: true
           neck_link:
             Alpha: 1
             Show Axes: false
@@ -275,19 +248,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          r_elbow_middle_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          r_elbow_virtual_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          r_elbow_virtual_link_dummy:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           r_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -345,17 +305,7 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
-          r_wrist_r_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           rear_camera_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          rear_camera_depth_optical_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -371,7 +321,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           wheel_base_link:
             Alpha: 1
             Show Axes: false
@@ -461,23 +410,15 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          chest_camera_depth_optical_frame:
+          camera_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          chest_camera_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          chest_camera_right_ir_frame:
+          camera_optical_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
           front_camera_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          front_camera_depth_optical_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -521,19 +462,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          l_elbow_middle_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          l_elbow_virtual_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          l_elbow_virtual_link_dummy:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           l_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -591,12 +519,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
-          l_wrist_r_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           leg_base_link:
             Alpha: 1
             Show Axes: false
@@ -636,6 +558,7 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+            Value: true
           neck_link:
             Alpha: 1
             Show Axes: false
@@ -654,19 +577,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          r_elbow_middle_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          r_elbow_virtual_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          r_elbow_virtual_link_dummy:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           r_forearm_link:
             Alpha: 1
             Show Axes: false
@@ -724,17 +634,7 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
-          r_wrist_r_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           rear_camera_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          rear_camera_depth_optical_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -750,7 +650,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           wheel_base_link:
             Alpha: 1
             Show Axes: false
@@ -839,7 +738,7 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002c4000003a3fc0200000007fb000000100044006900730070006c006100790073010000003f000001f2000000cc00fffffffb0000000800480065006c00700000000342000000bb0000006f00fffffffb0000000a0056006900650077007300000003b0000000b0000000a900fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004400fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000237000001ab000001a000ffffff00000473000003a300000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002a2000003a3fc0200000007fb000000100044006900730070006c006100790073010000003f000001fb000000cc00fffffffb0000000800480065006c00700000000342000000bb0000006f00fffffffb0000000a0056006900650077007300000003b0000000b0000000a900fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004400fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000240000001a20000019600ffffff00000495000003a300000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1853
