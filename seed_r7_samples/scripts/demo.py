@@ -29,7 +29,8 @@ class NaviAction:
     rospack = rospkg.RosPack()
     rospack.list() 
     path = rospack.get_path('seed_r7_samples')
-    self.config = yaml.load(file(path + "/config/waypoints.yaml"))
+    with open(path + '/config/waypoints.yaml') as f:
+        self.config = yaml.load(f)
     rospy.on_shutdown(self.shutdown)
     self.ac = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     while not self.ac.wait_for_server(rospy.Duration(5)):
