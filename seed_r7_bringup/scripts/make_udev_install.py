@@ -29,7 +29,7 @@ class UdevInstall:
             if choice in ['y', 'yes']:
                upper = upper_string.split(',')
 
-               print upper[3]
+               print(upper[3])
                #prev_upper_id = upper.strip("ATTRS{serial}==")
                p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
                p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
@@ -49,7 +49,7 @@ class UdevInstall:
             if choice in ['y', 'yes']:
                lower = lower_string.split(',')
 
-               print lower[3]
+               print(lower[3])
                #prev_upper_id = upper.strip("ATTRS{serial}==")
                p1 = subprocess.Popen(['udevadm','info','-n', '/dev/ttyUSB0'], stdout=subprocess.PIPE)
                p2 = subprocess.Popen(['grep', 'SERIAL_SHORT'], stdin=p1.stdout, stdout=subprocess.PIPE)
@@ -64,7 +64,7 @@ class UdevInstall:
                lower_string = (','.join(lower))
                print(lower_string)
             
-            print "write tempfile"
+            print("write tempfile")
             tf.write(header)
             tf.write(upper_string)
             tf.write(lower_string)

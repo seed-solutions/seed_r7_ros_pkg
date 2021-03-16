@@ -73,7 +73,7 @@ class GO_TO_PLACE(State):
     self.place_ = _place
 
   def execute(self, userdata):
-    print 'Going to Place'+str(self.place_)
+    rospy.loginfo('Going to Place'.format(self.place_))
     if(na.set_goal(self.place_) == 'succeeded'):return 'succeeded'
     else: return 'aborted' 
 
@@ -88,8 +88,8 @@ class HandController:
         service = rospy.ServiceProxy('/seed_r7_ros_controller/hand_control', HandControl)
         response = service(0,'grasp',100)
         return True
-    except rospy.ServiceException, e:
-        print 'Service call failed: %s'%e
+    except rospy.ServiceException as e:
+        rospy.logerr('Service call failed: {}'.format(e))
         return False
 
   def release(self):
@@ -97,8 +97,8 @@ class HandController:
         service = rospy.ServiceProxy('/seed_r7_ros_controller/hand_control', HandControl)
         response = service(0,'release',100)
         return True
-    except rospy.ServiceException, e:
-        print 'Service call failed: %s'%e
+    except rospy.ServiceException as e:
+        rospy.logerr('Service call failed: {}'.format(e))
         return False
 
 
@@ -176,8 +176,7 @@ class MOVE_LIFTER(State):
     self.vel = vel
 
   def execute(self, userdata):
-    print 'Move Lifter at (' + str(self.x) +',' + \
-      str(self.z) +') in scale velocity ' + str(self.vel)
+    rospy.loginfo('Move Lifter at ({},{}) in scale velocity {}'.format(self.x,self.z,self.vel))
     if(mc.set_lifter_position(self.x,self.z,self.vel) == 'succeeded'):return 'succeeded'
     else: return 'aborted'
 
@@ -187,7 +186,7 @@ class INIT_POSE(State):
     State.__init__(self, outcomes=['succeeded','aborted'])
 
   def execute(self, userdata):
-    print 'initialize wholebody'
+    rospy.loginfo('initialize wholebody')
 
     if(mc.set_initial_pose() == 'succeeded'):return 'succeeded'
     else: return 'aborted'
@@ -201,7 +200,7 @@ class FINISH(State):
   # @param userdata 前のステートから引き継がれた変数。今回は使用しない
   # @return succeededのみ
   def execute(self, userdata):
-    print 'FINISHED'
+    rospy.loginfo('FINISHED')
     return 'succeeded'
 
 #==================================
