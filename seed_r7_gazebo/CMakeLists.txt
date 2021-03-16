@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(seed_r7_gazebo)
 
-add_compile_options(-std=c++17)
+if("$ENV{ROS_DISTRO}" STREQUAL "noetic")
+    add_compile_options(-std=c++17)
+else()
+    add_compile_options(-std=c++11)
+endif()
 
 find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
