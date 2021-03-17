@@ -18,9 +18,9 @@ robot_hardware::HandController::HandController
     nh_.getParam("/joint_settings/hand/left_number", left_number_);
 
   // initialize script cancel on right_hand
-  hw_->runHandScript(right_number_, SCRIPT_CANCEL,0);
+  if(right_number_ != 0) hw_->runHandScript(right_number_, SCRIPT_CANCEL,0);
   // initialize script cancel on left_hand
-  hw_->runHandScript(left_number_, SCRIPT_CANCEL,0);
+  if(left_number_ != 0) hw_->runHandScript(left_number_, SCRIPT_CANCEL,0);
     
   ROS_INFO("Initialized Handcontroller");
 }   
@@ -64,7 +64,7 @@ bool robot_hardware::HandController::HandControlCallback
   }
 
   ROS_INFO("motion: %s", _req.script.c_str());
-  hw_->runHandScript(send_number, script_number, _req.current);
+  if(send_number != 0) hw_->runHandScript(send_number, script_number, _req.current);
 
   ROS_INFO("End Grasp");
   return true;
