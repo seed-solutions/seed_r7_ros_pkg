@@ -145,6 +145,8 @@ class MoveitCommand:
     self.group.set_pose_target(target_pose)
     self.group.set_max_velocity_scaling_factor(vel)
     plan = self.group.plan()
+    if type(plan) is tuple: # for noetic
+        plan = plan[1]
 
     if(len(plan.joint_trajectory.points)==0):
       rospy.logwarn("can't be solved lifter ik")
@@ -158,6 +160,8 @@ class MoveitCommand:
     self.group = moveit_commander.MoveGroupCommander("upper_body")
     self.group.set_named_target("reset-pose")
     plan = self.group.plan()
+    if type(plan) is tuple: # for noetic
+        plan = plan[1]
     self.group.go()
 
     if(len(plan.joint_trajectory.points)==0):
