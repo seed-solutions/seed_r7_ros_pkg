@@ -29,7 +29,8 @@ class NaviAction:
     rospack = rospkg.RosPack()
     rospack.list() 
     path = rospack.get_path('seed_r7_samples')
-    self.config = yaml.load(file(path + "/config/waypoints.yaml"))
+    with open(path + '/config/waypoints.yaml') as f:
+        self.config = yaml.load(f)
     rospy.on_shutdown(self.shutdown)
     self.ac = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     while not self.ac.wait_for_server(rospy.Duration(5)):
@@ -73,7 +74,7 @@ class GO_TO_PLACE(State):
     self.place_ = _place
 
   def execute(self, userdata):
-    print 'Going to Place'+str(self.place_)
+    rospy.loginfo('Going to Place{}'.format(self.place_))
     if(na.set_goal(self.place_) == 'succeeded'):return 'succeeded'
     else: return 'aborted' 
 
@@ -88,8 +89,8 @@ class HandController:
         service = rospy.ServiceProxy('/seed_r7_ros_controller/hand_control', HandControl)
         response = service(0,'grasp',100)
         return True
-    except rospy.ServiceException, e:
-        print 'Service call failed: %s'%e
+    except rospy.ServiceException as e:
+        rospy.logerr('Service call failed: {}'.format(e))
         return False
 
   def release(self):
@@ -97,8 +98,8 @@ class HandController:
         service = rospy.ServiceProxy('/seed_r7_ros_controller/hand_control', HandControl)
         response = service(0,'release',100)
         return True
-    except rospy.ServiceException, e:
-        print 'Service call failed: %s'%e
+    except rospy.ServiceException as e:
+        rospy.logerr('Service call failed: {}'.format(e))
         return False
 
 ###########################################
@@ -142,6 +143,8 @@ class MoveitCommand:
     self.group.set_pose_target(target_pose)
     self.group.set_max_velocity_scaling_factor(vel)
     plan = self.group.plan()
+    if type(plan) is tuple: # for noetic
+        plan = plan[1]
 
     if(len(plan.joint_trajectory.points)==0):
       rospy.logwarn("IK can't be solved")
@@ -175,6 +178,8 @@ class MoveitCommand:
     self.group.set_pose_target(target_pose)
     self.group.set_max_velocity_scaling_factor(vel)
     plan = self.group.plan()
+    if type(plan) is tuple: # for noetic
+        plan = plan[1]
 
     if(len(plan.joint_trajectory.points)==0):
       rospy.logwarn("can't be solved lifter ik")
@@ -188,6 +193,8 @@ class MoveitCommand:
     self.group = moveit_commander.MoveGroupCommander("upper_body")
     self.group.set_named_target("reset-pose")
     plan = self.group.plan()
+    if type(plan) is tuple: # for noetic
+        plan = plan[1]
     self.group.go()
 
     if(len(plan.joint_trajectory.points)==0):
@@ -271,8 +278,7 @@ class MANIPULATE(State):
     self.direction = direction
 
   def execute(self, userdata):
-    print 'Manipulate at (' + str(self.x) +',' + str(self.y) + \
-      ',' +  str(self.z) +') in scale velocity ' + str(self.vel)
+    rospy.loginfo('Manipulate at ({},{},{}) in scale velocity {}'.format(self.x,self.y,self.z,self.vel))
     if(mc.set_grasp_position(self.x,self.y,self.z,self.vel,self.direction) 
       == 'succeeded'):return 'succeeded'
     else: return 'aborted'
@@ -286,8 +292,7 @@ class MOVE_LIFTER(State):
     self.vel = vel
 
   def execute(self, userdata):
-    print 'Move Lifter at (' + str(self.x) +',' + \
-      str(self.z) +') in scale velocity ' + str(self.vel)
+    rospy.loginfo('Move Lifter at ({},{}) in scale velocity {}'.format(self.x,self.z,self.vel))
     if(mc.set_lifter_position(self.x,self.z,self.vel) == 'succeeded'):return 'succeeded'
     else: return 'aborted'
 
@@ -297,7 +302,7 @@ class INIT_POSE(State):
     State.__init__(self, outcomes=['succeeded','aborted'])
 
   def execute(self, userdata):
-    print 'initialize wholebody'
+    rospy.loginfo('initialize wholebody')
 
     if(mc.set_initial_pose() == 'succeeded'):return 'succeeded'
     else: return 'aborted'

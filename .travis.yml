@@ -19,11 +19,20 @@ env:
     - ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=armhf
     - ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=arm64
     - ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=amd64
+    - ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=armhf
+    - ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=arm64
+    - ROS_DISTRO_NAME=noetic OS_NAME=ubuntu OS_CODE_NAME=focal ARCH=amd64
+    - ROS_DISTRO_NAME=noetic OS_NAME=ubuntu OS_CODE_NAME=focal ARCH=armhf
+    - ROS_DISTRO_NAME=noetic OS_NAME=ubuntu OS_CODE_NAME=focal ARCH=arm64
 matrix:
   allow_failures:
     - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=i386
     - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=arm64
     - env: ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=armhf
+    - env: ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=armhf
+    - env: ROS_DISTRO_NAME=melodic OS_NAME=ubuntu OS_CODE_NAME=bionic ARCH=arm64
+    - env: ROS_DISTRO_NAME=noetic OS_NAME=ubuntu OS_CODE_NAME=focal ARCH=armhf
+    - env: ROS_DISTRO_NAME=noetic OS_NAME=ubuntu OS_CODE_NAME=focal ARCH=arm64
 install:
   # install QEMU for running ARM containers
   - if [[ "$ARCH" == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
