@@ -248,6 +248,9 @@ namespace robot_hardware
     if(robot_status_.p_stopped_err_){
       ROS_WARN("The robot is protective stopped, please release it.");
     }
+    if(robot_status_.connection_err_ && robot_status_.calib_err_){
+      ROS_WARN("The robot is Emergency stopped, please release it.");
+    }
     return;
   }
 
