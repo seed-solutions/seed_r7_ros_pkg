@@ -1,0 +1,20 @@
+arm_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+      - shoulder_y_joint
+      - shoulder_p_joint
+      - elbow_joint
+      - wrist_y_joint
+      - wrist_p_joint
+      - wrist_r_joint
+lifter_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - knee_joint
+    - ankle_joint
+hand_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - r_thumb_joint
+
+robot_interface_controllers: ['arm', 'lifter']

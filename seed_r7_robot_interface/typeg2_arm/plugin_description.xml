@@ -1,0 +1,6 @@
+<library path="lib/libseed_r7_robot_interface_typeg2_arm">
+  <class name="seed_r7_robot_interface/typeg2_arm" type="seed_converter::TypeG2Arm"
+         base_class_type="StrokeConverter">
+    <description>Arm TypeG2 stroke converter plugin.</description>
+  </class>
+</library>
