@@ -1,0 +1,33 @@
+joint_settings:
+  robot: typeg_arm
+  raw_data_size: 31
+  body_data_size: 30
+  base_data_size: 30
+
+  upper:
+    joints:
+      - shoulder_y_joint
+      - shoulder_p_joint
+      - elbow_joint
+      - wrist_y_joint
+      - wrist_p_joint
+      - wrist_r_joint
+      - r_thumb_joint
+    aero_index: [0,1,2,3,4,5,6] #passive = -1
+
+  hand:
+    right_number: 7  #6+1
+
+  lower:
+    joints:
+      - knee_joint
+      - ankle_joint
+    aero_index: [1,0]
+
+  wheel:
+    joints:
+      - wheels_body_to_front_left_mecanum_connector   #fixed, not used
+      - wheels_body_to_front_right_mecanum_connector  #fixed, not used
+      - wheels_body_to_rear_left_mecanum_connector    #fixed, not used
+      - wheels_body_to_rear_right_mecanum_connector   #fixed, not used
+    aero_index: [4,2,5,3]

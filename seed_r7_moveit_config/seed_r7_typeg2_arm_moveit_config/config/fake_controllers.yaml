@@ -1,0 +1,33 @@
+controller_list:
+  - name: fake_arm_controller
+    type: $(arg execution_type)
+    joints:
+      - shoulder_y_joint
+      - shoulder_p_joint
+      - elbow_joint
+      - wrist_y_joint
+      - wrist_r_joint
+      - wrist_p_joint
+  - name: fake_lifter_controller
+    type: $(arg execution_type)
+    joints:
+      - ankle_joint
+      - knee_joint
+  - name: fake_arm_with_torso_controller
+    type: $(arg execution_type)
+    joints:
+      - ankle_joint
+      - knee_joint
+      - shoulder_y_joint
+      - shoulder_p_joint
+      - elbow_joint
+      - wrist_y_joint
+      - wrist_r_joint
+      - wrist_p_joint
+  - name: fake_hand_controller
+    type: $(arg execution_type)
+    joints:
+      - r_thumb_joint
+initial:  # Define initial robot poses.
+  - group: arm
+    pose: intial
