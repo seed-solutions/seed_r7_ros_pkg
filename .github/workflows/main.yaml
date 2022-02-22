@@ -6,13 +6,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - ros-distro-name: melodic
+          - ros_distro_name: melodic
             arch: amd64
-          - ros-distro-name: noetic
+          - ros_distro_name: noetic
             arch: amd64
     steps:
       - uses: actions/checkout@v2
       - uses: tork-a/ros-prerelease-job-action@main
         with:
-          ros_distro_name: ${{ matrix.ROS_DISTRO_NAME }}
+          ros_distro_name: ${{ matrix.ros_distro_name }}
           arch: ${{ matrix.arch }}
