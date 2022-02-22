@@ -6,7 +6,6 @@ env:
 jobs:
   prerelease_job:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         include:
@@ -30,14 +29,13 @@ jobs:
             os-code-name: focal
             arch: amd64
             experimental: false
+    continue-on-error: ${{ matrix.experimental }}
+    env:
+      ROS_DISTRO_NAME: ${{ matrix.ros-distro-name }}
+      OS_NAME: ${{ matrix.os-name }}
+      OS_CODE_NAME: ${{ matrix.os-code-name }}
+      ARCH: ${{ matrix.arch }}
     steps:
-      - name: Set environment variables
-        run: echo "ROS_DISTRO_NAME: $ROS_DISTRO_NAME OS_NAME: $OS_NAME OS_CODE_NAME: $OS_CODE_NAME ARCH: $ARCH"
-        env:
-          ROS_DISTRO_NAME: ${{ matrix.ros-distro-name }}
-          OS_NAME: ${{ matrix.os-name }}
-          OS_CODE_NAME: ${{ matrix.os-code-name }}
-          ARCH: ${{ matrix.arch }}
       # install QEMU for running ARM containers
       - name: Install QEMU
         run: if [[ "$ARCH" == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
