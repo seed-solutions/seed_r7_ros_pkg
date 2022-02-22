@@ -1,4 +1,4 @@
-name: Github Actions Demo
+name: ROS Prerelease Workflow
 on: [push, pull_request]
 env:
   JOB_PATH: /tmp/devel_job
@@ -9,14 +9,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - ros-distro-name: kinetic
-            os-name: ubuntu
-            os-code-name: xenial
-            arch: amd64
-          - ros-distro-name: kinetic
-            os-name: ubuntu
-            os-code-name: xenial
-            arch: arm64
           - ros-distro-name: melodic
             os-name: ubuntu
             os-code-name: bionic
@@ -47,9 +39,12 @@ jobs:
       - run: cp -R $(pwd) $JOB_PATH/ws/src/
       # keep sdk up-to-date
       - run: git clone https://github.com/seed-solutions/seed_smartactuator_sdk.git $JOB_PATH/ws/src/seed_smartactuator_sdk
+      - run: ls $JOB_PATH/ws/src/
       # generate the script to run a pre-release job for that target and repo
       - run: generate_prerelease_script.py https://raw.githubusercontent.com/ros-infrastructure/ros_buildfarm_config/production/index.yaml $ROS_DISTRO_NAME default $OS_NAME $OS_CODE_NAME $ARCH  --output-dir $JOB_PATH
       # skip build and test for ARM containers
       - run: if [[ "$ARCH" == "arm"* ]]; then sed -i '/build and test/i mkdir -p $WORKSPACE/ws/test_results; exit 0' $JOB_PATH/prerelease_build_underlay.sh; fi
-      # get summary of test results
+      # run the actual job which involves Docker
       - run: cd $JOB_PATH; sh ./prerelease.sh -y
+      # get summary of test results
+      - run: /tmp/catkin/bin/catkin_test_results $JOB_PATH/ws/test_results --all
