@@ -1,5 +1,11 @@
 name: ROS Prerelease Workflow
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 jobs:
   prerelease_job:
     runs-on: ubuntu-latest
