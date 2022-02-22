@@ -40,12 +40,11 @@ jobs:
       # checkout catkin for catkin_test_results script
       - name: Checkout catkin for catkin_test_results script
         run: git clone https://github.com/ros/catkin /tmp/catkin
-      - run: echo `pwd`
       # run devel job for a ROS repository with the same name as this repo
-      - run: export REPOSITORY_NAME=`basename ${{ github.repository }}`
+      - run: export REPOSITORY_NAME=$(basename $(pwd))
       # use the code already checked out by Travis
       - run: mkdir -p $JOB_PATH/ws/src
-      - run: cp -R ${{ github.repository }} $JOB_PATH/ws/src/
+      - run: cp -R $(pwd) $JOB_PATH/ws/src/
       # keep sdk up-to-date
       - run: git clone https://github.com/seed-solutions/seed_smartactuator_sdk.git $JOB_PATH/ws/src/seed_smartactuator_sdk
       # generate the script to run a pre-release job for that target and repo
