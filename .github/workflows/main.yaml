@@ -13,23 +13,18 @@ jobs:
             os-name: ubuntu
             os-code-name: xenial
             arch: amd64
-            experimental: false
           - ros-distro-name: kinetic
             os-name: ubuntu
             os-code-name: xenial
             arch: arm64
-            experimental: true
           - ros-distro-name: melodic
             os-name: ubuntu
             os-code-name: bionic
             arch: amd64
-            experimental: false
           - ros-distro-name: noetic
             os-name: ubuntu
             os-code-name: focal
             arch: amd64
-            experimental: false
-    continue-on-error: ${{ matrix.experimental }}
     env:
       ROS_DISTRO_NAME: ${{ matrix.ros-distro-name }}
       OS_NAME: ${{ matrix.os-name }}
@@ -44,7 +39,7 @@ jobs:
         run: pip install ros_buildfarm
       # checkout catkin for catkin_test_results script
       - name: Checkout catkin for catkin_test_results script
-        run: gitclone https://github.com/ros/catkin /tmp/catkin
+        run: git clone https://github.com/ros/catkin /tmp/catkin
       # run devel job for a ROS repository with the same name as this repo
       - run: export REPOSITORY_NAME=`basename ${{ github.repository }}`
       # use the code already checked out by Travis
