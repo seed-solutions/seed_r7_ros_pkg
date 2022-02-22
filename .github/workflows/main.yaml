@@ -8,11 +8,20 @@ jobs:
         include:
           - ros_distro_name: melodic
             arch: amd64
+          - ros_distro_name: melodic
+            arch: arm64
           - ros_distro_name: noetic
             arch: amd64
+          - ros_distro_name: noetic
+            arch: arm64
     continue-on-error: true
     steps:
+      - run: if [[ "${{ matrix.arch }}" == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
       - uses: actions/checkout@v2
+      - name: Clone seed_smartactuator_sdk
+        run: |
+            mkdir -p /tmp/devel_job/ws/src
+            git clone https://github.com/seed-solutions/seed_smartactuator_sdk.git /tmp/devel_job/ws/src/seed_smartactuator_sdk
       - uses: tork-a/ros-prerelease-job-action@main
         with:
           ros_distro_name: ${{ matrix.ros_distro_name }}
