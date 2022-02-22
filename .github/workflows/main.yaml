@@ -1,0 +1,61 @@
+name: Github Actions Demo
+on: [push, pull_request]
+env:
+  JOB_PATH: /tmp/devel_job
+  ABORT_ON_TEST_FAILURE: 1
+jobs:
+  prerelease_job:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        include:
+          - ros-distro-name: kinetic
+            os-name: ubuntu
+            os-code-name: xenial
+            arch: amd64
+            experimental: false
+          - ros-distro-name: kinetic
+            os-name: ubuntu
+            os-code-name: xenial
+            arch: arm64
+            experimental: true
+          - ros-distro-name: melodic
+            os-name: ubuntu
+            os-code-name: bionic
+            arch: amd64
+            experimental: false
+          - ros-distro-name: noetic
+            os-name: ubuntu
+            os-code-name: focal
+            arch: amd64
+            experimental: false
+    steps:
+      - name: Set environment variables
+        env:
+          ROS_DISTRO_NAME: ${{ matrix.ros-distro-name }}
+          OS_NAME: ${{ matrix.os-name }}
+          OS_CODE_NAME: ${{ matrix.os-code-name }}
+          ARCH: ${{ matrix.arch }}
+      # install QEMU for running ARM containers
+      - name: Install QEMU
+        run: if [[ "$ARCH" == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
+      # either install the latest released version of ros_buildfarm
+      - name: Install ros_buildfarm
+        run: pip install ros_buildfarm
+      # checkout catkin for catkin_test_results script
+      - name: Checkout catkin for catkin_test_results script
+        run: gitclone https://github.com/ros/catkin /tmp/catkin
+      # run devel job for a ROS repository with the same name as this repo
+      - run: export REPOSITORY_NAME=`basename ${{ github.repository }}`
+      # use the code already checked out by Travis
+      - run: mkdir -p $JOB_PATH/ws/src
+      - run: cp -R ${{ github.repository }} $JOB_PATH/ws/src/
+      # keep sdk up-to-date
+      - run: git clone https://github.com/seed-solutions/seed_smartactuator_sdk.git $JOB_PATH/ws/src/seed_smartactuator_sdk
+      # generate the script to run a pre-release job for that target and repo
+      - run: generate_prerelease_script.py https://raw.githubusercontent.com/ros-infrastructure/ros_buildfarm_config/production/index.yaml $ROS_DISTRO_NAME default $OS_NAME $OS_CODE_NAME $ARCH  --output-dir $JOB_PATH
+      # skip build and test for ARM containers
+      - if [[ "$ARCH" == "arm"* ]]; then sed -i '/build and test/i mkdir -p $WORKSPACE/ws/test_results; exit 0' $JOB_PATH/prerelease_build_underlay.sh; fi
+      # get summary of test results
+      - cd $JOB_PATH; sh ./prerelease.sh -y
