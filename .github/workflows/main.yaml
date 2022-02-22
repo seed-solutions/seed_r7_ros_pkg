@@ -40,6 +40,7 @@ jobs:
       # checkout catkin for catkin_test_results script
       - name: Checkout catkin for catkin_test_results script
         run: git clone https://github.com/ros/catkin /tmp/catkin
+      - run: echo `pwd`
       # run devel job for a ROS repository with the same name as this repo
       - run: export REPOSITORY_NAME=`basename ${{ github.repository }}`
       # use the code already checked out by Travis
