@@ -1,0 +1,6 @@
+string port     # 送信先USBポート
+uint8 msid      # 送信先MSID
+uint16 address  # 読み込みアドレス
+uint16 size     # 読み込みサイズ
+---
+uint8[] data    # データ

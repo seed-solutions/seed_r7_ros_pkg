@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="standalone" default="false" />
+    <arg name="config_dir" default="" />
+
+    <group if="$(arg standalone)">
+        <rosparam command="load" file="$(arg config_dir)/driver_settings.yaml" />
+    </group>
+
+    <node pkg="ms_stub" type="ms_stub" name="ms_stub" output="screen">
+    </node>
+
+</launch>

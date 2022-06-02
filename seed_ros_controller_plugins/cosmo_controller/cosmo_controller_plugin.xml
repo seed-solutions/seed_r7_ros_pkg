@@ -1,0 +1,9 @@
+<library path="lib/libcosmo_controller">
+
+  <class name="cosmo_controller/CosmoController" type="cosmo_controller::CosmoController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      cosmo controller
+    </description>
+  </class>
+
+</library>

@@ -1,0 +1,57 @@
+footprint: [[-0.35, -0.25], [-0.35, 0.25], [0.35, 0.25], [0.35, -0.25]]
+
+controller_frequency: 20 # assisted_teleopのループ周波数
+num_th_samples: 20 # 実行可能なパス探索のための、速度の分割数
+num_x_samples: 10 # 実行可能なパス探索のための、速度の分割数
+theta_range: 0.7 # 回転方向の探索範囲
+translational_collision_speed: 0 #実行可能なパスがない場合の、動作速度 0だと動作しない(未使用 余計な計算が増えるので、必ず0にすること)
+rotational_collision_speed: 0  #実行可能なパスがない場合の、動作速度 0だと動作しない(未使用 余計な計算が増えるので、必ず0にすること)
+
+planner: # base local plannerのパラメータ
+  transform_tolerance: 0.2
+  costmap_visualization_rate: 0.0
+  world_model: costmap
+  sim_time: 1.5
+  sim_granularity: 0.025
+  vx_samples: 3
+  vtheta_samples: 20
+  max_vel_x: 0.45
+  min_vel_x: 0.05
+  max_vel_th: 1.0
+  min_vel_th: -1.0
+  min_in_place_vel_th: 0.25
+  xy_goal_tolerance: 0.08
+  yaw_goal_tolerance: 0.02
+  acc_lim_th: 3.2
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
+  
+costmap:
+  publish_voxel_map: true
+  global_frame: odom
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: false
+  rolling_window: true
+  width: 5.0
+  height: 5.0
+  resolution: 0.025
+  origin_x: -5.0
+  origin_y: -5.0
+
+  obstacle_range: 2.5
+  max_obstacle_height: 2.0
+  raytrace_range: 3.0
+
+  observation_sources: laser
+  laser:
+     topic: scan
+     data_type: LaserScan
+     inf_is_valid: false          # infを、レーザーの最大値として残すか
+     observation_persistence: 0.0 # どれくらい前のデータまでを有効データとするか(0.0だと、最新のデータのみ有効)
+     expected_update_rate: 0.1    # センサ値の入力期待周期 センサの故障検出用[s]
+     marking: true       # 障害物の登録のためにデータを使うか
+     obstacle_range: 2.5 # 障害物の登録可能な最大距離
+     clearing: true      # 障害物の削除のためにデータを使うか
+     raytrace_range: 3.0 # 障害物の削除可能な最大距離

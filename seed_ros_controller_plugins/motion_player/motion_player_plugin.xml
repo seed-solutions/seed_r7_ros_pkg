@@ -1,0 +1,7 @@
+<library path="lib/libmotion_player">
+  <class name="motion_player/MotionPlayer" type="motion_player::MotionPlayer" base_class_type="controller_interface::ControllerBase">
+  <description>
+    joint state controller
+  </description>
+  </class>
+</library>

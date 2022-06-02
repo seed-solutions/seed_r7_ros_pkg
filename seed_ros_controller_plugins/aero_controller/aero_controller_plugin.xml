@@ -1,0 +1,9 @@
+<library path="lib/libaero_controller">
+
+  <class name="aero_controller/AeroController" type="aero_controller::AeroController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      cosmo controller
+    </description>
+  </class>
+
+</library>

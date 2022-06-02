@@ -1,0 +1,6 @@
+string hexNum # コマンド名
+int32 start
+int32 number
+---
+string result
+uint32 data

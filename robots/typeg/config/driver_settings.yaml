@@ -1,0 +1,102 @@
+usb_settings:
+   - 
+      port: /dev/aero_upper
+      baudrate: 1000000
+      mslist: [upper_ms]
+   - 
+      port: /dev/aero_lower
+      baudrate: 1000000
+      mslist: [lower_ms]
+   
+ms_settings:
+   upper_ms:
+      msid: 0
+      joints:
+         - 
+           name: waist_y_joint
+           aero_idx: 15
+         - 
+           name: waist_p_joint
+           aero_idx: 25
+         - 
+           name: waist_r_joint
+           aero_idx: 10
+         - 
+           name: l_shoulder_p_joint
+           aero_idx: 18
+         - 
+           name: l_shoulder_r_joint
+           aero_idx: 19
+         - 
+           name: l_shoulder_y_joint
+           aero_idx: 20
+         - 
+           name: l_elbow_joint
+           aero_idx: 21
+         - 
+           name: l_wrist_y_joint
+           aero_idx: 22
+         - 
+           name: l_wrist_p_joint
+           aero_idx: 23
+         - 
+           name: l_wrist_r_joint
+           aero_idx: 24
+         - 
+           name: l_thumb_joint
+           aero_idx: 26
+         - 
+           name: neck_y_joint
+           aero_idx: 0
+         - 
+           name: neck_p_joint
+           aero_idx: 1
+         - 
+           name: neck_r_joint
+           aero_idx: 2
+         - 
+           name: r_shoulder_p_joint
+           aero_idx: 3
+         - 
+           name: r_shoulder_r_joint
+           aero_idx: 4
+         - 
+           name: r_shoulder_y_joint
+           aero_idx: 5
+         - 
+           name: r_elbow_joint
+           aero_idx: 6
+         - 
+           name: r_wrist_y_joint
+           aero_idx: 7
+         - 
+           name: r_wrist_p_joint
+           aero_idx: 8
+         - 
+           name: r_wrist_r_joint
+           aero_idx: 9
+         - 
+           name: r_thumb_joint
+           aero_idx: 11
+
+   lower_ms:
+      msid: 1
+      joints:
+         - 
+           name: knee_joint
+           aero_idx: 1
+         - 
+           name: ankle_joint
+           aero_idx: 0
+         - 
+           name: wheel_front_left
+           aero_idx: 4
+         - 
+           name: wheel_front_right
+           aero_idx: 2
+         - 
+           name: wheel_rear_left
+           aero_idx: 5
+         - 
+           name: wheel_rear_right
+           aero_idx: 3

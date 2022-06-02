@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="config_path"  default="."/>
+
+    <rosparam command="load" file="$(arg config_path)/controller_settings_joint_trajectory.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_wheel.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_script.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_aero.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_cosmo.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_cosmo_joy.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_joint_state.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_diagnostics.yaml" />
+    <rosparam command="load" file="$(arg config_path)/controller_settings_motion_player.yaml" />
+
+    <node name="state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="cm_spawner_js" pkg="controller_manager" type="spawner" args="joint_state_controller" />
+
+    <node name="cm_spawner_jtraj_larm" pkg="controller_manager" type="spawner" args="larm_controller" />
+    <node name="cm_spawner_jtraj_rarm" pkg="controller_manager" type="spawner" args="rarm_controller" />
+    <node name="cm_spawner_jtraj_lhand" pkg="controller_manager" type="spawner" args="lhand_controller" />
+    <node name="cm_spawner_jtraj_rhand" pkg="controller_manager" type="spawner" args="rhand_controller" />
+    <node name="cm_spawner_jtraj_head" pkg="controller_manager" type="spawner" args="head_controller" />
+    <node name="cm_spawner_jtraj_waist" pkg="controller_manager" type="spawner" args="waist_controller" />
+    <node name="cm_spawner_jtraj_lifter" pkg="controller_manager" type="spawner" args="lifter_controller" />
+
+
+    <node name="cm_spawner_mechanum" pkg="controller_manager" type="spawner" args="mechanum_controller" />
+    <node name="cm_spawner_script" pkg="controller_manager" type="spawner" args="script_controller" />
+    <node name="cm_spawner_aero" pkg="controller_manager" type="spawner" args="aero_controller" />
+    <node name="cm_spawner_cosmo" pkg="controller_manager" type="spawner" args="cosmo_controller" />
+    <node name="cm_spawner_cosmo_joy" pkg="controller_manager" type="spawner" args="cosmo_joy_controller" />
+    <node name="cm_spawner_diagnostics" pkg="controller_manager" type="spawner" args="diagnostics_controller" />
+    <node name="cm_spawner_motion_player" pkg="controller_manager" type="spawner" args="motion_player" />
+
+
+</launch>

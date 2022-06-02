@@ -1,0 +1,2 @@
+seed_ros_controller:
+   control_period: 0.01 #[s]

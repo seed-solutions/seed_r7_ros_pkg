@@ -1,0 +1,5 @@
+<library path="libtypeg_stroke_converter">
+  <class type="seed_converter::TypeG" base_class_type="seed_converter::StrokeConverter">
+    <description>TypeG stroke converter plugin.</description>
+  </class>
+</library>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config_path" default="." />
+  <node pkg="assisted_teleop" name="assisted_teleop" type="assisted_teleop" respawn="false" output="screen">
+    <rosparam file="$(arg config_path)/assisted_teleop.yaml" command="load" />
+  </node>
+</launch>

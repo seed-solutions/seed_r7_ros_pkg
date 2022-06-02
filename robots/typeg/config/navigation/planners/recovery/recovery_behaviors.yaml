@@ -1,0 +1,22 @@
+recovery_behaviors:
+-  name: conservative_reset
+   type: clear_costmap_recovery/ClearCostmapRecovery
+#-  name: rotate_recovery_1
+#   type: rotate_recovery/RotateRecovery
+-  name: aggressive_reset
+   type: clear_costmap_recovery/ClearCostmapRecovery
+   
+
+conservative_reset:
+  reset_distance: 0.5 # ロボットを中心とした矩形
+  invert_area_to_clear: false # 外側をクリアするかどうか
+  
+#rotate_recovery_1:
+#  sim_granularity: 0.017 # 回転が安全かをチェックする角度間隔[rad]]
+#  frequency: 20          #cmd_velを吐き出す周期[Hz]]
+#  max_rotational_vel: 1.0
+#  min_in_place_rotational_vel: 0.2
+
+aggressive_reset:
+  reset_distance: 10.0 # ロボットを中心とした矩形
+  invert_area_to_clear: false # 外側をクリアするかどうか

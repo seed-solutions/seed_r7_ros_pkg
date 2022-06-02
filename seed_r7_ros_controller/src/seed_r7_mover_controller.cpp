@@ -68,8 +68,7 @@ void robot_hardware::MoverController::cmdVelCallback(const geometry_msgs::TwistC
   ROS_DEBUG("cmd_vel: %f %f %f", _cmd_vel->linear.x, _cmd_vel->linear.y, _cmd_vel->angular.z);
 
   if (base_mtx_.try_lock()) {
-    if(hw_->robot_status_.p_stopped_err_ ||
-      (hw_->robot_status_.connection_err_ && hw_->robot_status_.calib_err_) )
+    if(hw_->robot_status_.p_stopped_err_)
     {
       //move_base_action_->cancelAllGoals();  //if you want to cancel goal, use this
       vx_ = vy_ = vth_ = 0.0;

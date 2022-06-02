@@ -1,0 +1,2 @@
+cosmo_joy_controller:
+   type: cosmo_joy_controller/CosmoJoyController

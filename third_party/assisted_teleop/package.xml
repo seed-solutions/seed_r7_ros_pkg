@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>assisted_teleop</name>
+  <version>0.3.5</version>
+  <description>
+    The assisted_teleop node subscribes to a desired trajectory topic
+    (geometry_msgs/Twist) and uses TrajectoryPlannerROS to find a valid
+    trajectory close to the desired trajectory before republishing. Useful for
+    filtering teleop commands while avoiding obstacles. This package also
+    contains LaserScanMaxRangeFilter, which is a LaserScan filter plugin that
+    takes max range values in a scan and turns them into valid values that are
+    slightly less than max range.
+  </description>
+  <maintainer email="martin.guenther@dfki.de">Martin Günther</maintainer>
+  <author>Tully Foote</author>
+  <license>BSD</license>
+  <url type="website">http://wiki.ros.org/assisted_teleop</url>
+  <url type="repository">https://github.com/ros-planning/navigation_experimental.git</url>
+  <url type="bugtracker">https://github.com/ros-planning/navigation_experimental/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>actionlib</depend>
+  <depend>angles</depend>
+  <depend>base_local_planner</depend>
+  <depend>costmap_2d</depend>
+  <depend>eigen</depend>
+  <depend>filters</depend>
+  <depend>geometry_msgs</depend>
+  <depend>message_filters</depend>
+  <depend>move_base_msgs</depend>
+  <depend>pluginlib</depend>
+  <depend>roscpp</depend>
+  <depend>roslib</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2_ros</depend>
+
+  <export>
+    <filters plugin="${prefix}/filter_plugins.xml"/>
+  </export>
+</package>

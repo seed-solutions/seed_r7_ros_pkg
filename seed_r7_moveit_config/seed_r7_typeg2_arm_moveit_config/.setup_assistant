@@ -2,10 +2,10 @@ moveit_setup_assistant_config:
   URDF:
     package: seed_r7_description
     relative_path: typeg2_arm/arm.urdf.xacro
-    xacro_args: --inorder
+    xacro_args: ""
   SRDF:
     relative_path: config/SEED-Arm-Mover-typeG2.srdf
   CONFIG:
-    author_name: Yasuto Shiigi
-    author_email: y.shiigi@thk.co.jp
-    generated_timestamp: 1634201772
+    author_name: Naruhiro Wada
+    author_email: n.wada@thk.co.jp
+    generated_timestamp: 1638446460

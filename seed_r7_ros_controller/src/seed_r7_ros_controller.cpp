@@ -38,9 +38,12 @@
 #include "seed_r7_ros_controller/seed_r7_robot_hardware.h"
 #include "seed_r7_ros_controller/seed_r7_mover_controller.h"
 #include "seed_r7_ros_controller/seed_r7_hand_controller.h"
+#include "seed_r7_ros_controller/configurator.h"
+
+#include "seed_r7_ros_controller/cosmo_cmd.h"
+#include "seed_r7_ros_controller/robot_status_cmd.h"
 
 #define NSEC_PER_SEC    1000000000L
-
 
 int main(int argc, char** argv)
 {
@@ -55,11 +58,15 @@ int main(int argc, char** argv)
     exit(1);
   }
 
+  CosmoCmd cosmo(nh,&hw);
+  RobotStatusCmd robotStatus(nh,&hw);
+
   //add extra controller
   robot_hardware::MoverController mover_node(nh, &hw);
   robot_hardware::HandController hand_node(robot_nh, &hw);
+  robot_hardware::Configurator config_node(robot_nh, &hw);
 
-  ros::AsyncSpinner spinner(1);
+  ros::AsyncSpinner spinner(5);
   spinner.start();
 
   double period = hw.getPeriod();
@@ -87,6 +94,7 @@ int main(int argc, char** argv)
         ++tm.tv_sec;
       }
       clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tm, NULL);
+
 
       if (cntr > 100) {
         ROS_INFO("max: %f [ms], ave: %f [ms]", max_interval/1000, ave_interval/1000);

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!-- parameters when using models in official package -->
-  <arg name="robot_model"         default="typef"/>
+  <arg name="robot_model"         default="typeg"/>
   <arg name="robot_model_plugin" default="seed_r7_robot_interface/$(arg robot_model)"/>
 
   <!-- parameters when using models in user packages -->

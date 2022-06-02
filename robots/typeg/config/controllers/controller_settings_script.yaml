@@ -1,0 +1,5 @@
+script_controller:
+   type: script_controller/ScriptController
+   joints:
+   - l_thumb_joint
+   - r_thumb_joint

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="simulation" default="false" />
+    <arg name="cmd_vel_topic" default="/cmd_vel" />
+    <arg name="odom_topic" default="/odom" />
+    <arg name="robot_model_plugin" default="seed_converter::TypeG" />
+    <arg name="csv_config_dir" default="./" />
+    <arg name="config_path"  default="."/>
+    
+    <rosparam command="load" file="$(arg config_path)/controller_settings.yaml" />
+
+    <arg unless="$(arg simulation)" name="launch_prefix" value="bash -c 'echo seed | sudo -S -E env LD_LIBRARY_PATH=$(env LD_LIBRARY_PATH) $0 $@' " />
+    <arg if="$(arg simulation)" name="launch_prefix" value="" />
+
+    <arg unless="$(arg simulation)" name="log_output" value="screen" />
+    <arg if="$(arg simulation)" name="log_output" value="screen" />
+
+    <node pkg="seed_ros_controller" type="seed_ros_controller" name="seed_ros_controller" output="$(arg log_output)" launch-prefix="$(arg launch_prefix)">
+        <param name="robot_model_plugin" value="$(arg robot_model_plugin)" />
+        <param name="csv_config_dir" value="$(arg csv_config_dir)" />
+
+        <remap from="/mechanum_controller/cmd_vel" to="$(arg cmd_vel_topic)" />
+        <remap from="/mechanum_controller/odom" to="$(arg odom_topic)" />
+    </node>
+
+    <!-- シミュレーションの場合は、エラーログ以上しか出さないようにする -->
+    <group if="$(arg simulation)">
+        <node pkg="rosservice" type="rosservice" name="set_seed_ros_controller_log_level" args="call --wait /seed_ros_controller/set_logger_level 'ros.seed_ros_controller' 'error'" />
+    </group>
+
+</launch>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>robots_common</name>
+  <version>0.3.4</version>
+  <description>The stroke_converter package</description>
+
+  <maintainer email="seed@dummy.com">seed</maintainer>
+
+  <license>BSD</license>
+
+  <author>seed</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+
+  <export>
+    <seed_ros_controller plugin="${prefix}/stroke_converter/plugin_description.xml"/>
+  </export>
+</package>

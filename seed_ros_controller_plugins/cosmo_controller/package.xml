@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>cosmo_controller</name>
+  <version>0.0.0</version>
+  <description>cosmo controller</description>
+
+  <maintainer email="seed@dummy.com">THK</maintainer>
+  <author email="seed@dummy.com">THK</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>controller_interface</depend>
+  <depend>realtime_tools</depend>
+  <depend>roscpp</depend>
+
+  <build_depend>seed_ros_controller</build_depend>
+  <build_depend>hardware_interface</build_depend>
+  <build_depend>pluginlib</build_depend>
+
+  <build_export_depend>hardware_interface</build_export_depend>
+
+  <export>
+    <controller_interface plugin="${prefix}/cosmo_controller_plugin.xml"/>
+  </export>
+</package>

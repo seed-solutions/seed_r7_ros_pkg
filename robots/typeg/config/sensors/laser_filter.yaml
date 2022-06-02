@@ -1,0 +1,12 @@
+scan_filter_chain:
+# 自己干渉を防ぐ
+- name: box
+  type: laser_filters/LaserScanBoxFilter
+  params:
+    box_frame: base_link
+    min_x: -0.4
+    max_x:  0.4
+    min_y: -0.3
+    max_y:  0.3
+    min_z: -.inf
+    max_z:  .inf

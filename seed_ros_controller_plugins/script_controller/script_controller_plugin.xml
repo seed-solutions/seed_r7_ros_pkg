@@ -1,0 +1,9 @@
+<library path="lib/libscript_controller">
+
+  <class name="script_controller/ScriptController" type="script_controller::ScriptController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      script controller
+    </description>
+  </class>
+
+</library>

@@ -171,6 +171,8 @@ namespace robot_hardware
     bat_vol_pub_ = robot_hw_nh.advertise<std_msgs::Float32>("voltage", 1);
     bat_vol_timer_ = robot_hw_nh.createTimer(ros::Duration(1), &RobotHW::getBatteryVoltage,this);
 
+    joy_pub_ = robot_hw_nh.advertise<sensor_msgs::Joy>("/cosmo/joy",1);
+
     // Get Robot Firmware Version
     ROS_INFO("Upper Firmware Ver. is [ %s ]", controller_upper_->getFirmwareVersion().c_str() );
     ROS_INFO("Lower Firmware Ver. is [ %s ]", controller_lower_->getFirmwareVersion().c_str() );
@@ -248,9 +250,6 @@ namespace robot_hardware
     if(robot_status_.p_stopped_err_){
       ROS_WARN("The robot is protective stopped, please release it.");
     }
-    if(robot_status_.connection_err_ && robot_status_.calib_err_){
-      ROS_WARN("The robot is Emergency stopped, please release it.");
-    }
     return;
   }
 
@@ -259,8 +258,23 @@ namespace robot_hardware
     return;
   }
 
+  bool dbl_equal(double a, double b) {
+      return fabs(a - b) <= std::numeric_limits<double>::epsilon() * fmax(1, fmax(fabs(a), fabs(b)));
+  }
+
+  bool dbl_equal(double a, double b, double tol) {
+      return fabs(a - b) <= tol;
+  }
+
   void RobotHW::write(const ros::Time& time, const ros::Duration& period)
   {
+    if(is_stop.load()){
+        cyclic_stopped.store(true);
+        return;
+    }else{
+        cyclic_stopped.store(false);
+    }
+
     pj_sat_interface_.enforceLimits(period);
 
     ////// convert positions to strokes and write strokes
@@ -292,24 +306,35 @@ namespace robot_hardware
     }  // for
 
     std::vector<bool > mask_positions(number_of_angles_);
-    std::fill(mask_positions.begin(), mask_positions.end(), true); // send if true
+    std::fill(mask_positions.begin(), mask_positions.end(), false); // send if true
+
+#if 0 //把持スクリプトが実行できなくなるので、一旦消す
+    //関節角度がフィードバック値と大きくずれていたら、送信する
+    for(unsigned int j = 0; j < number_of_angles_; j++) {
+        if(!dbl_equal(joint_position_command_[j],joint_position_[j],0.1)){
+            mask_positions[j] = true;
+        }
+    }
+#endif
 
     // convert from angle to stroke
     std::vector<int16_t> ref_strokes(ref_positions.size());
     stroke_converter_->Angle2Stroke(ref_strokes, ref_positions);
 
+    // 目標位置が変化している場合は、送信
     for (int i = 0; i < number_of_angles_; ++i) {
-      double tmp = ref_strokes[i];
-      if (tmp == prev_ref_strokes_[i]) {
-        mask_positions[i] = false;
-      }
-      prev_ref_strokes_[i] = tmp;
+        double tmp = ref_strokes[i];
+        if (!dbl_equal(tmp,prev_ref_strokes_[i])) {
+            mask_positions[i] = true;
+        }
+        prev_ref_strokes_[i] = tmp;
     }
     
     // masking
     std::vector<int16_t> snt_strokes(ref_strokes);
-    for (size_t i = 0; i < ref_strokes.size() ; ++i) {
-      if (!mask_positions[i]) snt_strokes[i] = 0x7FFF;
+    for (size_t i = 0; i < ref_strokes.size(); ++i) {
+        if (!mask_positions[i])
+            snt_strokes[i] = 0x7FFF;
     }
 
     // split strokes into upper and lower
@@ -317,30 +342,51 @@ namespace robot_hardware
     std::vector<int16_t> lower_strokes;
 
     // remap
-    if (controller_upper_->is_open_) controller_upper_->remapRosToAero(upper_strokes,snt_strokes);
-    else controller_upper_->remapRosToAero(upper_strokes,ref_strokes);
-    if (controller_lower_->is_open_) controller_lower_->remapRosToAero(lower_strokes,snt_strokes);
-    else controller_lower_->remapRosToAero(lower_strokes,ref_strokes);
+    if (controller_upper_->is_open_)
+        controller_upper_->remapRosToAero(upper_strokes, snt_strokes);
+    else
+        controller_upper_->remapRosToAero(upper_strokes, ref_strokes);
+    if (controller_lower_->is_open_)
+        controller_lower_->remapRosToAero(lower_strokes, snt_strokes);
+    else
+        controller_lower_->remapRosToAero(lower_strokes, ref_strokes);
 
-    uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
+    uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_) / (1000 * 10));
 
     mutex_lower_.lock();
     mutex_upper_.lock();
     {
-      std::thread t1([&](){
-          controller_upper_->sendPosition(time_csec, upper_strokes);
+        std::thread t1([&]() {
+            controller_upper_->sendPosition(time_csec, upper_strokes);//ここで、関節のストローク量の応答を受信
         });
-      std::thread t2([&](){
-          controller_lower_->sendPosition(time_csec, lower_strokes);
+        std::thread t2([&]() {
+            controller_lower_->sendPosition(time_csec, lower_strokes);
         });
-      t1.join();
-      t2.join();
+        t1.join();
+        t2.join();
     }
     mutex_upper_.unlock();
     mutex_lower_.unlock();
 
+    //set virtual controller cmd
+    if(controller_lower_->is_open_){
+        auto vcCmd = getVirtualControllerCmd();
+        if(vcCmd.header_type != -1){
+            controller_lower_->enable_joy_ = true;
+            controller_lower_->setJoy(vcCmd.recvd_data);
+        }
+        else{
+            controller_lower_->enable_joy_ = false;
+        }
+    }
+
+    //send Joy
+    if(controller_lower_->enable_joy_){
+    	joy_pub_.publish(controller_lower_->joy_);
+    }
+
     // read
-    readPos(time, period, false);
+    readPos(time, period, false);//sendPositionで応答された関節のストローク量を、角度に変換する
     return;
   }
 
@@ -484,6 +530,47 @@ namespace robot_hardware
     _res.result = "reset status succeeded";
 
     return true;
+  }
+
+
+  void RobotHW::write_1byte_lower(uint16_t _address, uint8_t *_write_data, int write_size){
+      mutex_lower_.lock();
+      controller_lower_->write_1byte(_address, _write_data,write_size);
+      mutex_lower_.unlock();
+  }
+
+
+  std::vector<uint8_t>  RobotHW::read_1byte_lower(uint16_t _address, int size){
+      mutex_lower_.lock();
+      std::vector<uint8_t> data = controller_lower_->read_1byte(_address,size);
+      mutex_lower_.unlock();
+      return data;
+  }
+
+  void RobotHW::resetting_lower(){
+      mutex_lower_.lock();
+      controller_lower_->resetting();
+      mutex_lower_.unlock();
+  }
+
+void RobotHW::write_1byte_upper(uint16_t _address, uint8_t *_write_data, int write_size) {
+    mutex_upper_.lock();
+    controller_upper_->write_1byte(_address, _write_data, write_size);
+    mutex_upper_.unlock();
+  }
+
+
+  std::vector<uint8_t>  RobotHW::read_1byte_upper(uint16_t _address, int size){
+      mutex_upper_.lock();
+      std::vector<uint8_t> data = controller_upper_->read_1byte(_address,size);
+      mutex_upper_.unlock();
+      return data;
+  }
+
+  void RobotHW::resetting_upper(){
+      mutex_upper_.lock();
+      controller_upper_->resetting();
+      mutex_upper_.unlock();
   }
 
 }

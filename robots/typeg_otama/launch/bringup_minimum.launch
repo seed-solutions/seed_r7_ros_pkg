@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="simulation" default="false" />
+    <arg name="this_pkg" value="$(find typeg_otama)"/>
+    <arg name="rviz_config_file" default="$(arg this_pkg)/rviz/rviz.rviz" />
+        
+    <param name="robot_description" command="xacro '$(arg this_pkg)/model/noid.urdf.xacro'" />
+
+    <rosparam command="load" file="$(arg this_pkg)/config/driver_settings.yaml" />
+
+    <group if="$(arg simulation)">
+        <include file="$(find ms_stub)/launch/bringup.launch" />
+    </group>
+
+    <include file="$(arg this_pkg)/launch/parts/bringup_controller.launch">
+        <arg name="simulation" value="$(arg simulation)" />
+        <arg name="csv_config_dir" value="$(arg this_pkg)/stroke_converter/csv" />
+        <arg name="config_path" value="$(arg this_pkg)/config" />
+    </include>
+    
+    <include file="$(arg this_pkg)/launch/parts/bringup_controller_managers.launch">
+        <arg name="config_path" value="$(arg this_pkg)/config/controllers" />
+    </include>
+    
+    <include file="$(arg this_pkg)/launch/parts/bringup_rviz.launch">
+        <arg name="rviz_config_file" value="$(arg rviz_config_file)" />
+    </include>
+
+</launch>

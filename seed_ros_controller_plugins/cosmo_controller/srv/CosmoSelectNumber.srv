@@ -1,0 +1,5 @@
+string command #タスク選択 task, シーン選択 scene
+int8 number #タスク番号:task_no, シーン番号:scene_no
+string name # タスク名:task_name, シーン名:scene_name
+---
+string result

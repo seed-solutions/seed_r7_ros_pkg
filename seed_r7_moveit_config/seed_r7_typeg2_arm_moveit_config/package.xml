@@ -3,10 +3,10 @@
   <name>seed_r7_typeg2_arm_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the SEED-Arm-Mover-typeG2 with the MoveIt! Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the SEED-Arm-Mover-typeG2 with the MoveIt Motion Planning Framework
   </description>
-  <author email="y.shiigi@thk.co.jp">Yasuto Shiigi</author>
-  <maintainer email="y.shiigi@thk.co.jp">Yasuto Shiigi</maintainer>
+  <author email="n.wada@thk.co.jp">Naruhiro Wada</author>
+  <maintainer email="n.wada@thk.co.jp">Naruhiro Wada</maintainer>
 
   <license>BSD</license>
 

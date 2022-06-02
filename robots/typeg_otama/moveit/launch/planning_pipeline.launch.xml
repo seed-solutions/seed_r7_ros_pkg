@@ -1,0 +1,12 @@
+<launch>
+
+  <!-- This file makes it easy to include different planning pipelines;
+       It is assumed that all planning pipelines are named XXX_planning_pipeline.launch  -->
+  <arg name="settings_dir" default="" />
+  <arg name="pipeline" default="ompl" />
+
+  <include file="$(arg settings_dir)/launch/$(arg pipeline)_planning_pipeline.launch.xml">
+    <arg name="settings_dir" value="$(arg settings_dir)"/>
+  </include>
+
+</launch>

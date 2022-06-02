@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="this_pkg" default="." />
+
+    <include file="$(arg this_pkg)/moveit/launch/move_group.launch">
+        <arg name="settings_dir" value="$(arg this_pkg)/moveit"/>
+    </include>
+
+</launch>

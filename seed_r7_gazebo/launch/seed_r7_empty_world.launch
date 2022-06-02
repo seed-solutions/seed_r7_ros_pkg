@@ -32,14 +32,8 @@
   </include>
 
   <!-- Load the URDF into the ROS Parameter Server -->
-  <group if="$(eval not robot_model.endswith('arm') )"> <!-- in case of dual arm -->
   <param name="robot_description" command="$(find xacro)/xacro 
               $(find seed_r7_description)/$(arg robot_model)/noid.urdf.xacro --inorder"/>
-  </group>
-  <group if="$(eval robot_model.endswith('arm') )"> <!-- in case of single arm -->
-  <param name="robot_description" command="$(find xacro)/xacro 
-              $(find seed_r7_description)/$(arg robot_model)/arm.urdf.xacro --inorder"/>
-  </group>
 
   <!-- MoveIt! -->
   <include file="$(arg moveit_config_pkg)/launch/move_group.launch" />
@@ -54,24 +48,18 @@
               -model seed_r7 -param robot_description"/>
 
   <!-- load gazebo controller settings(pids.yaml is not used, but to avoid Error) -->
-  <rosparam file="$(find seed_r7_gazebo)/config/$(arg robot_model)/gazebo_controller.yaml"
+  <rosparam file="$(find seed_r7_gazebo)/config/gazebo_controller.yaml"
             command="load" />
 
   <!-- load the controllers -->
-  <group if="$(eval not robot_model.endswith('arm') )"> <!-- in case of dual arm -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner"
         respawn="false" output="screen" ns="/"
         args="joint_state_controller head_controller waist_controller
               lifter_controller larm_controller rarm_controller
               lhand_controller rhand_controller" />
-  </group>
-  <group if="$(eval robot_model.endswith('arm') )"> <!-- in case of single arm -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        respawn="false" output="screen" ns="/"
-        args="joint_state_controller arm_controller lifter_controller
-              hand_controller" />
-  </group>
 
   <node name="seed_r7_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+
 
 </launch>

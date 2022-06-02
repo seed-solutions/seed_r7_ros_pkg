@@ -1,0 +1,2 @@
+motion_player:
+   type: motion_player/MotionPlayer

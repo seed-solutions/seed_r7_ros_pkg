@@ -1,0 +1,12 @@
+base_global_planner: "navfn/NavfnROS"
+
+NavfnROS:
+   allow_unknown: true
+   default_tolerance: 0.0
+   use_dijkstra: true # ダイクストラ法か、A*アルゴリズムか
+   use_quadratic: true
+   use_grid_path: false
+   visualize_potential: false
+   outline_map: true
+   orientation_mode: 2
+   publish_potential: true
