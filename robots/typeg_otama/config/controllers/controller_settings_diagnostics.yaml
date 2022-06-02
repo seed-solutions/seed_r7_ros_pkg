@@ -1,0 +1,2 @@
+diagnostics_controller:
+   type: diagnostic_controller/DiagnosticController

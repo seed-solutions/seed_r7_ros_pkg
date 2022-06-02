@@ -14,14 +14,24 @@ class UpperController
     UpperController(const std::string& _port);
     ~UpperController();
 
+    void resetting();
+    std::vector<uint8_t> read_1byte(uint16_t _address, int size);
+    void write_1byte(uint16_t _address, uint8_t *_write_data, int write_size);
     void getPosition();
     void sendPosition(uint16_t _time, std::vector<int16_t>& _data);
+    CosmoCmdReqType getCosmoCmd();
+    void sendCosmoCmdResp(CosmoCmdRespType resp);
+    RobotStatusCmdReqType getRobotStatusCmd();
+    void sendRobotStatusCmdResp(RobotStatusCmdRespType resp);
+    VirtualControllerCmdReqType getVirtualControllerCmd();////上半身をvirtualcontrollerで動かすまでは不要
     void remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero);
     void remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros);
     void setCurrent(uint8_t _number, uint8_t _max, uint8_t _down);
     void runScript(uint8_t _number, uint16_t _script);
     std::string getFirmwareVersion();
     void checkRobotStatus();
+
+
 
     bool is_open_;
     std::vector<int16_t> raw_data_;

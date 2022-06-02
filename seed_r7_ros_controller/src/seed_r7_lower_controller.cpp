@@ -39,12 +39,33 @@ robot_hardware::LowerController::LowerController(const std::string& _port)
     size_t index = std::distance(wheel_aero_index_.begin(), std::find(wheel_aero_index_.begin(),wheel_aero_index_.end(),i));
     if(index != wheel_aero_index_.size()) wheel_table_.at(i) = std::make_pair(index,wheel_name_.at(index));
   }
+
+ //same as elecom controller
+   joy_.axes.resize(6);
+   fill(joy_.axes.begin(),joy_.axes.end(),0);
+   joy_.buttons.resize(13);
+   fill(joy_.buttons.begin(),joy_.buttons.end(),0);
+   enable_joy_ = false;
 }
 
 robot_hardware::LowerController::~LowerController()
 {
   if(is_open_)lower_->closePort();
 }
+
+void robot_hardware::LowerController::write_1byte(uint16_t _address, uint8_t *_write_data, int write_size) {
+    lower_->write_1byte(_address, _write_data, write_size);
+}
+
+
+std::vector<uint8_t>  robot_hardware::LowerController::read_1byte(uint16_t _address,int size){
+    return lower_->read_1byte(_address,size);
+}
+
+void robot_hardware::LowerController::resetting(){
+    lower_->resetting();
+}
+
 
 void robot_hardware::LowerController::getPosition()
 {
@@ -55,10 +76,79 @@ void robot_hardware::LowerController::getPosition()
 
 void robot_hardware::LowerController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
 {
-  if(is_open_) raw_data_ = lower_->actuateByPosition(_time, _data.data());
-  else raw_data_.assign(_data.begin(), _data.end());
+	if(is_open_){
+		raw_data_ = lower_->actuateByPosition(_time, _data.data());
+	}
+	else raw_data_.assign(_data.begin(), _data.end());
 
   checkRobotStatus();
+}
+
+void robot_hardware::LowerController::setJoy(std::vector<uint8_t>& _data)
+{
+  uint8_t BTL = _data[4];
+  uint8_t BTR = _data[5];
+  uint8_t L_LR = _data[6];
+  uint8_t L_UD = _data[7];
+  uint8_t R_LR = _data[8];
+  uint8_t R_UD = _data[9];
+
+  ROS_INFO("joy: %d,%d,%d,%d,%d,%d", BTL,BTR,L_LR,L_UD,R_LR,R_UD);
+
+  joy_.buttons[0] = (BTR >> 7) & 1; //□ = X
+  joy_.buttons[1] = (BTR >> 4) & 1; //△ = Y
+  joy_.buttons[2] = (BTR >> 6) & 1; //× = A
+  joy_.buttons[3] = (BTR >> 5) & 1; //○ = B
+
+  joy_.buttons[4] = (BTR >> 2) & 1; //L1 = LB
+  joy_.buttons[5] = (BTR >> 3) & 1; //R1 = RB
+  joy_.buttons[6] = (BTR >> 0) & 1; //L2 = LT
+  joy_.buttons[7] = (BTR >> 1) & 1; //R2 = RT
+
+  joy_.buttons[8] = (BTL >> 0) & 1; //Analog L push
+  joy_.buttons[9] = (BTL >> 2) & 1; //Analog R push
+  joy_.buttons[10] = (BTL >> 1) & 1; //select
+  joy_.buttons[11] = (BTL >> 3) & 1; //start
+
+  joy_.axes[0] = static_cast<float>(L_LR - 127)/127;  //left joystick
+  joy_.axes[1] = static_cast<float>(127 - L_UD)/127;  //left joystick
+  joy_.axes[2] = static_cast<float>(127 - R_UD)/127;  //right joystick
+  joy_.axes[3] = static_cast<float>(R_LR - 127)/127;  //right joystick
+
+  if((BTL >> 7) & 1) joy_.axes[4] = 1;          //←
+  else if((BTL >> 5) & 1 ) joy_.axes[4] = -1;   //→
+  else joy_.axes[4] = 0;
+
+  if((BTL >> 4) & 1) joy_.axes[5] = 1;          //←
+  else if((BTL >> 6) & 1 ) joy_.axes[5] = -1;   //→
+  else joy_.axes[5] = 0;
+
+  joy_.header.stamp = ros::Time::now();
+  joy_.header.frame_id = "/cosmo/joy";
+}
+
+CosmoCmdReqType robot_hardware::LowerController::getCosmoCmd(){
+    return lower_->getCosmoCmd();
+}
+
+void robot_hardware::LowerController::sendCosmoCmdResp(CosmoCmdRespType resp)
+{
+  if(is_open_) lower_->sendCosmoCmdResp(resp);
+}
+
+RobotStatusCmdReqType robot_hardware::LowerController::getRobotStatusCmd()
+{
+  return lower_->getRobotStatusCmd();
+}
+
+void robot_hardware::LowerController::sendRobotStatusCmdResp(RobotStatusCmdRespType resp)
+{
+  if(is_open_) lower_->sendRobotStatusCmdResp(resp);
+}
+
+VirtualControllerCmdReqType robot_hardware::LowerController::getVirtualControllerCmd()
+{
+    return lower_->getVirtualControllerCmd();
 }
 
 void robot_hardware::LowerController::remapAeroToRos

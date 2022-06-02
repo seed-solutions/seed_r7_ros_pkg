@@ -1,0 +1,9 @@
+joint_state_controller:
+   type: joint_state_controller/JointStateController
+   publish_rate: 50
+   
+   joints_not_publish:
+   - wheel_front_left
+   - wheel_front_right
+   - wheel_rear_left
+   - wheel_rear_right

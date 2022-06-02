@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!-- XML namespaces -->
+<robot name="noid-upper" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find seed_r7_description)/urdf/typeG_otama_upperbody/noid_upper_typeg_otama.urdf.xacro" />
+  <xacro:include filename="$(find seed_r7_description)/urdf/trx_s/trx_s_otama.urdf.xacro" />
+
+
+  <xacro:macro name="noid-upper" params="disable_mesh:=false">
+
+  <xacro:noid_upper base_link="waist_link" r_hand_link="r_hand_link" l_hand_link="l_hand_link" disable_mesh="${disable_mesh}"/>
+
+  <xacro:trx_s prefix="r" reflect="1" disable_mesh="${disable_mesh}"/>
+  <xacro:trx_s prefix="l" reflect="-1" disable_mesh="${disable_mesh}"/>
+
+  <joint name="upper_lower_connector" type="fixed">
+    <parent link="lifter_top_link"/>
+    <child link="waist_link"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0 "/> 
+  </joint>
+
+  </xacro:macro>
+
+</robot>

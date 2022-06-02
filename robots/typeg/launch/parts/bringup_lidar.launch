@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="simulation" default="false" />
+    <arg name="config_path" default="." />
+    <arg name="scan_topic" default="scan" />
+    <arg name="sensor_frame" default="wheels_base_laser_link" />
+    <arg name="scan_base_frame" default="odom" />
+
+    
+    <group if="$(arg simulation)">
+        <arg name="map_topic" default="map" />
+        <arg name="publish_rate" default="20" />
+        <node name="dummy_scan" pkg="robots_common" type="dummy_scan2.py" output="screen">
+            <param name="map_topic" value="$(arg map_topic)" />
+            <param name="sensor_frame" value ="$(arg sensor_frame)"/>
+            <param name="scan_base_frame" value ="$(arg scan_base_frame)"/>
+            <param name="publish_rate" value ="$(arg publish_rate)"/>
+            <remap from="scan" to="scan_raw" />
+        </node>
+    </group>
+    <group unless="$(arg simulation)">
+        <arg name="ip_address" default="192.168.0.10" />
+        <node name="urg_node" pkg="urg_node" type="urg_node">
+            <param name="~ip_address" value="$(arg ip_address)" />
+            <param name="~frame_id" value="$(arg sensor_frame)" />
+
+            <!-- +-135[deg] -->
+            <param name="~angle_min" value="-2.01" />
+            <param name="~angle_max" value="2.01" />
+            <remap from="scan" to="scan_raw" />
+        </node>
+    </group>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+        <rosparam command="load" file="$(arg config_path)/laser_filter.yaml" />
+        <remap from="scan" to="scan_raw" />
+        <remap from="scan_filtered" to="$(arg scan_topic)" />
+    </node>
+
+</launch>

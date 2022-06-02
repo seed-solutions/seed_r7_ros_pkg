@@ -4,7 +4,7 @@
     if no argument is passed, moveit_simple_controller_manager will be set -->
   <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
   <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
-
+  
   <arg name="execution_type" default="interpolate" />
   <param name="execution_type" value="$(arg execution_type)" />
 

@@ -1,0 +1,38 @@
+robot_base_frame: base_link
+
+footprint: [[-0.35, -0.25], [-0.35, 0.25], [0.35, 0.25], [0.35, -0.25]]
+footprint_padding: 0.001
+
+transform_tolerance: 1.0 # global frameからrobot_base_frameへのtfの変換の許容遅れ時間[s] これ以上遅れるとロボットを止める
+update_frequency: 4.0    # コストマップを更新する周波数[Hz]
+publish_frequency: 3.0   # コストマップをpublishする周波数[Hz]
+resolution: 0.05         # 解像度[m/cell]
+
+# マップ各レイヤーの設定
+
+static:
+   map_topic: /map
+   track_unknown_space: true   # 未知領域を未知領域として扱うか、フリー領域として扱うか
+   unknown_cost_value: -1      # マップデータの、未知領域のコスト値
+   lethal_cost_threshold: 100  # マップデータの、壁として扱うコスト値
+   subscribe_to_updates: false # マップの一部だけの更新データがパブリッシュされた場合、使うかどうか
+   first_map_only: false       # 最初の一回しかマップを読み込まないか
+   trinary_costmap: true       # マップデータを、未知、フリー、壁の、3値にするか
+   
+   
+obstacles:
+   observation_sources: laser
+   laser:
+      topic: scan
+      data_type: LaserScan
+      inf_is_valid: false          # infを、レーザーの最大値として残すか
+      observation_persistence: 0.0 # どれくらい前のデータまでを有効データとするか(0.0だと、最新のデータのみ有効)
+      expected_update_rate: 0.1    # センサ値の入力期待周期 センサの故障検出用[s]
+      marking: true       # 障害物の登録のためにデータを使うか
+      obstacle_range: 2.5 # 障害物の登録可能な最大距離
+      clearing: true      # 障害物の削除のためにデータを使うか
+      raytrace_range: 3.0 # 障害物の削除可能な最大距離
+  
+inflation:
+   inflation_radius: 0.55  # コスト値を計算する壁からの距離(計算量削減のために利用)
+   cost_scaling_factor: 10 # 値が大きいほど、壁から離れるとすぐにコストが下がっていく

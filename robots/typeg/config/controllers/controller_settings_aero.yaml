@@ -1,0 +1,2 @@
+aero_controller:
+   type: aero_controller/AeroController

@@ -2,6 +2,7 @@
 #define _LOWER_CONTROLLER_H_
 
 #include <ros/ros.h>
+#include <sensor_msgs/Joy.h>
 #include "seed_smartactuator_sdk/aero3_command.h"
 
 
@@ -14,8 +15,16 @@ class LowerController
     LowerController(const std::string& _port);
     ~LowerController();
 
+    void resetting();
+    std::vector<uint8_t> read_1byte(uint16_t _address,int size);
+    void write_1byte(uint16_t _address, uint8_t *_write_data, int write_size);
     void getPosition();
     void sendPosition(uint16_t _time, std::vector<int16_t>& _data);
+    CosmoCmdReqType getCosmoCmd();
+    void sendCosmoCmdResp(CosmoCmdRespType resp);
+    RobotStatusCmdReqType getRobotStatusCmd();
+    void sendRobotStatusCmdResp(RobotStatusCmdRespType resp);
+    VirtualControllerCmdReqType getVirtualControllerCmd();
     void remapAeroToRos(std::vector<int16_t>& _ros, std::vector<int16_t>& _aero);
     void remapRosToAero(std::vector<int16_t>& _aero, std::vector<int16_t>& _ros);
     void runScript(uint8_t _number, uint16_t _script);
@@ -25,6 +34,7 @@ class LowerController
     std::string getFirmwareVersion();
     void getRobotStatus(int8_t _number);
     void checkRobotStatus();
+    void setJoy(std::vector<uint8_t>& _data);
 
     bool is_open_;
     std::vector<int16_t> raw_data_;
@@ -38,7 +48,10 @@ class LowerController
     std::vector<int> wheel_aero_index_;
     std::vector<std::pair<int,std::string>> wheel_table_;
 
+    sensor_msgs::Joy joy_;
+
     bool comm_err_;
+    bool enable_joy_;
     struct RobotStatus {
       bool connection_err_;
       bool calib_err_;

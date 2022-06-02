@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ms_stub</name>
+  <version>0.0.0</version>
+  <description>The ms stub package</description>
+
+  <maintainer email="seed@dummy.com">seed</maintainer>
+
+  <license>T.B.D.</license>
+
+  <author>THK</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+    
+  <export/>
+</package>

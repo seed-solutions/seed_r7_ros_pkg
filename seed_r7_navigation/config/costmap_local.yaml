@@ -4,5 +4,6 @@ width: 6.0
 height: 6.0
 
 plugins:
+  - {name: static,                  type: "costmap_2d::StaticLayer"}
   - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
   - {name: inflation,                 type: "costmap_2d::InflationLayer"}

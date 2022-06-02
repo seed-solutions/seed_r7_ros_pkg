@@ -1,0 +1,61 @@
+base_local_planner: teb_local_planner/TebLocalPlannerROS
+TebLocalPlannerROS:
+   odom_topic: odom
+   map_frame: /map
+   
+# Trajectory
+   teb_autosize: True
+   dt_ref: 0.3
+   dt_hysteresis: 0.1
+   min_samples: 3 #軌道点列の削除時の最小構成数(スタートとゴールがいるので、2以上にすること)
+   max_samples: 50
+   global_plan_overwrite_orientation: False
+   max_global_plan_lookahead_dist: 3.0
+   feasibility_check_no_poses: 5
+   allow_init_with_backwards_motion: True
+
+# Robot
+   max_vel_x: 0.8
+   max_vel_y: 0.5
+   max_vel_x_backwards: 0.2
+   max_vel_theta: 1.7
+   acc_lim_x: 0.6
+   acc_lim_y: 0.3
+   acc_lim_theta: 1.5
+   min_turning_radius: 0.0
+   footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+      type: polygon
+      vertices: [[-0.35, -0.25], [-0.35, 0.25], [0.35, 0.25], [0.35, -0.25]]
+
+# GoalTolerance
+   xy_goal_tolerance: 0.05
+   yaw_goal_tolerance: 0.01
+   free_goal_vel: False
+
+# Obstacles
+   min_obstacle_dist: 0.3
+   include_costmap_obstacles: True
+   costmap_obstacles_behind_robot_dist: 0.5 # ロボットの背後何メートルまでのローカルコストマップを考慮するか。
+   obstacle_cost_exponent: 4
+   legacy_obstacle_association: false
+
+# Optimization
+   no_inner_iterations: 10
+   no_outer_iterations: 8
+   optimization_activate: True
+   optimization_verbose: False
+   penalty_epsilon: 0.1
+   weight_max_vel_x: 1
+   weight_max_vel_y: 1
+   weight_max_vel_theta: 1
+   weight_acc_lim_x: 1
+   weight_acc_lim_y: 1
+   weight_acc_lim_theta: 1
+   weight_kinematics_nh: 0.0 # ホロノミック制約に対する重み
+   weight_kinematics_forward_drive: 0.0
+   weight_kinematics_turning_radius: 0.0
+   weight_optimaltime: 1
+   weight_obstacle: 50
+   weight_adapt_factor: 2
+   weight_shortest_path: 1
+   weight_inflation: 0.2

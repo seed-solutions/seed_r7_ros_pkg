@@ -1,0 +1,9 @@
+<library path="lib/libmechanum_controller">
+
+  <class name="mechanum_controller/MechanumController" type="mechanum_controller::MechanumController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      steering controller for mechanum-wheel
+    </description>
+  </class>
+
+</library>

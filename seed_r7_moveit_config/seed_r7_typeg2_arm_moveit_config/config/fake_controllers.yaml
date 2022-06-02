@@ -30,4 +30,4 @@ controller_list:
       - r_thumb_joint
 initial:  # Define initial robot poses.
   - group: arm
-    pose: intial
+    pose: initial

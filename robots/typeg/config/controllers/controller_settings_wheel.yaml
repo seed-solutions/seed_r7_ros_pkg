@@ -1,0 +1,50 @@
+mechanum_controller:
+   type: mechanum_controller/MechanumController
+   
+   front_left_wheel: wheel_front_left
+   front_right_wheel: wheel_front_right
+   rear_left_wheel: wheel_rear_left
+   rear_right_wheel: wheel_rear_right
+   
+   mecha_param:
+      wheel_radius: 0.0762
+      tread: 0.389518
+      wheel_base: 0.482
+      
+   
+   odom_pub_rate: 50 # Hz
+   cmd_vel_timeout: 0.25
+   base_frame_id: base_link
+   
+   enable_tf_odom_pub: true
+
+   pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+   twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+
+   linear:
+      x:
+         has_velocity_limits: true
+         max_velocity: 0.8 # m/s
+         min_velocity: -0.8 # m/s
+         has_acceleration_limits: true
+         max_acceleration: 0.6 # m/s^2
+         min_acceleration: -0.6 # m/s^2
+         has_jerk_limits: true
+         max_jerk: 5.0 # m/s^3
+      y:
+         has_velocity_limits: true
+         max_velocity: 0.5 # m/s
+         min_velocity: -0.5 # m/s
+         has_acceleration_limits: true
+         max_acceleration: 0.3 # m/s^2
+         min_acceleration: -0.3 # m/s^2
+         has_jerk_limits: true
+         max_jerk: 5.0 # m/s^3
+   angular:
+      z:
+         has_velocity_limits: true
+         max_velocity: 1.7 # rad/s
+         has_acceleration_limits: true
+         max_acceleration: 1.5 # rad/s^2
+         has_jerk_limits: true
+         max_jerk: 2.5 # rad/s^3

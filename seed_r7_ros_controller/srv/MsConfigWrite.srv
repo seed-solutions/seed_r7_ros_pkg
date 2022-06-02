@@ -1,0 +1,6 @@
+string port     # 送信先USBポート
+uint8 msid      # 送信先MSID
+uint16 address  # 書き込みアドレス
+uint8[] data    # 書き込みデータ
+---
+string result

@@ -36,6 +36,19 @@ robot_hardware::UpperController::~UpperController()
   if(is_open_) upper_->closePort();
 }
 
+void robot_hardware::UpperController::write_1byte(uint16_t _address, uint8_t *_write_data,int write_size){
+    upper_->write_1byte(_address, _write_data,write_size);
+}
+
+std::vector<uint8_t>  robot_hardware::UpperController::read_1byte(uint16_t _address, int size){
+    return upper_->read_1byte(_address,size);
+}
+
+void robot_hardware::UpperController::resetting(){
+    upper_->resetting();
+}
+
+
 void robot_hardware::UpperController::getPosition()
 {
   if(is_open_) raw_data_ = upper_->getPosition(0);
@@ -49,6 +62,31 @@ void robot_hardware::UpperController::sendPosition(uint16_t _time, std::vector<i
   else raw_data_.assign(_data.begin(), _data.end());
 
   checkRobotStatus();
+}
+
+CosmoCmdReqType robot_hardware::UpperController::getCosmoCmd(){
+    return upper_->getCosmoCmd();
+}
+
+void robot_hardware::UpperController::sendCosmoCmdResp(CosmoCmdRespType resp)
+{
+  if(is_open_) upper_->sendCosmoCmdResp(resp);
+}
+
+RobotStatusCmdReqType robot_hardware::UpperController::getRobotStatusCmd()
+{
+  return upper_->getRobotStatusCmd();
+}
+
+void robot_hardware::UpperController::sendRobotStatusCmdResp(RobotStatusCmdRespType resp)
+{
+  if(is_open_) upper_->sendRobotStatusCmdResp(resp);
+}
+
+//上半身をvirtualcontrollerで動かすまでは不要
+VirtualControllerCmdReqType robot_hardware::UpperController::getVirtualControllerCmd()
+{
+  return upper_->getVirtualControllerCmd();
 }
 
 void robot_hardware::UpperController::remapAeroToRos

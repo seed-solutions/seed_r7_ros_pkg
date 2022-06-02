@@ -34,6 +34,11 @@ else()
   include_directories(include ${Boost_INCLUDE_DIRS})
 endif()
 
+add_message_files(
+   FILES
+   MsSystemConfig.msg
+   MsSystemConfigList.msg
+)
 
 # Generate services in the 'srv' folder
 # Below service should be removed in future
@@ -43,6 +48,13 @@ add_service_files(
    LedControl.srv
    SetInitialPose.srv
    ResetRobotStatus.srv
+   GetAeroCommand.srv
+   CosmoCommand.srv
+   CosmoSelectNumber.srv
+   MsSystemConfigWrite.srv
+   MsSystemConfigRead.srv
+   MsConfigWrite.srv
+   MsConfigRead.srv
 )
 generate_messages(
   DEPENDENCIES
@@ -96,6 +108,7 @@ add_executable(${PROJECT_NAME} src/seed_r7_ros_controller.cpp
                                src/seed_r7_upper_controller.cpp
                                src/seed_r7_lower_controller.cpp
                                src/stroke_converter_base.cpp
+                               src/configurator.cpp
                                )
 target_link_libraries(${PROJECT_NAME} seed_r7_hand_controllers
                                       ${catkin_LIBRARIES} ${Boost_LIBRARIES})

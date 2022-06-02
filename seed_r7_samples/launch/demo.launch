@@ -18,13 +18,13 @@
   <!-- demo program -->
   <group unless="$(arg test_mode)">
     <node pkg="seed_r7_samples" name="scenario_node" type="demo.py" output="screen" if="$(arg run_demo)"
-          launch-prefix="gnome-terminal --" />
+          launch-prefix="xterm -e" />
   </group>
 
   <!-- test program -->
   <group if="$(arg test_mode)">
     <node pkg="seed_r7_samples" name="test_node" type="test.py" output="screen" if="$(arg run_demo)"
-          launch-prefix="gnome-terminal --" />
+          launch-prefix="xterm -e" />
   </group>
 
   <group unless="$(arg test_mode)">

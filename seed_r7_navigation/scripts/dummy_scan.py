@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-## @author Hiroaki Yaguchi JSK
+# # @author Hiroaki Yaguchi JSK
 
 import rospy
 import tf
@@ -16,13 +16,20 @@ from nav_msgs.msg import OccupancyGrid, MapMetaData
 # [INFO] [WallTime: 1508148230.485927]   scan_time: 0.0250000003725
 # [INFO] [WallTime: 1508148230.486063]   size(ranges): 721
 # [INFO] [WallTime: 1508148230.486205]   approx. size: 721
-#range_min: 0.019999999553
-#range_max: 30.0
+# range_min: 0.019999999553
+# range_max: 30.0
 
-## @brief publiush dummy scan range
+odom_frame = "map"
+map_topic = "map"
+
+
+# # @brief publiush dummy scan range
 class DummyScan:
+
     def __init__(self):
-        self.pub = rospy.Publisher('scan', LaserScan, queue_size = 1)
+
+        global map_topic
+        self.pub = rospy.Publisher('scan', LaserScan, queue_size=1)
         self.tf_listener = tf.TransformListener()
 
         self.pi2 = math.pi * 2
@@ -41,21 +48,21 @@ class DummyScan:
         self.scan.range_min = 0.019999999553
         self.scan.range_max = 30.0
         # ranges_size = 721
-        self.ranges_size = int(1.0 +
+        self.ranges_size = int(1.0 + 
                                (self.scan.angle_max - self.scan.angle_min)
                                / self.scan.angle_increment)
 
         # subscribe map once
-        self.sub_map = rospy.Subscriber('map', OccupancyGrid,
+        self.sub_map = rospy.Subscriber(map_topic, OccupancyGrid,
                                         self.map_to_points)
 
-    ## @brief make constant range, if map and tf have not been recieved
+    # # @brief make constant range, if map and tf have not been recieved
     def make_constant_range(self):
         for i in range(self.ranges_size):
             self.scan.ranges.append(10.0)
 
-    ## @brief map to points
-    ## @param msg nav_msgs/OccupancyGrid
+    # # @brief map to points
+    # # @param msg nav_msgs/OccupancyGrid
     def map_to_points(self, msg):
         map_info = msg.info
         cr = math.cos(math.acos(map_info.origin.orientation.w) * 2.0)
@@ -73,21 +80,23 @@ class DummyScan:
                           self.laser_height]
                     self.mapgrid_list.append(pt)
         # if recievved once unregister
-        self.sub_map.unregister()
+        # self.sub_map.unregister()
 
-    ## @brief make range data from map and current pose
+    # # @brief make range data from map and current pose
     def make_map_range(self):
+
+        global odom_frame
         laser_pos = (0, 0, 0)
         laser_theta = 0
         try:
             t = rospy.Time()
             laser_pos, null = self.tf_listener.lookupTransform(
-                '/map',
+                odom_frame,
                 'wheels_base_laser_link',
                 t)
             # tf orientation is screwed up, calculate from base->laser
             base_pos, null = self.tf_listener.lookupTransform(
-                '/map',
+                odom_frame,
                 'base_link',
                 t)
             laser_theta = math.atan2(laser_pos[1] - base_pos[1], laser_pos[0] - base_pos[0])
@@ -125,8 +134,9 @@ class DummyScan:
         self.scan.header.stamp = rospy.get_rostime()
         self.pub.publish(self.scan)
 
+
 if __name__ == '__main__':
-    rospy.init_node('dummy_scan', anonymous = True)
+    rospy.init_node('dummy_scan', anonymous=True)
     dummy_scan = DummyScan()
 
     rate = rospy.Rate(40)

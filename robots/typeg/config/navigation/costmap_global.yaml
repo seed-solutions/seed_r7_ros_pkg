@@ -1,0 +1,17 @@
+global_frame: map
+
+
+footprint: none
+footprint_padding: 0.0
+robot_radius: 0.45
+
+rolling_window: false
+  
+inflation:
+   inflation_radius: 1.0  # コスト値を計算する壁からの距離(計算量削減のために利用)
+   cost_scaling_factor: 5 # 値が大きいほど、壁から離れるとすぐにコストが下がっていく
+
+plugins:
+  - {name: static,                  type: "costmap_2d::StaticLayer"}
+  - {name: obstacles,               type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation,               type: "costmap_2d::InflationLayer"}

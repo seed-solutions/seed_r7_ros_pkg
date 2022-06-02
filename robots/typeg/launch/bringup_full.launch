@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="simulation" default="false" />
+    <arg name="this_pkg" value="$(find typeg)"/>
+    <arg name="rviz_config_file" default="$(arg this_pkg)/rviz/rviz_full.rviz" />
+    <arg name="config_path" default="$(arg this_pkg)/config" />
+
+    <include file="$(arg this_pkg)/launch/bringup_minimum.launch">
+        <arg name="rviz_config_file" value="$(arg rviz_config_file)" />
+        <arg name="simulation" value="$(arg simulation)" />
+    </include>
+
+    <include file="$(arg this_pkg)/launch/parts/bringup_moveit.launch">
+        <arg name="this_pkg" value="$(arg this_pkg)" />
+    </include>
+
+    <include file="$(arg this_pkg)/launch/parts/bringup_navigation.launch">
+        <arg name="simulation" value="$(arg simulation)" />
+        <arg name="config_path" value="$(arg config_path)/navigation" />
+    </include>
+
+</launch>

@@ -48,6 +48,7 @@
 // ROS
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
+#include <geometry_msgs/Twist.h>
 #include <pluginlib/class_loader.h>
 
 // URDF
@@ -71,7 +72,7 @@ namespace robot_hardware
 class RobotHW : public hardware_interface::RobotHW
 {
 public:
-  RobotHW() : converter_loader_("seed_r7_ros_controller", "StrokeConverter") { }
+  RobotHW() : converter_loader_("seed_r7_ros_controller", "StrokeConverter"),is_stop(false),cyclic_stopped(false) { }
 
   virtual ~RobotHW() {}
 
@@ -84,6 +85,22 @@ public:
                   const std::vector<int16_t> &_vel, double _tm_sec);
   double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
 
+
+  void stopCyclic(bool is_stop){
+        this->is_stop.store(is_stop);
+        if (is_stop) {
+            //停止するまで待つ
+            while (!cyclic_stopped.load()) {
+                usleep(100);
+            }
+        }else{
+            //再開するまで待つ
+            while (cyclic_stopped.load()) {
+                usleep(100);
+            }
+        }
+  }
+
   //--specific functions--
   void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
   void turnWheel(std::vector<int16_t> &_vel);
@@ -92,6 +109,61 @@ public:
   void runLedScript(uint8_t _number, uint16_t _script);
   void setRobotStatus();
   void setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper& stat);
+
+  void write_1byte_lower(uint16_t _address, uint8_t *_write_data, int write_size);
+  void write_1byte_upper(uint16_t _address, uint8_t *_write_data, int write_size);
+  std::vector<uint8_t>  read_1byte_lower(uint16_t _address, int size);
+  std::vector<uint8_t>  read_1byte_upper(uint16_t _address, int size);
+  void resetting_lower();
+  void resetting_upper();
+
+
+  //TODO 以下、もしも上半身・下半身どちらも接続していてCosmoCMDを受け取る方を任意に切り替える必要があるなら実装変更の必要あり
+  //現状は上半身がつながっていた時点で上半身側でCosmoCMDを処理する。
+  CosmoCmdReqType getCosmoCmd(){
+      if (controller_upper_->is_open_){
+          return controller_upper_->getCosmoCmd();
+      }
+      else if(controller_lower_->is_open_){
+          return controller_lower_->getCosmoCmd();
+      }
+  }
+
+  void sendCosmoCmdResp(CosmoCmdRespType resp){
+      if (controller_upper_->is_open_){
+          controller_upper_->sendCosmoCmdResp(resp);
+      }
+      else if(controller_lower_->is_open_){
+          controller_lower_->sendCosmoCmdResp(resp);
+      }
+  }
+
+  RobotStatusCmdReqType getRobotStatusCmd(){
+      if (controller_upper_->is_open_){
+          return controller_upper_->getRobotStatusCmd();
+      }
+      else if(controller_lower_->is_open_){
+          return controller_lower_->getRobotStatusCmd();
+      }
+  }
+
+  void sendRobotStatusCmdResp(RobotStatusCmdRespType resp){
+      if (controller_upper_->is_open_){
+          controller_upper_->sendRobotStatusCmdResp(resp);
+      }
+      else if(controller_lower_->is_open_){
+          controller_lower_->sendRobotStatusCmdResp(resp);
+      }
+  }
+
+
+  VirtualControllerCmdReqType getVirtualControllerCmd(){
+      //とりあえず今はlowerだけしか操作しないものとする
+      if(controller_lower_->is_open_){
+          return controller_lower_->getVirtualControllerCmd();
+      }
+  }
+
   //----------------------
 
   bool comm_err_;
@@ -158,11 +230,17 @@ protected:
   ros::Timer bat_vol_timer_;
   ros::Publisher bat_vol_pub_;
 
+  ros::Publisher joy_pub_;
+  sensor_msgs::Joy joy_;
+
   pluginlib::ClassLoader<seed_converter::StrokeConverter> converter_loader_;
   boost::shared_ptr<seed_converter::StrokeConverter> stroke_converter_;
 
   //for robot status view
   diagnostic_updater::Updater diagnostic_updater_;
+
+  std::atomic<bool> cyclic_stopped;
+  std::atomic<bool> is_stop;
 };
 
 }

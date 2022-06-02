@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Run the map server -->
+    <arg name="simulation" default="false" />
+    <arg name="config_path" default="." />
+    <arg name="scan_topic" default="scan" />
+
+    <arg name="map_localization_file" default="$(find seed_r7_navigation)/maps/map.yaml" />
+    <arg name="map_keepout_file" default="$(arg map_localization_file)" />
+
+    <arg name="map_topic" default="map" />
+    <arg name="map_keepout_topic" default="map_keepout" />
+    
+    <arg name="costmap_common_config" default="$(arg config_path)/costmap_common.yaml" />
+    <arg name="costmap_local_config"  default="$(arg config_path)/costmap_local.yaml" />
+    <arg name="costmap_global_config"  default="$(arg config_path)/costmap_global.yaml" />
+
+    <arg name="global_planner_config"  default="$(arg config_path)/planners/global/NavfnROS.yaml" />
+    <arg name="local_planner_config"  default="$(arg config_path)/planners/local/TebLocalPlanner.yaml" />
+    <arg name="recovery_behaviors_config"  default="$(arg config_path)/planners/recovery/recovery_behaviors.yaml" />
+    <arg name="move_base_config"  default="$(arg config_path)/move_base.yaml" />
+
+
+
+
+    <node name="map_localization_server" pkg="map_server" type="map_server" args="$(arg map_localization_file)">
+        <remap from="map" to="$(arg map_topic)" />    
+    </node>
+
+    <node name="map_keepout_server" pkg="map_server" type="map_server" args="$(arg map_keepout_file)">
+        <remap from="map" to="$(arg map_keepout_topic)" />
+    </node>
+
+  <!--- Run AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl">
+     <rosparam command="load" file="$(arg config_path)/amcl.yaml" />
+     <remap from="map" to="$(arg map_topic)" />
+     <remap from="scan" to="$(arg scan_topic)" />
+  </node>
+
+  <!--- Run Move Base -->
+  <node pkg="move_base" type="move_base" name="move_base" respawn="false" output="screen">
+        <remap from="map" to="$(arg map_keepout_topic)" />
+        <rosparam command="load" file="$(arg move_base_config)" />
+
+        <rosparam command="load" file="$(arg costmap_common_config)" ns="global_costmap" />
+        <rosparam command="load" file="$(arg costmap_common_config)" ns="global_costmap" />
+        
+        <!--rosparam command="load" file="$(arg recovery_behaviors_config)" /-->
+        
+        <rosparam command="load" file="$(arg costmap_common_config)" ns="global_costmap" />
+        <rosparam command="load" file="$(arg costmap_global_config)" ns="global_costmap" />
+        <rosparam command="load" file="$(arg global_planner_config)" />
+
+        <rosparam command="load" file="$(arg costmap_common_config)" ns="local_costmap" />
+        <rosparam command="load" file="$(arg costmap_local_config)" ns="local_costmap" />
+        <rosparam command="load" file="$(arg local_planner_config)" />
+    </node>
+</launch>

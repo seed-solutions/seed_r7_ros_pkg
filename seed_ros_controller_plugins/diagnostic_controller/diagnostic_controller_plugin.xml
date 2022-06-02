@@ -1,0 +1,7 @@
+<library path="lib/libdiagnostic_controller">
+  <class name="diagnostic_controller/DiagnosticController" type="diagnostic_controller::DiagnosticController" base_class_type="controller_interface::ControllerBase">
+  <description>
+    joint state controller
+  </description>
+  </class>
+</library>

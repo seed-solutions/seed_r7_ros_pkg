@@ -1,0 +1,4 @@
+string[] joint_name
+uint8[] script_number
+---
+string result

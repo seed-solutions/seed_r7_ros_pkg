@@ -1,0 +1,7 @@
+string command # RobotName要求:robo_name_get, タスク実行:task_play, モーション実行:mtn_ply, 開始:sena_start, 一時停止:sena_pause, 停止:sena_stop, 再開:sena_restart, シーン実行指令:scen_choice, 状態取得:chk_state
+int8 no # シナリオ番号:senario_no, タスク番号:task_no, シーン番号:scene_no
+string name # シナリオ名scn_name, タスク名:task_name, シーン名:scene_name
+---
+string result
+string cause # error msg
+string reply #返信メッセージ

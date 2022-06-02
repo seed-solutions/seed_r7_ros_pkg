@@ -1,0 +1,18 @@
+controller_frequency: 20 # cmd_velを吐き出す周波数[Hz]
+planner_frequency: 0.0 # グローバルプランをやり直す周波数[Hz] 0だと、最初の一回またはローカルプランナからの要求時にのみ実行
+
+planner_patience: 5 # 無効なプランが吐かれ続ける場合、リカバリ動作を実行するまでのタイムアウト時間 [s]
+controller_patience: 10 # 無効な制御出力が吐かれ続ける場合、リカバリ動作を実行するまでのタイムアウト時間
+
+
+oscillation_timeout: 3.0 # ロボットが振動している場合、リカバリ動作を実行するまでのタイムアウト時間[s]
+oscillation_distance: 0.3 # ロボットが振動していないとみなすための、oscillation_timeoutの期間での最低移動距離[m]
+
+max_planning_retries: -1 # プランナ処理を諦めてリカバリ動作を実行するまでの試行回数
+
+recovery_behavior_enabled: true # リカバリ動作を有効にするか
+shutdown_costmaps: false # move_baseを閉じたときに、マップサーバーも落とすか
+
+# 以下は、recovery_behaviorsが設定されていない場合に読み込まれる。
+clearing_rotation_allowed: true # rotate_recoveryを有効にするか
+conservative_reset_dist: 3.0 # conservative_reset/reset_distanceと同じ
