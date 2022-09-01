@@ -1,4 +1,10 @@
 controller_frequency: 10.0
+#planner_frequency: 0.5
+
+GlobalPlanner:
+  orientation_mode: 1
+  #None=0,Forward=1,Interploalete=2,ForwardThenInterplate=3,
+  #Backward=4,Leftward=5,Rightward=6
 
 TebLocalPlannerROS:
 
@@ -9,7 +15,7 @@ TebLocalPlannerROS:
   teb_autosize: True
   dt_ref: 0.3
   dt_hysteresis: 0.1
-  global_plan_overwrite_orientation: True
+  global_plan_overwrite_orientation: False
   max_global_plan_lookahead_dist: 3.0
   feasibility_check_no_poses: 5
   allow_init_with_backwards_motion: False
@@ -25,8 +31,8 @@ TebLocalPlannerROS:
   min_turning_radius: 0.0
   footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
     type: "line"
-    line_start: [-0.1, 0.0] # for type "line"
-    line_end: [0.1, 0.0] # for type "line"
+    line_start: [-0.2, 0.0] # for type "line"
+    line_end: [0.2, 0.0] # for type "line"
 
 # GoalTolerance
   xy_goal_tolerance: 0.03
@@ -54,8 +60,8 @@ TebLocalPlannerROS:
   weight_acc_lim_x: 1
   weight_acc_lim_y: 1
   weight_acc_lim_theta: 1
-  weight_kinematics_nh: 100
-  weight_kinematics_forward_drive: 1
+  weight_kinematics_nh: 10
+  weight_kinematics_forward_drive: 1000
   weight_kinematics_turning_radius: 0.1
   weight_optimaltime: 1
   weight_obstacle: 50

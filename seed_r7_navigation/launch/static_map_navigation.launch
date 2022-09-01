@@ -15,8 +15,10 @@
   <include file="$(find seed_r7_navigation)/launch/amcl.launch" />
 
   <!--- Run Move Base -->
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
   <include file="$(find seed_r7_navigation)/launch/move_base.launch">
     <arg name="costmap_common_config" value="$(arg costmap_common_config)" />
     <arg name="costmap_local_config" value="$(arg costmap_local_config)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
   </include>
 </launch>

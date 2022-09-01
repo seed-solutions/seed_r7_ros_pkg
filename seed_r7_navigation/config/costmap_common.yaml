@@ -17,12 +17,12 @@ static:
     map_topic: /map
     subscribe_to_updates: true
 
-obstacles_laser:
+obstacles:
     observation_sources: laser front_camera rear_camera
     laser: {data_type: LaserScan, clearing: true, marking: true, topic: scan, inf_is_valid: true}
     front_camera: {data_type: LaserScan, clearing: true, marking: true, topic: front_camera_scan, inf_is_valid: true}
     rear_camera: {data_type: LaserScan, clearing: true, marking: true, topic: rear_camera_scan, inf_is_valid: true}
 
 #costmap radius
-inflation:
-    inflation_radius: 0.2
+#inflation:
+#    inflation_radius: 0.2

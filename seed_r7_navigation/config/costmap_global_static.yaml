@@ -1,7 +1,9 @@
 global_frame: map
 rolling_window: false
 track_unknown_space: true
+inflation_radius: 0.4
 
 plugins:
-  - {name: static,                  type: "costmap_2d::StaticLayer"}
-  - {name: inflation,               type: "costmap_2d::InflationLayer"}
+  - {name: static,     type: "costmap_2d::StaticLayer"}
+  - {name: obstacles,  type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation,  type: "costmap_2d::InflationLayer"}
