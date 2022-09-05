@@ -23,9 +23,11 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
 <launch>
   <arg name="map_topic" default="map_keepout"/>
   <arg name="no_static_map" default="false"/>
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
 
    <!-- global planner type -->
-  <arg name="base_global_planner" default="navfn/NavfnROS"/>
+  <!-- <arg name="base_global_planner" default="navfn/NavfnROS"/> -->
+  <arg name="base_global_planner" default="global_planner/GlobalPlanner"/>
 
   <!-- local planner option:
        EBandPlannerROS, TrajectoryPlannerROS, DWAPlannerROS -->
@@ -46,6 +48,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
   <node pkg="move_base" type="move_base" name="move_base"
         respawn="false" output="screen">
     <remap from="map" to="$(arg map_topic)"/>
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
 
     <!-- planner type -->
     <param name="base_global_planner" value="$(arg base_global_planner)"/>

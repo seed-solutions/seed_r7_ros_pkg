@@ -4,7 +4,9 @@
   <include file="$(find seed_r7_navigation)/launch/gmapping.launch" />
 
   <!--- Run Move Base -->
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
   <include file="$(find seed_r7_navigation)/launch/move_base.launch">
     <arg name="map_topic" value="map"/>
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
   </include>
 </launch>

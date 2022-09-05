@@ -11,8 +11,10 @@
   <arg name="map_keepout_file"         default="$(find seed_r7_navigation)/maps/map.yaml" />
 
   <!--- Run Move Base -->
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
   <include file="$(find seed_r7_navigation)/launch/static_map_navigation.launch">
     <arg name="map_localization_file" value="$(arg map_localization_file)"/>
     <arg name="map_keepout_file"      value="$(arg map_keepout_file)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
   </include>
 </launch>
