@@ -1,0 +1,13 @@
+controller_list:
+  - name: ha1-1_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - ha1-1_joint
+  - name: ha1-2_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - ha1-2_joint

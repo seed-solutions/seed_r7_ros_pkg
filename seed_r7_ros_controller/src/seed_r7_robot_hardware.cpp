@@ -82,7 +82,7 @@ namespace robot_hardware
 
     // create controllers
     controller_upper_.reset(new robot_hardware::UpperController(port_upper));
-    controller_lower_.reset(new robot_hardware::LowerController(port_lower));
+    //controller_lower_.reset(new robot_hardware::LowerController(port_lower));
 
     // load stroke converter
     // converter is dependent per robot strucutre, therefore uses plugin
@@ -92,12 +92,14 @@ namespace robot_hardware
       return false;
     }
 
-    number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
+    //number_of_angles_ = joint_names_upper_.size() + joint_names_lower_.size();
+    number_of_angles_ = joint_names_upper_.size();
+
 
     joint_list_.resize(number_of_angles_);
     for (int i = 0; i < number_of_angles_; ++i) {
-      if (i < joint_names_upper_.size()) joint_list_[i] = joint_names_upper_[i];
-      else joint_list_[i] = joint_names_lower_[i - joint_names_upper_.size()];
+      joint_list_[i] = joint_names_upper_[i];
+      //else joint_list_[i] = joint_names_lower_[i - joint_names_upper_.size()];
     }
 
     prev_ref_strokes_.resize(number_of_angles_);
@@ -168,41 +170,41 @@ namespace robot_hardware
     registerInterface(&pj_interface_);
 
     // Battery Voltage Publisher
-    bat_vol_pub_ = robot_hw_nh.advertise<std_msgs::Float32>("voltage", 1);
-    bat_vol_timer_ = robot_hw_nh.createTimer(ros::Duration(1), &RobotHW::getBatteryVoltage,this);
+    //bat_vol_pub_ = robot_hw_nh.advertise<std_msgs::Float32>("voltage", 1);
+    //bat_vol_timer_ = robot_hw_nh.createTimer(ros::Duration(1), &RobotHW::getBatteryVoltage,this);
 
     // Get Robot Firmware Version
     ROS_INFO("Upper Firmware Ver. is [ %s ]", controller_upper_->getFirmwareVersion().c_str() );
-    ROS_INFO("Lower Firmware Ver. is [ %s ]", controller_lower_->getFirmwareVersion().c_str() );
+    //ROS_INFO("Lower Firmware Ver. is [ %s ]", controller_lower_->getFirmwareVersion().c_str() );
 
     //Robot Status
-    reset_robot_status_server_
-      = root_nh.advertiseService("reset_robot_status", &RobotHW::resetRobotStatusCallback,this);
-    robot_status_.p_stopped_err_ = false;
+    //reset_robot_status_server_
+    //  = root_nh.advertiseService("reset_robot_status", &RobotHW::resetRobotStatusCallback,this);
+    //robot_status_.p_stopped_err_ = false;
 
     //robot status view
-    diagnostic_updater_.setHardwareID("SEED-Noid-Mover");
-    diagnostic_updater_.add("RobotStatus",this,&RobotHW::setDiagnostics);
+    //diagnostic_updater_.setHardwareID("SEED-Noid-Mover");
+    //diagnostic_updater_.add("RobotStatus",this,&RobotHW::setDiagnostics);
 
     return true;
   }
 
   void RobotHW::readPos(const ros::Time& time, const ros::Duration& period, bool update)
   {
-    mutex_lower_.lock();
+    //mutex_lower_.lock();
     mutex_upper_.lock();
     if (update) {
       std::thread t1([&](){
           controller_upper_->getPosition();
         });
-      std::thread t2([&](){
-          controller_lower_->getPosition();
-        });
+    //std::thread t2([&](){
+          //controller_lower_->getPosition();
+        //});
       t1.join();
-      t2.join();
+      //t2.join();
     }
     mutex_upper_.unlock();
-    mutex_lower_.unlock();
+    //mutex_lower_.unlock();
 
     // whole body strokes
     std::vector<int16_t> act_strokes(0);
@@ -211,10 +213,10 @@ namespace robot_hardware
 
     //remap
     controller_upper_->remapAeroToRos(act_upper_strokes, controller_upper_->raw_data_);
-    controller_lower_->remapAeroToRos(act_lower_strokes, controller_lower_->raw_data_);
+    //controller_lower_->remapAeroToRos(act_lower_strokes, controller_lower_->raw_data_);
 
     act_strokes.insert(act_strokes.end(),act_upper_strokes.begin(),act_upper_strokes.end());
-    act_strokes.insert(act_strokes.end(),act_lower_strokes.begin(),act_lower_strokes.end());
+    //act_strokes.insert(act_strokes.end(),act_lower_strokes.begin(),act_lower_strokes.end());
 
     // whole body positions from strokes
     std::vector<double> act_positions;
@@ -242,15 +244,15 @@ namespace robot_hardware
     }
 
     //check robot status flag
-    setRobotStatus();
+    //setRobotStatus();
 
     //in case of error flag is high
-    if(robot_status_.p_stopped_err_){
-      ROS_WARN("The robot is protective stopped, please release it.");
-    }
-    if(robot_status_.connection_err_ && robot_status_.calib_err_){
-      ROS_WARN("The robot is Emergency stopped, please release it.");
-    }
+    //if(robot_status_.p_stopped_err_){
+    //  ROS_WARN("The robot is protective stopped, please release it.");
+    //}
+    //if(robot_status_.connection_err_ && robot_status_.calib_err_){
+    //  ROS_WARN("The robot is Emergency stopped, please release it.");
+    //}
     return;
   }
 
@@ -319,25 +321,25 @@ namespace robot_hardware
     // remap
     if (controller_upper_->is_open_) controller_upper_->remapRosToAero(upper_strokes,snt_strokes);
     else controller_upper_->remapRosToAero(upper_strokes,ref_strokes);
-    if (controller_lower_->is_open_) controller_lower_->remapRosToAero(lower_strokes,snt_strokes);
-    else controller_lower_->remapRosToAero(lower_strokes,ref_strokes);
+    //if (controller_lower_->is_open_) controller_lower_->remapRosToAero(lower_strokes,snt_strokes);
+    //else controller_lower_->remapRosToAero(lower_strokes,ref_strokes);
 
     uint16_t time_csec = static_cast<uint16_t>((OVERLAP_SCALE_ * CONTROL_PERIOD_US_)/(1000*10));
 
-    mutex_lower_.lock();
+    //mutex_lower_.lock();
     mutex_upper_.lock();
     {
       std::thread t1([&](){
           controller_upper_->sendPosition(time_csec, upper_strokes);
         });
-      std::thread t2([&](){
-          controller_lower_->sendPosition(time_csec, lower_strokes);
-        });
+      //std::thread t2([&](){
+      //    controller_lower_->sendPosition(time_csec, lower_strokes);
+      //  });
       t1.join();
-      t2.join();
+      //t2.join();
     }
     mutex_upper_.unlock();
-    mutex_lower_.unlock();
+    //mutex_lower_.unlock();
 
     // read
     readPos(time, period, false);

@@ -1,0 +1,7 @@
+ha1_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - ha1_1_joint
+    - ha1_2_joint
+
+robot_interface_controllers: ['ha1']

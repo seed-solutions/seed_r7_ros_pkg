@@ -56,8 +56,8 @@ int main(int argc, char** argv)
   }
 
   //add extra controller
-  robot_hardware::MoverController mover_node(nh, &hw);
-  robot_hardware::HandController hand_node(robot_nh, &hw);
+  //robot_hardware::MoverController mover_node(nh, &hw);
+  //robot_hardware::HandController hand_node(robot_nh, &hw);
 
   ros::AsyncSpinner spinner(1);
   spinner.start();

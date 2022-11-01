@@ -19,7 +19,7 @@ catkin_package(
   CATKIN_DEPENDS roscpp seed_r7_ros_controller
   DEPENDS
   INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}_typef ${PROJECT_NAME}_typeg ${PROJECT_NAME}_typeg_arm ${PROJECT_NAME}_typeg2_arm
+  LIBRARIES ${PROJECT_NAME}_typef ${PROJECT_NAME}_typeg ${PROJECT_NAME}_typeg_arm ${PROJECT_NAME}_typeg2_arm ${PROJECT_NAME}_ha
 )
 
 include_directories(${catkin_INCLUDE_DIRS})
@@ -37,6 +37,9 @@ target_link_libraries(${PROJECT_NAME}_typeg_arm ${catkin_LIBRARIES})
 
 add_library(${PROJECT_NAME}_typeg2_arm typeg2_arm/src/stroke_converter.cpp)
 target_link_libraries(${PROJECT_NAME}_typeg2_arm ${catkin_LIBRARIES})
+
+add_library(${PROJECT_NAME}_ha ha/src/stroke_converter.cpp)
+target_link_libraries(${PROJECT_NAME}_ha ${catkin_LIBRARIES})
 
 # Install
 install(
@@ -60,9 +63,15 @@ install(
   PATTERN "typeg2_arm/src" EXCLUDE
 )
 
+install(
+  DIRECTORY ha
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  PATTERN "ha/src" EXCLUDE
+)
+
 # Install
 install(TARGETS ${PROJECT_NAME}_typef ${PROJECT_NAME}_typeg
-  ${PROJECT_NAME}_typeg_arm ${PROJECT_NAME}_typeg2_arm
+  ${PROJECT_NAME}_typeg_arm ${PROJECT_NAME}_typeg2_arm ${PROJECT_NAME}_ha
   RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )

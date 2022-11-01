@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="SEED-HA" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- The following included files set up definitions of parts of the robot body -->
+  <!-- wraps upperbody and hand-->
+  <xacro:include filename="$(find seed_r7_description)/urdf/HA/ha.urdf.xacro" />
+
+ <!-- Now we can start using the macros included above to define the actual robot -->
+ <xacro:ha1 base_link="base_link"/>
+
+
+</robot>

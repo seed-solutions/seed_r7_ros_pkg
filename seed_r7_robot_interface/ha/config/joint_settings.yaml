@@ -1,0 +1,12 @@
+joint_settings:
+  robot: ha
+  raw_data_size: 31
+  body_data_size: 30
+  base_data_size: 30
+
+  upper:
+    joints:
+      - ha1_1_joint
+      - ha1_2_joint
+    aero_index: [5,7] #passive = -1
+

@@ -45,9 +45,7 @@
   <!-- names of controllers depend on robot type (described at controller_settings.yaml) -->
   <group if="$(eval not robot_model.endswith('arm') )"> <!-- in case of dual arm -->
     <node name="cm_spawner" pkg="controller_manager"
-          type="spawner" args="joint_state_controller larm_controller rarm_controller
-                               head_controller waist_controller lifter_controller
-                               lhand_controller rhand_controller" />
+          type="spawner" args="joint_state_controller ha1_controller" />
   </group>
   <group if="$(eval robot_model.endswith('arm') )"> <!-- in case of single arm -->
     <node name="cm_spawner" pkg="controller_manager"

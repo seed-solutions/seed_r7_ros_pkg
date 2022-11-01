@@ -1,0 +1,20 @@
+ha1-1_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - ha1-1_joint
+  gains:
+    ha1-1_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+ha1-2_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - ha1-2_joint
+  gains:
+    ha1-2_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

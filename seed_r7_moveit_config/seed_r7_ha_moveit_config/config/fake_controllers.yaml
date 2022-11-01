@@ -1,0 +1,14 @@
+controller_list:
+  - name: fake_ha1-1_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - ha1-1_joint
+  - name: fake_ha1-2_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - ha1-2_joint
+initial:  # Define initial robot poses per group
+  - group: ha1-1
+    pose: reset_pose1
+  - group: ha1-2
+    pose: reset_pose2

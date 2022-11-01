@@ -1,0 +1,6 @@
+<library path="lib/libseed_r7_robot_interface_ha">
+  <class name="seed_r7_robot_interface/ha" type="seed_converter::HA"
+         base_class_type="StrokeConverter">
+    <description>HA stroke converter plugin.</description>
+  </class>
+</library>

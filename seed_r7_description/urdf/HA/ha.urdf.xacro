@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!-- XML namespaces -->
+<robot name="ha1" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="ha1" params="base_link disable_mesh:=false">
+  <!-- ============================   HA1  ============================ -->
+  <link name="${base_link}"/>
+
+  <link name="ha1_1_link">
+    <xacro:unless value="${disable_mesh}"> 
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_arm/shoulder_link.dae" scale="1 1 1" />
+      </geometry>
+    </visual> </xacro:unless>
+    <xacro:unless value="${disable_mesh}"> 
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_arm/shoulder_link.dae" scale="1 1 1" />
+      </geometry>
+    </collision> </xacro:unless>
+    <inertial>
+      <mass value="0.820" />
+      <origin xyz="-0.001 0 0.005" rpy="0 0 0"/>
+      <inertia ixx="-0.00348" ixy="0" ixz="0" iyy="0.00199" iyz="0" izz="0.00545"/>
+    </inertial>
+  </link>
+
+  <link name="ha1_2_link">
+   <xacro:unless value="${disable_mesh}"> 
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_arm/shoulder_link.dae" scale="1 1 1" />
+      </geometry>
+    </visual> </xacro:unless>
+    <xacro:unless value="${disable_mesh}"> 
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://seed_r7_description/meshes/typeG_arm/shoulder_link.dae" scale="1 1 1" />
+      </geometry>
+    </collision> </xacro:unless>
+    <inertial>
+      <mass value="0.820" />
+      <origin xyz="-0.001 0 0.005" rpy="0 0 0"/>
+      <inertia ixx="-0.00348" ixy="0" ixz="0" iyy="0.00199" iyz="0" izz="0.00545"/>
+    </inertial>
+  </link>
+
+  
+
+  <joint name="ha1_1_joint" type="revolute">
+    <parent link="${base_link}"/>
+    <child  link="ha1_1_link"/>
+    <origin xyz="0 0.5 0" rpy="0 0 0 "/>
+    <axis   xyz="0 0 1"/>-->
+    <!-- from -180 to 180 degrees-->
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1.2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+
+  <joint name="ha1_2_joint" type="revolute">
+    <parent link="${base_link}"/>
+    <child  link="ha1_2_link"/>
+    <origin xyz="0 1 0" rpy="0 0 0 "/>
+    <axis   xyz="0 0 1"/>-->
+    <!-- from -180 to 180 degrees-->
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1.2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+
+  
+  </xacro:macro>
+
+</robot>
