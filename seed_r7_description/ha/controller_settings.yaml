@@ -4,4 +4,5 @@ ha1_controller:
     - ha1_1_joint
     - ha1_2_joint
 
+
 robot_interface_controllers: ['ha1']

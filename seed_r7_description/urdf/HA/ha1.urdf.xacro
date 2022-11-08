@@ -51,6 +51,9 @@
     </inertial>
   </link>
 
+  <!-- eef link sample -->
+  <link name="ha_link"/>
+
   
 
   <joint name="ha1_1_joint" type="revolute">
@@ -72,6 +75,18 @@
     <limit lower="-3.14" upper="3.14" effort="100" velocity="1.2" />
     <dynamics damping="0.2" friction="0" />
   </joint>
+
+  <joint name="ha_eef_joint" type="revolute">
+    <parent link="${base_link}"/>
+    <child  link="ha_link"/>
+    <origin xyz="0 -1 0" rpy="0 0 0 "/>
+    <axis   xyz="0 0 1"/>-->
+    <!-- from -180 to 180 degrees-->
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1.2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+
+  
 
   
   </xacro:macro>

@@ -9,4 +9,8 @@ joint_settings:
       - ha1_1_joint
       - ha1_2_joint
     aero_index: [5,7] #passive = -1
+  lower:
+    joints:
+      - ha_eef_joint
+    aero_index: [12] #passive = -1
 

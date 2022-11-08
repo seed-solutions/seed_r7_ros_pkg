@@ -11,13 +11,12 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>seed_r7_description</depend>
-  <depend>seed_r7_typef_moveit_config</depend>
   <depend>seed_r7_typeg_moveit_config</depend>
+  <depend>seed_ha_moveit_config</depend>
   <depend>seed_r7_moveit_config</depend>
   <depend>seed_r7_robot_interface</depend>
   <depend>seed_r7_ros_controller</depend>
   <depend>seed_r7_bringup</depend>
-  <depend>seed_r7_navigation</depend>
   <depend>seed_r7_samples</depend>
   <depend>seed_r7_gazebo</depend>
 </package>

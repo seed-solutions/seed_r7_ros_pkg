@@ -4,7 +4,7 @@ moveit_setup_assistant_config:
     relative_path: ha/robot.urdf.xacro
     xacro_args: ""
   SRDF:
-    relative_path: config/SEED-Arm-Mover-typeG.srdf
+    relative_path: config/SEED-HA.srdf
   CONFIG:
     author_name: Hironori Kondo
     author_email: hi.kondo@thk.co.jp
