@@ -11,34 +11,33 @@ service    | Kinetic | Melodic |
 ROS Buildfarm     | [![Build Status](http://build.ros.org/job/Kbin_uX64__seed_r7_ros_pkg__ubuntu_xenial_amd64__binary/badge/icon)](http://build.ros.org/job/Kbin_uX64__seed_r7_ros_pkg__ubuntu_xenial_amd64__binary/) | [![Build Status](http://build.ros.org/job/Mbin_uB64__seed_r7_ros_pkg__ubuntu_bionic_amd64__binary/badge/icon)](http://build.ros.org/job/Mbin_uB64__seed_r7_ros_pkg__ubuntu_bionic_amd64__binary/) |
 ## How to install
 ### 0. ROS
-[Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu) or [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)  
-
-### 1. From Debian
-```
-sudo apt-get update
-sudo apt-get install ros-${ROS_DISTRO}-seed-r7-ros-pkg
-```
+[Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu) or [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)  or [Noetic](http://wiki.ros.org/noetic/Installation/Ubuntu)
 
 ### 1. From Source
 You need to clone and build some packages in your catkin workspace. 
 Below is an example.
-```
-sudo apt-get install python-wstool python-catkin-tools
-mkdir -p ~/ros/${ROS_DISTRO}
-cd ~/ros/${ROS_DISTRO}
-mkdir src
-catkin init
-catkin build
-source ~/ros/${ROS_DISTRO}/devel/setup.bash
-echo "source ~/ros/${ROS_DISTRO}/devel/setup.bash" >> ~/.bashrc
-cd ~/ros/${ROS_DISTRO}/src
-git clone https://github.com/seed-solutions/seed_smartactuator_sdk
-git clone https://github.com/seed-solutions/seed_r7_ros_pkg.git
-cd ~/ros/${ROS_DISTRO}
-rosdep install -y -r --from-paths src --ignore-src
-catkin build seed_r7_ros_pkg
-source ~/.bashrc
-```
+* install catkin-tools    
+    ROS Kinetic or Melodic : ``sudo apt-get install python-wstool python-catkin-tools``    
+    ROS Noetic : ``sudo apt install python3-osrf-pycommon python3-catkin-tools``
+
+* make workspace, clone packages, and build     
+    ```
+    mkdir -p ~/ros/${ROS_DISTRO}
+    cd ~/ros/${ROS_DISTRO}
+    mkdir src
+    catkin init
+    catkin build
+    source ~/ros/${ROS_DISTRO}/devel/setup.bash
+    echo "source ~/ros/${ROS_DISTRO}/devel/setup.bash" >> ~/.bashrc
+    cd ~/ros/${ROS_DISTRO}/src
+    git clone https://github.com/seed-solutions/seed_smartactuator_sdk
+    git clone https://github.com/seed-solutions/seed_r7_ros_pkg
+    cd ~/ros/${ROS_DISTRO}
+    rosdep install -y -r --from-paths src --ignore-src
+    catkin build seed_r7_ros_pkg
+    source ~/.bashrc
+    ```
+
 ### <a name = "udev_setting"> 2. Udev Setting (if you have a robot)   
 If you still have not registered the robot's USB for your PC, you have to do it.
 (If ``/etc/udev/rules.d/90-aero.rules`` already exists, you need not to do.)
