@@ -2,9 +2,9 @@
 seed-noid meta package
 
 ## Continuous Integration Status
-service    | Master  |
----------- | ------- |
-Travis     | [![Build Status](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg.svg?branch=master)](https://travis-ci.com/seed-solutions/seed_r7_ros_pkg/) |
+service        | Master  |
+-------------- | ------- |
+Github Actions | [![ROS Prerelease Workflow](https://github.com/seed-solutions/seed_r7_ros_pkg/actions/workflows/main.yaml/badge.svg)](https://github.com/seed-solutions/seed_r7_ros_pkg/actions/workflows/main.yaml) |
 
 service    | Kinetic | Melodic |
 ---------- | ------- | ------- |
