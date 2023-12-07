@@ -37,6 +37,13 @@ endif()
 
 # Generate services in the 'srv' folder
 # Below service should be removed in future
+add_message_files(
+  FILES
+  Pose.msg
+  RobotStatus.msg
+  DriverStatus.msg
+  RobotInfo.msg
+)
 add_service_files(
    FILES
    HandControl.srv

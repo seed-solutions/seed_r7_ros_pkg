@@ -61,41 +61,50 @@
 
 #include <mutex>
 
-//for robot status view
+// for robot status view
 #include <std_msgs/String.h>
 #include <diagnostic_updater/diagnostic_updater.h>
+#include "seed_r7_ros_controller/RobotInfo.h"
+
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+#include <tf/transform_listener.h>
 
 namespace robot_hardware
 {
 
-class RobotHW : public hardware_interface::RobotHW
-{
-public:
-  RobotHW() : converter_loader_("seed_r7_ros_controller", "StrokeConverter") { }
+  class RobotHW : public hardware_interface::RobotHW
+  {
+  public:
+    RobotHW() : converter_loader_("seed_r7_ros_controller", "StrokeConverter") {}
 
-  virtual ~RobotHW() {}
+    virtual ~RobotHW() {}
 
-  virtual bool init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh);
-  virtual void read(const ros::Time& time, const ros::Duration& period);
-  virtual void write(const ros::Time& time, const ros::Duration& period);
+    virtual bool init(ros::NodeHandle &root_nh, ros::NodeHandle &robot_hw_nh);
+    virtual void read(const ros::Time &time, const ros::Duration &period);
+    virtual void write(const ros::Time &time, const ros::Duration &period);
 
-  void readPos(const ros::Time& time, const ros::Duration& period, bool update);
-  void writeWheel(const std::vector< std::string> &_names,
-                  const std::vector<int16_t> &_vel, double _tm_sec);
-  double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
+    void readPos(const ros::Time &time, const ros::Duration &period, bool update);
+    void writeWheel(const std::vector<std::string> &_names,
+                    const std::vector<int16_t> &_vel, double _tm_sec);
+    double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
+    void cmdVelCallback(const geometry_msgs::TwistConstPtr &_cmd_vel);
+    void odomCallback(const nav_msgs::OdometryConstPtr &_odom);
 
-  //--specific functions--
-  void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
-  void turnWheel(std::vector<int16_t> &_vel);
-  void onWheelServo(bool _value);
-  void getBatteryVoltage(const ros::TimerEvent& _event);
-  void runLedScript(uint8_t _number, uint16_t _script);
-  void setRobotStatus();
-  void setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper& stat);
-  //----------------------
+    //--specific functions--
+    void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
+    void turnWheel(std::vector<int16_t> &_vel);
+    void onWheelServo(bool _value);
+    void getBatteryVoltage(const ros::TimerEvent &_event);
+    void pubRobotInfo(const ros::TimerEvent &_event);
+    void runLedScript(uint8_t _number, uint16_t _script);
+    void setRobotStatus();
+    void setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper &stat);
+    //----------------------
 
-  bool comm_err_;
-  struct RobotStatus {
+    bool comm_err_;
+    struct RobotStatus
+    {
       bool connection_err_;
       bool calib_err_;
       bool motor_err_;
@@ -106,65 +115,82 @@ public:
       bool power_err_;
     } robot_status_;
 
-private:
-  ros::ServiceServer reset_robot_status_server_;
-  bool resetRobotStatusCallback(seed_r7_ros_controller::ResetRobotStatus::Request& _req, seed_r7_ros_controller::ResetRobotStatus::Response& _res);
+  private:
+    ros::ServiceServer reset_robot_status_server_;
+    bool resetRobotStatusCallback(seed_r7_ros_controller::ResetRobotStatus::Request &_req, seed_r7_ros_controller::ResetRobotStatus::Response &_res);
 
-protected:
-  // Methods used to control a joint.
-  enum ControlMethod {EFFORT, POSITION, POSITION_PID, VELOCITY, VELOCITY_PID};
-  enum JointType {NONE, PRISMATIC, ROTATIONAL, CONTINUOUS, FIXED};
+  protected:
+    // Methods used to control a joint.
+    enum ControlMethod
+    {
+      EFFORT,
+      POSITION,
+      POSITION_PID,
+      VELOCITY,
+      VELOCITY_PID
+    };
+    enum JointType
+    {
+      NONE,
+      PRISMATIC,
+      ROTATIONAL,
+      CONTINUOUS,
+      FIXED
+    };
 
-  unsigned int number_of_angles_;
+    unsigned int number_of_angles_;
 
-  hardware_interface::JointStateInterface    js_interface_;
-  hardware_interface::PositionJointInterface pj_interface_;
+    hardware_interface::JointStateInterface js_interface_;
+    hardware_interface::PositionJointInterface pj_interface_;
 
-  joint_limits_interface::PositionJointSaturationInterface pj_sat_interface_;
+    joint_limits_interface::PositionJointSaturationInterface pj_sat_interface_;
 
-  std::vector<std::string> joint_list_;
-  std::vector<double> joint_effort_limits_;
-  std::vector<JointType>     joint_types_;
-  std::vector<ControlMethod> joint_control_methods_;
-  std::vector<double> joint_position_;
-  std::vector<double> joint_velocity_;
-  std::vector<double> joint_effort_;
-  std::vector<double> joint_position_command_;
-  std::vector<double> joint_velocity_command_;
-  std::vector<double> joint_effort_command_;
+    std::vector<std::string> joint_list_;
+    std::vector<double> joint_effort_limits_;
+    std::vector<JointType> joint_types_;
+    std::vector<ControlMethod> joint_control_methods_;
+    std::vector<double> joint_position_;
+    std::vector<double> joint_velocity_;
+    std::vector<double> joint_effort_;
+    std::vector<double> joint_position_command_;
+    std::vector<double> joint_velocity_command_;
+    std::vector<double> joint_effort_command_;
 
+    std::vector<double> prev_ref_strokes_;
+    std::vector<int16_t> upper_act_strokes_;
+    std::vector<int16_t> lower_act_strokes_;
 
-  std::vector<double> prev_ref_strokes_;
-  std::vector<int16_t> upper_act_strokes_;
-  std::vector<int16_t> lower_act_strokes_;
+    boost::shared_ptr<robot_hardware::UpperController> controller_upper_;
+    boost::shared_ptr<robot_hardware::LowerController> controller_lower_;
 
-  boost::shared_ptr<robot_hardware::UpperController> controller_upper_;
-  boost::shared_ptr<robot_hardware::LowerController> controller_lower_;
+    bool initialized_flag_;
+    bool upper_send_enable_;
 
-  bool initialized_flag_;
-  bool upper_send_enable_;
+    int CONTROL_PERIOD_US_;
+    float OVERLAP_SCALE_;
+    int BASE_COMMAND_PERIOD_MS_;
 
-  int   CONTROL_PERIOD_US_;
-  float OVERLAP_SCALE_;
-  int   BASE_COMMAND_PERIOD_MS_;
+    std::mutex mutex_lower_;
+    std::mutex mutex_upper_;
 
-  std::mutex mutex_lower_;
-  std::mutex mutex_upper_;
+    std::vector<std::string> joint_names_upper_;
+    std::vector<std::string> joint_names_lower_;
+    std::string robot_model_plugin_;
 
-  std::vector<std::string> joint_names_upper_;
-  std::vector<std::string> joint_names_lower_;
-  std::string robot_model_plugin_;
+    ros::Timer bat_vol_timer_;
+    ros::Publisher bat_vol_pub_;
 
-  ros::Timer bat_vol_timer_;
-  ros::Publisher bat_vol_pub_;
+    pluginlib::ClassLoader<seed_converter::StrokeConverter> converter_loader_;
+    boost::shared_ptr<seed_converter::StrokeConverter> stroke_converter_;
 
-  pluginlib::ClassLoader<seed_converter::StrokeConverter> converter_loader_;
-  boost::shared_ptr<seed_converter::StrokeConverter> stroke_converter_;
+    // for robot status view
+    diagnostic_updater::Updater diagnostic_updater_;
 
-  //for robot status view
-  diagnostic_updater::Updater diagnostic_updater_;
-};
-
+    ros::Timer robot_info_timer_;
+    ros::Publisher robot_info_pub_;
+    seed_r7_ros_controller::RobotInfo robot_info_;
+    ros::Subscriber cmd_vel_sub_, odom_sub_;
+  };
 }
 
 #endif
