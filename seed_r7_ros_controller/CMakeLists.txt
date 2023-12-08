@@ -50,6 +50,7 @@ add_service_files(
    LedControl.srv
    SetInitialPose.srv
    ResetRobotStatus.srv
+   ResetOdom.srv
 )
 generate_messages(
   DEPENDENCIES

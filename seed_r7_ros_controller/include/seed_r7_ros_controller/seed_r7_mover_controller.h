@@ -21,6 +21,7 @@
 
 #include "seed_r7_ros_controller/LedControl.h"
 #include "seed_r7_ros_controller/SetInitialPose.h"
+#include "seed_r7_ros_controller/ResetOdom.h"
 
 #define MAX_ACC_X 1.0
 #define MAX_ACC_Y 1.0
@@ -51,6 +52,7 @@ class MoverController
   bool setInitialPoseCallback(seed_r7_ros_controller::SetInitialPose::Request& _req, seed_r7_ros_controller::SetInitialPose::Response& _res); 
   bool ledControlCallback(seed_r7_ros_controller::LedControl::Request& _req, seed_r7_ros_controller::LedControl::Response& _res);
   void moveBaseStatusCallBack(const actionlib_msgs::GoalStatusArray::ConstPtr &status);
+  bool resetOdomCallback(seed_r7_ros_controller::ResetOdom::Request &_req, seed_r7_ros_controller::ResetOdom::Response &_res);
 
   ros::NodeHandle nh_;
   ros::Publisher odom_pub_,initialpose_pub_;
@@ -61,6 +63,7 @@ class MoverController
 
   ros::ServiceServer led_control_server_;
   ros::ServiceServer set_initialpose_server_;
+  ros::ServiceServer reset_odom_server_;
 
 /*
   ros::SubscribeOptions base_ops_;
