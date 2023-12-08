@@ -211,6 +211,8 @@ namespace robot_hardware
     //--------
 
     // robot status view
+    pre_diag_level_ = 0;
+    pre_diag_msg_ = "";
     diagnostic_updater_.setHardwareID("SEED-Noid-Mover");
     diagnostic_updater_.add("RobotStatus", this, &RobotHW::setDiagnostics);
 
@@ -439,8 +441,14 @@ namespace robot_hardware
   void RobotHW::pubRobotInfo(const ros::TimerEvent &_event)
   {
     // motor current
+    std::vector<uint16_t> current;
+    current.resize(31);
+
     mutex_lower_.lock();
-    std::vector<uint16_t> current = controller_lower_->getMotorCurrent(0);
+    if (!robot_status_.connection_err_ && !robot_status_.calib_err_)
+      current = controller_lower_->getMotorCurrent(0);
+    else
+      fill(current.begin(), current.end(), 0);
     mutex_lower_.unlock();
     robot_info_.driver[0].current = current.at(2);
     robot_info_.driver[1].current = current.at(3);
@@ -580,29 +588,36 @@ namespace robot_hardware
     // }
     else
     {
-      std::vector<uint16_t> data = controller_lower_->getRobotStatus(0);
-
-      for (int i = 0; i < 4; ++i)
+      if (stat.level != pre_diag_level_ || stat.message != pre_diag_msg_)
       {
-        robot_info_.driver[i].flag = data.at(i + 2);
-        if (data.at(i + 2) >> 0 & 1)
-          robot_info_.driver[i].status = "connection error"; // 0b1 = 0d1
-        else if (data.at(i + 2) >> 1 & 1)
-          robot_info_.driver[i].status = "calibration error"; // 0b10 = 0d2
-        else if (data.at(i + 2) >> 3 & 1)
-          robot_info_.driver[i].status = "temperature error"; // 0b1000 = 0d8
-        else if (data.at(i + 2) >> 6 & 1)
-          robot_info_.driver[i].status = "protective stopped"; // 0b100000 = 0d64
-        else if (data.at(i + 2) >> 7 & 1)
-          robot_info_.driver[i].status = "power error"; // 0b100000 = 0d128
-        else if (data.at(i + 2) >> 2 & 1)
-          robot_info_.driver[i].status = "servo off"; // 0b100 = 0d4
-        else if (data.at(i + 2) >> 4 & 1)
-          robot_info_.driver[i].status = "response error"; // 0b10000 = 0d16
-        else if (data.at(i + 2) >> 5 & 1)
-          robot_info_.driver[i].status = "step out error"; // 0b100000 = 0d32
+        mutex_lower_.lock();
+        std::vector<uint16_t> data = controller_lower_->getRobotStatus(0);
+        mutex_lower_.unlock();
+        for (int i = 0; i < 4; ++i)
+        {
+          robot_info_.driver[i].flag = data.at(i + 2);
+          if (data.at(i + 2) >> 0 & 1)
+            robot_info_.driver[i].status = "connection error"; // 0b1 = 0d1
+          else if (data.at(i + 2) >> 1 & 1)
+            robot_info_.driver[i].status = "calibration error"; // 0b10 = 0d2
+          else if (data.at(i + 2) >> 3 & 1)
+            robot_info_.driver[i].status = "temperature error"; // 0b1000 = 0d8
+          else if (data.at(i + 2) >> 6 & 1)
+            robot_info_.driver[i].status = "protective stopped"; // 0b100000 = 0d64
+          else if (data.at(i + 2) >> 7 & 1)
+            robot_info_.driver[i].status = "power error"; // 0b100000 = 0d128
+          else if (data.at(i + 2) >> 2 & 1)
+            robot_info_.driver[i].status = "servo off"; // 0b100 = 0d4
+          else if (data.at(i + 2) >> 4 & 1)
+            robot_info_.driver[i].status = "response error"; // 0b10000 = 0d16
+          else if (data.at(i + 2) >> 5 & 1)
+            robot_info_.driver[i].status = "step out error"; // 0b100000 = 0d32
+        }
       }
     }
+
+    pre_diag_level_ = stat.level;
+    pre_diag_msg_ = stat.message;
   }
 
   bool RobotHW::resetRobotStatusCallback(seed_r7_ros_controller::ResetRobotStatus::Request &_req,
