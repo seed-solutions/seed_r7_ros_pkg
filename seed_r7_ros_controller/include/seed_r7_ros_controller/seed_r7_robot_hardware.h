@@ -190,6 +190,8 @@ namespace robot_hardware
     ros::Publisher robot_info_pub_;
     seed_r7_ros_controller::RobotInfo robot_info_;
     ros::Subscriber cmd_vel_sub_, odom_sub_;
+    int8_t pre_diag_level_;
+    std::string pre_diag_msg_;
   };
 }
 
