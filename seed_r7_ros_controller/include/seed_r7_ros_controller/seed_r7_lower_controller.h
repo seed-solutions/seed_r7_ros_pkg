@@ -28,6 +28,7 @@ class LowerController
 
     bool is_open_;
     std::vector<int16_t> raw_data_;
+    std::vector<double> wheel_angles_;
 
     std::vector<std::string> upper_name_;
     std::vector<std::string> name_;

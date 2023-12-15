@@ -106,6 +106,11 @@ public:
       bool power_err_;
     } robot_status_;
 
+  std::vector<double> wheel_angles_;
+  std::vector<double> wheel_velocities_;
+  float wheel_vel_limit_;
+  bool upper_connected_, lower_connected_;
+
 private:
   ros::ServiceServer reset_robot_status_server_;
   bool resetRobotStatusCallback(seed_r7_ros_controller::ResetRobotStatus::Request& _req, seed_r7_ros_controller::ResetRobotStatus::Response& _res);
