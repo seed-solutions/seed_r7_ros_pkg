@@ -27,6 +27,9 @@ robot_hardware::LowerController::LowerController(const std::string& _port)
   raw_data_.resize(raw_data_size);
   fill(raw_data_.begin(),raw_data_.end(),0);
 
+  wheel_angles_.resize(4);
+  fill(wheel_angles_.begin(), wheel_angles_.end(), 0);
+
   //make table for remap aero <-> ros
   aero_table_.resize(body_data_size);
   for(size_t i = 0; i < aero_table_.size() ; ++i){
@@ -35,7 +38,7 @@ robot_hardware::LowerController::LowerController(const std::string& _port)
   }
 
   wheel_table_.resize(base_data_size);
- for(size_t i = 0; i < wheel_table_.size() ; ++i){
+  for(size_t i = 0; i < wheel_table_.size() ; ++i){
     size_t index = std::distance(wheel_aero_index_.begin(), std::find(wheel_aero_index_.begin(),wheel_aero_index_.end(),i));
     if(index != wheel_aero_index_.size()) wheel_table_.at(i) = std::make_pair(index,wheel_name_.at(index));
   }
@@ -48,15 +51,30 @@ robot_hardware::LowerController::~LowerController()
 
 void robot_hardware::LowerController::getPosition()
 {
-  if(is_open_) raw_data_ = lower_->getPosition(0);
+  if (is_open_)
+  {
+    raw_data_ = lower_->getPosition(0);
+    for (size_t i = 0; i < wheel_angles_.size(); ++i)
+    {
+      wheel_angles_.at(wheel_aero_index_.at(i) - 2) = raw_data_.at(wheel_aero_index_.at(i)) * (M_PI/ 180.0);
+    }
+  }
 
   checkRobotStatus();
 }
 
 void robot_hardware::LowerController::sendPosition(uint16_t _time, std::vector<int16_t>& _data)
 {
-  if(is_open_) raw_data_ = lower_->actuateByPosition(_time, _data.data());
-  else raw_data_.assign(_data.begin(), _data.end());
+  if (is_open_)
+  {
+    raw_data_ = lower_->actuateByPosition(_time, _data.data());
+    for (size_t i = 0; i < wheel_angles_.size(); ++i)
+    {
+      wheel_angles_.at(wheel_aero_index_.at(i) - 2) = raw_data_.at(wheel_aero_index_.at(i)) * (M_PI/ 180.0);
+    }
+  }
+  else
+    raw_data_.assign(_data.begin(), _data.end());
 
   checkRobotStatus();
 }

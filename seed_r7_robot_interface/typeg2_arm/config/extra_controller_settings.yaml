@@ -7,3 +7,6 @@ seed_r7_mover_controller:
   wheel_radius: 0.0762
   tread: 0.389518
   wheelbase: 0.482
+
+  encoder_odom: false
+  wheel_vel_limit: 9.0

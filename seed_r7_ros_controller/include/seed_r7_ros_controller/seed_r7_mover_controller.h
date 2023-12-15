@@ -51,6 +51,8 @@ class MoverController
   bool setInitialPoseCallback(seed_r7_ros_controller::SetInitialPose::Request& _req, seed_r7_ros_controller::SetInitialPose::Response& _res); 
   bool ledControlCallback(seed_r7_ros_controller::LedControl::Request& _req, seed_r7_ros_controller::LedControl::Response& _res);
   void moveBaseStatusCallBack(const actionlib_msgs::GoalStatusArray::ConstPtr &status);
+  void calculateEncoderOdometry();
+  void calculateCmdVelOdometry();
 
   ros::NodeHandle nh_;
   ros::Publisher odom_pub_,initialpose_pub_;
@@ -69,10 +71,11 @@ class MoverController
 */
 
   double vx_, vy_, vth_, x_, y_, th_;
+  double en_x_, en_y_, en_th_;
   double ros_rate_, odom_rate_, safety_rate_, safety_duration_;
-  float k1_,k2_;
+  float k1_,k2_,k3_,k4_;
   int num_of_wheels_;
-  bool servo_on_;
+  bool servo_on_, encoder_odom_;
   std::vector<std::string> wheel_names_;
   std::vector<int> aero_index_;
 

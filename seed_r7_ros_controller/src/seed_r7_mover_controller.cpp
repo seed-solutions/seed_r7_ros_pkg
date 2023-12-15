@@ -4,9 +4,14 @@
 robot_hardware::MoverController::MoverController
 (const ros::NodeHandle& _nh, robot_hardware::RobotHW *_in_hw) :
   nh_(_nh),hw_(_in_hw),
-  vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0)//, base_spinner_(1, &base_queue_)
+  vx_(0), vy_(0), vth_(0), x_(0), y_(0), th_(0), en_x_(0), en_y_(0), en_th_(0)//, base_spinner_(1, &base_queue_)
 {
   move_base_action_ = new actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>("/move_base", true);
+
+  if (nh_.hasParam("/seed_r7_mover_controller/encoder_odom"))
+    nh_.getParam("/seed_r7_mover_controller/encoder_odom", encoder_odom_);
+  else
+    encoder_odom_ = false;
 
   //--- calcurate the coefficient(k1_,k2_) for wheel FK--
   float wheel_radius,tread,wheelbase;
@@ -16,6 +21,9 @@ robot_hardware::MoverController::MoverController
 
   k1_ =  - sqrt(2) * ( sqrt( pow(tread,2)+pow(wheelbase,2) )/2 ) * sin( M_PI/4 + atan2(tread/2,wheelbase/2) ) / wheel_radius;
   k2_ = 1 / wheel_radius;
+  k3_ = wheel_radius/4;
+  k4_ = (tread/2) * sqrt(1 + pow(wheelbase/2,2) / pow(tread/2,2) ) * wheel_radius / 
+        (4*((tread/2)+(wheelbase/2))*( sqrt( pow(tread,2)+pow(wheelbase,2) )/2 ));
   //---------
 
   nh_.getParam("/seed_r7_mover_controller/ros_rate", ros_rate_);
@@ -148,14 +156,88 @@ void robot_hardware::MoverController::safetyCheckCallback(const ros::TimerEvent&
   }
 }
 
-//////////////////////////////////////////////////
-/// @brief odometry publisher
-void robot_hardware::MoverController::calculateOdometry(const ros::TimerEvent& _event)
+void robot_hardware::MoverController::calculateEncoderOdometry()
 {
-  current_time_ = ros::Time::now();
 
   double dt, delta_x, delta_y, delta_th;
+  double en_vx,en_vy,en_vth;
+  double v1,v2,v3,v4;
+  double theta = 0;
+  double cos_th = cos(theta);
+  double sin_th = sin(theta);
+
   dt = (current_time_ - last_time_).toSec();
+
+  if(std::isfinite(hw_->wheel_velocities_.at(0)) && std::isfinite(hw_->wheel_velocities_.at(1)) &&
+      std::isfinite(hw_->wheel_velocities_.at(2)) && std::isfinite(hw_->wheel_velocities_.at(3)))
+  {
+    v1 = hw_->wheel_velocities_.at(0);  // front right
+    v2 = hw_->wheel_velocities_.at(2);  // front left
+    v3 = hw_->wheel_velocities_.at(3);  // rear left
+    v4 = hw_->wheel_velocities_.at(1);  // rear right
+  }
+  else
+  {
+    v1=v2=v3=v4=0;
+  }
+
+  // in mover coordinate, x is right direction and y is front direction
+  en_vx = k3_ * ( (-cos_th - sin_th)*v1 + (cos_th-sin_th)*v2 + (cos_th+sin_th)*v3 + (-cos_th+sin_th)*v4);
+  en_vy = k3_ * ( (-cos_th + sin_th)*v1 + (-cos_th-sin_th)*v2 + (cos_th-sin_th)*v3 + (cos_th+sin_th)*v4);
+  en_vth = -k4_*(v1+v2+v3+v4);
+
+  delta_x  = (en_vx * cos(en_th_) - en_vy * sin(en_th_)) * dt;
+  delta_y  = (en_vx * sin(en_th_) + en_vy * cos(en_th_)) * dt;
+  delta_th = en_vth * dt;
+
+  en_x_  += delta_x;
+  en_y_  += delta_y;
+  en_th_ += delta_th;
+
+  // odometry is 6DOF so we'll need a quaternion created from yaw
+  geometry_msgs::Quaternion odom_quat
+      = tf::createQuaternionMsgFromYaw(en_th_);
+
+  // first, we'll publish the transform over tf
+  geometry_msgs::TransformStamped odom_trans;
+  odom_trans.header.stamp = current_time_;
+  odom_trans.header.frame_id = "odom";
+  odom_trans.child_frame_id  = "base_link";
+
+  odom_trans.transform.translation.x = en_x_;
+  odom_trans.transform.translation.y = en_y_;
+  odom_trans.transform.translation.z = 0.0;
+  odom_trans.transform.rotation = odom_quat;
+
+  // send the transform
+  odom_broadcaster_.sendTransform(odom_trans);
+
+  // next, we'll publish the odometry message over ROS
+  nav_msgs::Odometry odom;
+  odom.header.stamp = current_time_;
+  odom.header.frame_id = "odom";
+
+  // set the position
+  odom.pose.pose.position.x = en_x_;
+  odom.pose.pose.position.y = en_y_;
+  odom.pose.pose.position.z = 0.0;
+  odom.pose.pose.orientation = odom_quat;
+
+  // set the velocity
+  odom.child_frame_id = "base_link";
+  odom.twist.twist.linear.x  = en_vx;
+  odom.twist.twist.linear.y  = en_vy;
+  odom.twist.twist.angular.z = en_vth;
+
+  // publish the message
+  odom_pub_.publish(odom);
+}
+
+void robot_hardware::MoverController::calculateCmdVelOdometry()
+{
+  double dt, delta_x, delta_y, delta_th;
+  dt = (current_time_ - last_time_).toSec();
+
   delta_x  = (vx_ * cos(th_) - vy_ * sin(th_)) * dt;
   delta_y  = (vx_ * sin(th_) + vy_ * cos(th_)) * dt;
   delta_th = vth_ * dt;
@@ -201,6 +283,19 @@ void robot_hardware::MoverController::calculateOdometry(const ros::TimerEvent& _
 
   // publish the message
   odom_pub_.publish(odom);
+}
+
+//////////////////////////////////////////////////
+/// @brief odometry publisher
+void robot_hardware::MoverController::calculateOdometry(const ros::TimerEvent& _event)
+{
+  current_time_ = ros::Time::now();
+
+  if(hw_->lower_connected_)
+    if(encoder_odom_) calculateEncoderOdometry();
+    else calculateCmdVelOdometry();    
+  else
+    calculateCmdVelOdometry();
 
   last_time_ = current_time_;
 }

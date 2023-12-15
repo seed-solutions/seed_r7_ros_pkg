@@ -76,6 +76,12 @@ namespace robot_hardware
       OVERLAP_SCALE_    = 2.8;
     }
 
+    if (root_nh.hasParam("/seed_r7_mover_controller/wheel_vel_limit")) {
+      root_nh.getParam("/seed_r7_mover_controller/wheel_vel_limit", wheel_vel_limit_);
+    } else {
+      wheel_vel_limit_ = 9.0;
+    }
+    
     ROS_INFO("upper_port: %s", port_upper.c_str());
     ROS_INFO("lower_port: %s", port_lower.c_str());
     ROS_INFO("cycle: %f [ms], overlap_scale %f", CONTROL_PERIOD_US_*0.001, OVERLAP_SCALE_);
@@ -83,6 +89,9 @@ namespace robot_hardware
     // create controllers
     controller_upper_.reset(new robot_hardware::UpperController(port_upper));
     controller_lower_.reset(new robot_hardware::LowerController(port_lower));
+
+    upper_connected_ = controller_upper_->is_open_;
+    lower_connected_ = controller_lower_->is_open_;
 
     // load stroke converter
     // converter is dependent per robot strucutre, therefore uses plugin
@@ -131,6 +140,11 @@ namespace robot_hardware
     joint_position_command_.resize(number_of_angles_);
     joint_velocity_command_.resize(number_of_angles_);
     joint_effort_command_.resize(number_of_angles_);
+
+    wheel_angles_.resize(4);
+    fill(wheel_angles_.begin(),wheel_angles_.end(),0);
+    wheel_velocities_.resize(4);
+    fill(wheel_velocities_.begin(),wheel_velocities_.end(),0);
 
     readPos(ros::Time::now(), ros::Duration(0.0), true);  // initial
 
@@ -251,6 +265,14 @@ namespace robot_hardware
     if(robot_status_.connection_err_ && robot_status_.calib_err_){
       ROS_WARN("The robot is Emergency stopped, please release it.");
     }
+
+    for (size_t i=0; i<wheel_angles_.size() ; i++)
+    {
+      if((abs(controller_lower_->wheel_angles_.at(i) - wheel_angles_.at(i)) / period.toSec()) < wheel_vel_limit_)
+        wheel_velocities_.at(i) = (controller_lower_->wheel_angles_.at(i) - wheel_angles_.at(i)) / period.toSec();
+    }
+    wheel_angles_ = controller_lower_->wheel_angles_;
+
     return;
   }
 
