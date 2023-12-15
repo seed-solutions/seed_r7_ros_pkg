@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
+  <arg name="use_rear_laser" default="false" />
 
   <!--  URG Settings -->
   <arg name="~ip_address" default="192.168.0.10" />
@@ -10,10 +11,24 @@
     <param name="~ip_address" value="$(arg ~ip_address)" />
     <param name="~frame_id" value="$(arg ~frame_id)" />
 
-    <!-- +-135[deg] -->     
+    <!-- +-115[deg] -->
     <param name="~angle_min" value="-2.01" />
     <param name="~angle_max" value="2.01" /> 
 
+  </node>
+
+  <!--  URG rear Settings -->
+  <arg name="~ip_address_rear" default="192.168.0.11" />
+  <arg name="~frame_id_rear" default="wheels_rear_laser_link" />
+
+  <node if="$(arg use_rear_laser)" name="urg_node_rear" pkg="urg_node" type="urg_node" >
+    <param name="~ip_address" value="$(arg ~ip_address_rear)" />
+    <param name="~frame_id" value="$(arg ~frame_id_rear)" />
+    <remap from="scan" to="scan_rear"/>
+
+    <!-- +-115[deg] -->
+    <param name="~angle_min" value="-2.01" />
+    <param name="~angle_max" value="2.01" />
   </node>
 
   <!-- DualShock3 Settings -->
