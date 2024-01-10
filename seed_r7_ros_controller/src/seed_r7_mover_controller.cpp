@@ -59,6 +59,8 @@ robot_hardware::MoverController::MoverController
 
   set_initialpose_server_
     = nh_.advertiseService("set_initialpose", &MoverController::setInitialPoseCallback,this);
+  reset_odom_server_
+    = nh_.advertiseService("reset_odom", &MoverController::resetOdomCallback, this);
 
 }
 
@@ -348,6 +350,11 @@ seed_r7_ros_controller::SetInitialPose::Response& _res)
   initial_pose.pose.pose.position.y = _req.y;
   initial_pose.pose.pose.position.z = 0.0;
   initial_pose.pose.pose.orientation = pose_quat;
+
+  initial_pose.pose.covariance[6 * 0 + 0] = 0.5 * 0.5;
+  initial_pose.pose.covariance[6 * 1 + 1] = 0.5 * 0.5;
+  initial_pose.pose.covariance[6 * 5 + 5] = M_PI / 12.0 * M_PI / 12.0;
+
   initialpose_pub_.publish(initial_pose);
 
   return "SetInitialPose succeeded";
@@ -360,6 +367,16 @@ bool robot_hardware::MoverController::ledControlCallback
   hw_->runLedScript(_req.send_number, _req.script_number);
 
   _res.result = "LED succeeded";
+
+  return true;
+}
+
+bool robot_hardware::MoverController::resetOdomCallback(seed_r7_ros_controller::ResetOdom::Request &_req,
+                                                        seed_r7_ros_controller::ResetOdom::Response &_res)
+{
+  x_ = y_ = th_ = 0;
+  en_x_ = en_y_ = en_th_ = 0;
+  _res.result = "ResetOdom succeeded";
 
   return true;
 }

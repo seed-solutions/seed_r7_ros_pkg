@@ -27,6 +27,12 @@ robot_hardware::LowerController::LowerController(const std::string& _port)
   raw_data_.resize(raw_data_size);
   fill(raw_data_.begin(),raw_data_.end(),0);
 
+  temp_vol_data_.resize(31);
+  fill(temp_vol_data_.begin(), temp_vol_data_.end(), 0);
+  status_data_.resize(31);
+  fill(status_data_.begin(), status_data_.end(), 0);
+  current_data_.resize(31);
+  fill(current_data_.begin(), current_data_.end(), 0);
   wheel_angles_.resize(4);
   fill(wheel_angles_.begin(), wheel_angles_.end(), 0);
 
@@ -126,24 +132,58 @@ void robot_hardware::LowerController::onServo(bool _value)
   }
 }
 
-float robot_hardware::LowerController::getBatteryVoltage()
+void robot_hardware::LowerController::stopPolling()
 {
-  if(is_open_) return lower_->getTemperatureVoltage(31)[0] * 0.1;
-  else return 0;
+  if (is_open_)
+  {
+    lower_->onServo(0, 3);
+    usleep(100 * 1000); // magic number
+  }
 }
 
-std::string robot_hardware::LowerController::getFirmwareVersion()
+std::vector<uint16_t> robot_hardware::LowerController::getBatteryVoltage()
 {
-  if(is_open_) return lower_->getVersion(0);
-  else return "";
+  if (is_open_)
+  {
+    temp_vol_data_ = lower_->getTemperatureVoltage(0);
+    // return lower_->getTemperatureVoltage(31)[0] * 0.1;
+  }
+
+  return temp_vol_data_;
 }
 
-void robot_hardware::LowerController::getRobotStatus(int8_t _number)
+std::vector<uint16_t> robot_hardware::LowerController::getMotorCurrent(int8_t _number)
 {
-  if(is_open_)lower_->getStatus(_number);
+  if (is_open_)
+  {
+    current_data_ = lower_->getCurrent(_number);
+  }
 
-  //_number == 0xFF : reset flag
+  return current_data_;
 }
+
+std::string robot_hardware::LowerController::getFirmwareVersion(uint8_t _number)
+{
+  if (is_open_)
+    return lower_->getVersion(_number);
+  else
+    return "";
+}
+
+std::vector<uint16_t> robot_hardware::LowerController::getRobotStatus(int8_t _number)
+{
+  if (is_open_ && _number == 0xFF)
+  {
+    lower_->getStatus(_number);
+    //_number == 0xFF : reset flag
+  }
+  else if (is_open_)
+  {
+    status_data_ = lower_->getStatus(_number);
+  }
+  return status_data_;
+}
+
 
 void robot_hardware::LowerController::checkRobotStatus()
 {

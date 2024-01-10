@@ -21,14 +21,19 @@ class LowerController
     void runScript(uint8_t _number, uint16_t _script);
     void sendVelocity(std::vector<int16_t>& _data);
     void onServo(bool _value);
-    float getBatteryVoltage();
-    std::string getFirmwareVersion();
-    void getRobotStatus(int8_t _number);
+    std::vector<uint16_t> getBatteryVoltage();
+    std::string getFirmwareVersion(uint8_t _number = 0);
+    std::vector<uint16_t> getRobotStatus(int8_t _number);
+    std::vector<uint16_t> getMotorCurrent(int8_t _number);
     void checkRobotStatus();
+    void stopPolling();
 
     bool is_open_;
     std::vector<int16_t> raw_data_;
     std::vector<double> wheel_angles_;
+    std::vector<uint16_t> temp_vol_data_;
+    std::vector<uint16_t> status_data_;
+    std::vector<uint16_t> current_data_;
 
     std::vector<std::string> upper_name_;
     std::vector<std::string> name_;

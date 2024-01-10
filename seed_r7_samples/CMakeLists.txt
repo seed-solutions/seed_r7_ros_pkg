@@ -27,6 +27,9 @@ endif()
 add_executable(moveit_sample_node src/moveit_sample.cpp)
 target_link_libraries(moveit_sample_node ${catkin_LIBRARIES} )
 
+add_executable(record_robot_info_node src/record_robot_info.cpp)
+target_link_libraries(record_robot_info_node ${catkin_LIBRARIES} )
+
 # Install
 install(DIRECTORY config launch scripts 
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
