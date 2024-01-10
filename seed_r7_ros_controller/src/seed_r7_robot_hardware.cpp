@@ -81,6 +81,12 @@ namespace robot_hardware
     } else {
       wheel_vel_limit_ = 9.0;
     }
+    if (root_nh.hasParam("/seed_r7_mover_controller/pub_robot_info")) {
+      root_nh.getParam("/seed_r7_mover_controller/pub_robot_info", pub_robot_info_);
+    } else {
+      pub_robot_info_ = false;
+    }
+
     
     ROS_INFO("upper_port: %s", port_upper.c_str());
     ROS_INFO("lower_port: %s", port_lower.c_str());
@@ -146,6 +152,33 @@ namespace robot_hardware
     wheel_velocities_.resize(4);
     fill(wheel_velocities_.begin(),wheel_velocities_.end(),0);
 
+    // Get Robot Firmware Version
+    std::string upper_firmware = controller_upper_->getFirmwareVersion();
+    std::string lower_firmware = controller_lower_->getFirmwareVersion();
+    ROS_INFO("Upper Firmware Ver. is [ %s ]", upper_firmware.c_str());
+    ROS_INFO("Lower Firmware Ver. is [ %s ]", lower_firmware.c_str());
+
+    //----- robot info
+    if(pub_robot_info_)
+    {
+      robot_info_timer_ = robot_hw_nh.createTimer(ros::Duration(0.1), &RobotHW::pubRobotInfo, this);
+      robot_info_pub_ = robot_hw_nh.advertise<seed_r7_ros_controller::RobotInfo>("robot_info", 100);
+
+      mutex_lower_.lock();
+      controller_lower_->stopPolling();
+      robot_info_.driver[0].firmware = controller_lower_->getFirmwareVersion(3);
+      robot_info_.driver[1].firmware = controller_lower_->getFirmwareVersion(4);
+      robot_info_.driver[2].firmware = controller_lower_->getFirmwareVersion(5);
+      robot_info_.driver[3].firmware = controller_lower_->getFirmwareVersion(6);
+      mutex_lower_.unlock();
+
+      robot_info_.robot.firmware = lower_firmware;
+    }
+
+    cmd_vel_sub_ = root_nh.subscribe("cmd_vel", 1, &RobotHW::cmdVelCallback, this);
+    odom_sub_ = root_nh.subscribe("odom", 1, &RobotHW::odomCallback, this);
+    //--------
+
     readPos(ros::Time::now(), ros::Duration(0.0), true);  // initial
 
     // Initialize values
@@ -185,16 +218,14 @@ namespace robot_hardware
     bat_vol_pub_ = robot_hw_nh.advertise<std_msgs::Float32>("voltage", 1);
     bat_vol_timer_ = robot_hw_nh.createTimer(ros::Duration(1), &RobotHW::getBatteryVoltage,this);
 
-    // Get Robot Firmware Version
-    ROS_INFO("Upper Firmware Ver. is [ %s ]", controller_upper_->getFirmwareVersion().c_str() );
-    ROS_INFO("Lower Firmware Ver. is [ %s ]", controller_lower_->getFirmwareVersion().c_str() );
-
     //Robot Status
     reset_robot_status_server_
       = root_nh.advertiseService("reset_robot_status", &RobotHW::resetRobotStatusCallback,this);
     robot_status_.p_stopped_err_ = false;
 
     //robot status view
+    pre_diag_level_ = 0;
+    pre_diag_msg_ = "";
     diagnostic_updater_.setHardwareID("SEED-Noid-Mover");
     diagnostic_updater_.add("RobotStatus",this,&RobotHW::setDiagnostics);
 
@@ -402,9 +433,45 @@ namespace robot_hardware
     // min voltage is 22.2[V]
     std_msgs::Float32 voltage;
     mutex_lower_.lock();
-    voltage.data = controller_lower_->getBatteryVoltage();
+    std::vector<uint16_t> data = controller_lower_->getBatteryVoltage();
     mutex_lower_.unlock();
+    voltage.data = data.at(30) / 10.0;
     bat_vol_pub_.publish(voltage);
+
+    robot_info_.robot.voltage = data.at(30) / 10.0;
+
+    robot_info_.driver[0].temp = static_cast<uint8_t>(data.at(2) >> 8);
+    robot_info_.driver[1].temp = static_cast<uint8_t>(data.at(3) >> 8);
+    robot_info_.driver[2].temp = static_cast<uint8_t>(data.at(4) >> 8);
+    robot_info_.driver[3].temp = static_cast<uint8_t>(data.at(5) >> 8);
+  }
+
+  void RobotHW::pubRobotInfo(const ros::TimerEvent &_event)
+  {
+    // motor current
+    std::vector<uint16_t> current;
+    current.resize(31);
+
+    mutex_lower_.lock();
+    if (!robot_status_.connection_err_ && !robot_status_.calib_err_)
+      current = controller_lower_->getMotorCurrent(0);
+    else
+      fill(current.begin(), current.end(), 0);
+    mutex_lower_.unlock();
+    robot_info_.driver[0].current = current.at(2);
+    robot_info_.driver[1].current = current.at(3);
+    robot_info_.driver[2].current = current.at(4);
+    robot_info_.driver[3].current = current.at(5);
+
+    // motor position
+    robot_info_.driver[0].position = controller_lower_->wheel_angles_.at(0) * (180/M_PI);
+    robot_info_.driver[1].position = controller_lower_->wheel_angles_.at(1) * (180/M_PI);
+    robot_info_.driver[2].position = controller_lower_->wheel_angles_.at(2) * (180/M_PI);
+    robot_info_.driver[3].position = controller_lower_->wheel_angles_.at(3) * (180/M_PI);
+
+    // publish robot status
+    robot_info_.header.stamp = ros::Time::now();
+    robot_info_pub_.publish(robot_info_);
   }
 
   void RobotHW::runLedScript(uint8_t _number, uint16_t _script)
@@ -491,6 +558,54 @@ namespace robot_hardware
     stat.add("Step Out Occurred",robot_status_.step_out_err_);
     stat.add("Power Failed",robot_status_.power_err_);
 
+    robot_info_.robot.level = stat.level;
+    robot_info_.robot.status = stat.message;
+
+    if (stat.level == 0 || stat.level == 1)
+    {
+      robot_info_.driver[0].flag = 0;
+      robot_info_.driver[1].flag = 0;
+      robot_info_.driver[2].flag = 0;
+      robot_info_.driver[3].flag = 0;
+
+      robot_info_.driver[0].status = "Normal";
+      robot_info_.driver[1].status = "Normal";
+      robot_info_.driver[2].status = "Normal";
+      robot_info_.driver[3].status = "Normal";
+    }
+    else
+    {
+      if (stat.level != pre_diag_level_ || stat.message != pre_diag_msg_)
+      {
+        mutex_lower_.lock();
+        std::vector<uint16_t> data = controller_lower_->getRobotStatus(0);
+        mutex_lower_.unlock();
+        for (int i = 0; i < 4; ++i)
+        {
+          robot_info_.driver[i].flag = data.at(i + 2);
+          if (data.at(i + 2) >> 0 & 1)
+            robot_info_.driver[i].status = "connection error"; // 0b1 = 0d1
+          else if (data.at(i + 2) >> 1 & 1)
+            robot_info_.driver[i].status = "calibration error"; // 0b10 = 0d2
+          else if (data.at(i + 2) >> 3 & 1)
+            robot_info_.driver[i].status = "temperature error"; // 0b1000 = 0d8
+          else if (data.at(i + 2) >> 6 & 1)
+            robot_info_.driver[i].status = "protective stopped"; // 0b100000 = 0d64
+          else if (data.at(i + 2) >> 7 & 1)
+            robot_info_.driver[i].status = "power error"; // 0b100000 = 0d128
+          else if (data.at(i + 2) >> 2 & 1)
+            robot_info_.driver[i].status = "servo off"; // 0b100 = 0d4
+          else if (data.at(i + 2) >> 4 & 1)
+            robot_info_.driver[i].status = "response error"; // 0b10000 = 0d16
+          else if (data.at(i + 2) >> 5 & 1)
+            robot_info_.driver[i].status = "step out error"; // 0b100000 = 0d32
+        }
+      }
+    }
+
+    pre_diag_level_ = stat.level;
+    pre_diag_msg_ = stat.message;
+
   }
 
   bool RobotHW::resetRobotStatusCallback
@@ -506,6 +621,24 @@ namespace robot_hardware
     _res.result = "reset status succeeded";
 
     return true;
+  }
+
+  void RobotHW::cmdVelCallback(const geometry_msgs::TwistConstPtr &_cmd_vel)
+  {
+    robot_info_.robot.cmd_vel.x = _cmd_vel->linear.x;
+    robot_info_.robot.cmd_vel.y = _cmd_vel->linear.y;
+    robot_info_.robot.cmd_vel.theta = _cmd_vel->angular.z;
+  }
+
+  void RobotHW::odomCallback(const nav_msgs::OdometryConstPtr &_odom)
+  {
+    robot_info_.robot.odom_vel.x = _odom->twist.twist.linear.x;
+    robot_info_.robot.odom_vel.y = _odom->twist.twist.linear.y;
+    robot_info_.robot.odom_vel.theta = _odom->twist.twist.angular.z;
+
+    robot_info_.robot.odom_pos.x = _odom->pose.pose.position.x;
+    robot_info_.robot.odom_pos.y = _odom->pose.pose.position.y;
+    robot_info_.robot.odom_pos.theta = tf::getYaw(_odom->pose.pose.orientation);
   }
 
 }

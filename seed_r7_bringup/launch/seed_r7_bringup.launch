@@ -14,11 +14,18 @@
   <arg name="controller_rate"     default="50"/>
   <arg name="overlap_scale"       default="2.0"/>
 
+  <!-- change function forcely -->
+  <arg name="use_encoder_odom"    default="false"/>
+  <arg name="pub_robot_info"      default="false"/>
+
   <!-- controller settings / load from yaml -->
   <rosparam command="load" file="$(arg controller_settings)" />
   <rosparam command="load" file="$(arg robot_joint_config)" />
   <rosparam command="load"
       file="$(find seed_r7_robot_interface)/$(arg robot_model)/config/extra_controller_settings.yaml" />
+
+  <param name="seed_r7_mover_controller/encoder_odom" value="true" if="$(arg use_encoder_odom)"/>
+  <param name="seed_r7_mover_controller/pub_robot_info" value="true" if="$(arg pub_robot_info)"/>
 
   <node pkg="seed_r7_ros_controller" type="seed_r7_ros_controller" name="seed_r7_ros_controller" output="screen">
     <param name="port_lower" value="/dev/aero_lower"/>

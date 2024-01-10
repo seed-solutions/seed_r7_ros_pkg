@@ -10,3 +10,4 @@ seed_r7_mover_controller:
 
   encoder_odom: false
   wheel_vel_limit: 9.0
+  pub_robot_info: false

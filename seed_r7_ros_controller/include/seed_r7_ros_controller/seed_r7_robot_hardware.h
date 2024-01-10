@@ -65,6 +65,11 @@
 #include <std_msgs/String.h>
 #include <diagnostic_updater/diagnostic_updater.h>
 
+#include "seed_r7_ros_controller/RobotInfo.h"
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+#include <tf/transform_listener.h>
+
 namespace robot_hardware
 {
 
@@ -83,12 +88,15 @@ public:
   void writeWheel(const std::vector< std::string> &_names,
                   const std::vector<int16_t> &_vel, double _tm_sec);
   double getPeriod() { return ((double)CONTROL_PERIOD_US_) / (1000 * 1000); }
+  void cmdVelCallback(const geometry_msgs::TwistConstPtr &_cmd_vel);
+  void odomCallback(const nav_msgs::OdometryConstPtr &_odom);
 
   //--specific functions--
   void runHandScript(uint8_t _number, uint16_t _script, uint8_t _current);
   void turnWheel(std::vector<int16_t> &_vel);
   void onWheelServo(bool _value);
   void getBatteryVoltage(const ros::TimerEvent& _event);
+  void pubRobotInfo(const ros::TimerEvent &_event);
   void runLedScript(uint8_t _number, uint16_t _script);
   void setRobotStatus();
   void setDiagnostics(diagnostic_updater::DiagnosticStatusWrapper& stat);
@@ -110,6 +118,7 @@ public:
   std::vector<double> wheel_velocities_;
   float wheel_vel_limit_;
   bool upper_connected_, lower_connected_;
+  bool pub_robot_info_;
 
 private:
   ros::ServiceServer reset_robot_status_server_;
@@ -168,6 +177,13 @@ protected:
 
   //for robot status view
   diagnostic_updater::Updater diagnostic_updater_;
+
+  ros::Timer robot_info_timer_;
+  ros::Publisher robot_info_pub_;
+  seed_r7_ros_controller::RobotInfo robot_info_;
+  ros::Subscriber cmd_vel_sub_, odom_sub_;
+  int8_t pre_diag_level_;
+  std::string pre_diag_msg_;
 };
 
 }
