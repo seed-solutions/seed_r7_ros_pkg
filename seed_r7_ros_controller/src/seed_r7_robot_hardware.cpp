@@ -163,7 +163,7 @@ namespace robot_hardware
     {
       robot_info_timer_ = robot_hw_nh.createTimer(ros::Duration(0.1), &RobotHW::pubRobotInfo, this);
       robot_info_pub_ = robot_hw_nh.advertise<seed_r7_ros_controller::RobotInfo>("robot_info", 100);
-
+/*
       mutex_lower_.lock();
       controller_lower_->stopPolling();
       robot_info_.driver[0].firmware = controller_lower_->getFirmwareVersion(3);
@@ -171,7 +171,7 @@ namespace robot_hardware
       robot_info_.driver[2].firmware = controller_lower_->getFirmwareVersion(5);
       robot_info_.driver[3].firmware = controller_lower_->getFirmwareVersion(6);
       mutex_lower_.unlock();
-
+*/
       robot_info_.robot.firmware = lower_firmware;
     }
 
@@ -302,6 +302,12 @@ namespace robot_hardware
       if((abs(controller_lower_->wheel_angles_.at(i) - wheel_angles_.at(i)) / period.toSec()) < wheel_vel_limit_)
         wheel_velocities_.at(i) = (controller_lower_->wheel_angles_.at(i) - wheel_angles_.at(i)) / period.toSec();
     }
+
+    // noise filter
+    int count_zero_vel = std::count(wheel_velocities_.begin(), wheel_velocities_.end(), 0);
+    if(count_zero_vel == 3)
+      fill(wheel_velocities_.begin(),wheel_velocities_.end(),0);
+
     wheel_angles_ = controller_lower_->wheel_angles_;
 
     return;
